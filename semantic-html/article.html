@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semantic HTML</title>
+</head>
+
+<body>
+    <header>
+        <h1>Interneting Is Easy!</h1>
+        <nav>
+            <ul>
+                <li><a href='#'>Home</a></li>
+                <li><a href='#'>About</a></li>
+                <li><a href='#'>Blog</a></li>
+                <li><a href='#'>Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <!-- Add this -->
+        <h2>The Document Outline</h2>
+        <p>HTML5 includes several “sectioning content” elements that
+            affect the document outline.</p>
+
+        <h3>Headers</h3>
+        <p>The <code>&lt;header&gt;</code> element is one such sectioning
+            element.</p>
+
+        <h3>Footers</h3>
+        <p>And so is the <code>&lt;footer&gt;</code> element.</p>
+    </section> <!-- And this -->
+
+    <article>
+        <header>
+            <h1>Semantic HTML</h1>
+            <p>By Troy McClure. Published January 3rd</p>
+        </header>
+
+        <!-- Look! A fake advertisement! -->
+        <aside class='advert'>
+            <img src='some-advert-image.png' />
+        </aside>
+
+        <p>This is an example web page explaining HTML5 semantic markup.</p>
+        <!-- ... -->
+
+        <footer>
+            <!-- Add this -->
+            <p>This fake article was written by somebody at InternetingIsHard.com,
+                which is a pretty decent place to learn how to become a web developer. This
+                footer is only for the containing <code>&lt;article&gt;</code> element.</p>
+        </footer> <!-- And this -->
+
+    </article>
+
+    <footer>
+        <!-- This, too -->
+        <p>&copy; 2017 InternetingIsHard.com</p>
+    </footer> <!-- Don't forget to close it! -->
+
+</body>
+
+</html>
