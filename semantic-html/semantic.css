@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* css/legacy considerations */
+/* This makes the new semantic elements behave like <div> elements 
+(which are block boxes, not inline boxes) in legacy browsers. */
+section, article, aside, footer, header, nav {
+    display: block;
+}
