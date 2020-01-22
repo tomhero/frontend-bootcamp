@@ -27,18 +27,17 @@
         <p>HTML5 includes several “sectioning content” elements that
             affect the document outline.</p>
 
-        <h3>Headers</h3>
-        <p>The <code>&lt;header&gt;</code> element is one such sectioning
-            element.</p>
-
-        <h3>Footers</h3>
-        <p>And so is the <code>&lt;footer&gt;</code> element.</p>
+        <figure>
+            <img src='semantic-elements.png' alt='Diagram showing <article>, <section>, and <nav> elements' />
+            <figcaption>New HTML5 semantic elements</figcaption>
+        </figure>
     </section> <!-- And this -->
 
     <article>
         <header>
             <h1>Semantic HTML</h1>
-            <p>By Troy McClure. Published January 3rd</p>
+            <p>By Troy McClure. Published <time datetime='2017-1-3'>January
+                    3rd</time></p>
         </header>
 
         <!-- Look! A fake advertisement! -->
@@ -54,6 +53,10 @@
             <p>This fake article was written by somebody at InternetingIsHard.com,
                 which is a pretty decent place to learn how to become a web developer. This
                 footer is only for the containing <code>&lt;article&gt;</code> element.</p>
+            <address>
+                Please contact <a href='mailto:troymcclure@example.com'>Troy
+                    McClure</a> for questions about this article.
+            </address>
         </footer> <!-- And this -->
 
     </article>
