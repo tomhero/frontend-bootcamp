@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="semantic.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="./vue-toggle-button.js"></script> -->
+    <!-- Toggle Button Test -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-js-toggle-button@1.3.3/dist/index.js"></script>
     <title>Semantic HTML</title>
 </head>
 
@@ -22,12 +26,12 @@
         </nav>
     </header>
 
-    <section>
+    <section id="app">
         <!-- Add this -->
         <h2>The Document Outline</h2>
         <p>HTML5 includes several “sectioning content” elements that
-            affect the document outline.</p>
-
+            affect the document outline. {{ text }}</p>
+            <toggle-button v-model="myDataVariable" :value="true" :labels="{checked: 'Yes', unchecked: 'No'}" />
         <figure>
             <img src='semantic-elements.png' alt='Diagram showing <article>, <section>, and <nav> elements' />
             <figcaption>New HTML5 semantic elements</figcaption>
@@ -67,6 +71,18 @@
         <p>&copy; 2017 InternetingIsHard.com</p>
     </footer> <!-- Don't forget to close it! -->
 
+    <script>
+        var instance = new Vue({
+            el: '#app',
+            components: {
+                'ToggleButton': window["vue-js-toggle-button"].ToggleButton
+            },
+            data: {
+                text: '5555',
+                myDataVariable: false
+            }
+        })
+    </script>
 </body>
 
 </html>
