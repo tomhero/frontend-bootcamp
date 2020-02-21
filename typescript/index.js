@@ -1,13 +1,17 @@
-function add(a, b, showResult, resultPrefix) {
-    if (resultPrefix === void 0) { resultPrefix = ''; }
-    if (showResult) {
-        console.log(resultPrefix + (a + b));
-    }
-    else {
-        return a + b;
-    }
-}
-var num1 = 1;
-var num2 = 2.00;
-var prefix = 'Result : ';
-var result = add(num1, num2, true, prefix);
+/**
+ * Object
+ * Array
+ * any
+ * Tuple
+ */
+var person = {
+    name: 'Chayut',
+    nickname: 'Tom',
+    age: 23,
+    foods: undefined
+};
+var favFoods; // array declaration
+//  favFoods = ['egg!!', 2] // ❌ you cannot do this
+var anyFavFoods;
+anyFavFoods = ['egg', 2, false];
+console.log(person.nickname);

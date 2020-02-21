@@ -1,14 +1,26 @@
-function add(a: number, b: number, showResult: boolean, resultPrefix: string = '') {
-    if (showResult) {
-        console.log(resultPrefix + (a + b))
-    } else {
-        return a + b
-    }
-}
+/**
+ * Object
+ * Array
+ * any
+ * Tuple
+ */
 
-const num1 = 1
-const num2 = 2.00
-const prefix = 'Result : '
+ const person: {
+     name: string
+     age: number
+     nickname: string
+     foods: ['Steak', 'Omlet'] // array
+ } = {
+     name: 'Chayut',
+     nickname: 'Tom',
+     age: 23,
+     foods: undefined
+ }
 
-const result = add(num1, num2, true, prefix)
+ let favFoods: string[] // array declaration
+//  favFoods = ['egg!!', 2] // ❌ you cannot do this
+let anyFavFoods: any[]
+anyFavFoods = ['egg', 2, false]
 
+ console.log(person.nickname);
+ 
