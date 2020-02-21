@@ -1,7 +1,7 @@
 function add(a, b, showResult, resultPrefix) {
     if (resultPrefix === void 0) { resultPrefix = ''; }
     if (showResult) {
-        console.log(resultPrefix + a + b);
+        console.log(resultPrefix + (a + b));
     }
     else {
         return a + b;
