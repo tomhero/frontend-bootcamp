@@ -31,3 +31,19 @@ for (const food of person.foods) {
     console.log(food.toUpperCase());
 }
 
+// Enum example
+const ADMIN = 0
+const READ_ONLY = 1
+const NORMAL = 2
+
+const person2 = {
+    name: 'Chayut',
+    nickname: 'Tom',
+    age: 23,
+    foods: ['Steak', 'Omlet', 'Som Tum', 'Tom-Yum-Kung'],
+    role: ADMIN
+}
+
+if (person2.role === ADMIN) {
+    console.log('This person is admin')
+}

@@ -22,3 +22,17 @@ for (var _i = 0, _a = person.foods; _i < _a.length; _i++) {
     // TypeScript knows what is type for food variable!!
     console.log(food.toUpperCase());
 }
+// Enum example
+var ADMIN = 0;
+var READ_ONLY = 1;
+var NORMAL = 2;
+var person2 = {
+    name: 'Chayut',
+    nickname: 'Tom',
+    age: 23,
+    foods: ['Steak', 'Omlet', 'Som Tum', 'Tom-Yum-Kung'],
+    role: ADMIN
+};
+if (person2.role === ADMIN) {
+    console.log('This person is admin');
+}
