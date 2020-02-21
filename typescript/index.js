@@ -1,7 +1,7 @@
 /**
  * Union Types --> arg1 : string | number
  * Literal Types --> arg2 : 'my custom val1' | 'mu csutom val2'
- * Type Aliases
+ * Type Aliases --> `type` keyword
  */
 function combine(input1, input2, returnType) {
     var result;
