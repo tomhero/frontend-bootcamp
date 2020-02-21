@@ -1,42 +1,19 @@
 /**
- * Object
- * Array
- * Tuple
- * Enum (Java like)
- * any
+ * Union Types
+ * Literal Types
+ * Type Aliases
  */
-var person = {
-    name: 'Chayut',
-    nickname: 'Tom',
-    age: 23,
-    foods: ['Steak', 'Omlet', 'Som Tum', 'Tom-Yum-Kung'],
-    role: [2, 'Dev']
-};
-// person.role[1] = 123 // ❌ you cannot do this because of tuple of [number, string]
-var favFoods; // array declaration
-//  favFoods = ['egg!!', 2] // ❌ you cannot do this because this array accepts string only
-var anyFavFoods;
-anyFavFoods = ['egg', 2, false];
-for (var _i = 0, _a = person.foods; _i < _a.length; _i++) {
-    var food = _a[_i];
-    // TypeScript knows what is type for food variable!!
-    console.log(food.toUpperCase());
+function combine(input1, input2) {
+    var result;
+    if (typeof input1 === 'number' && typeof input2 === 'number') {
+        result = input1 + input2;
+    }
+    else {
+        result = input1.toString() + input2.toString();
+    }
+    return result;
 }
-// Enum example
-var Role;
-(function (Role) {
-    Role[Role["ADMIN"] = 5] = "ADMIN";
-    Role[Role["READ_ONLY"] = 6] = "READ_ONLY";
-    Role["AUTHOR"] = "5000";
-})(Role || (Role = {}));
-var person2 = {
-    name: 'Chayut',
-    nickname: 'Tom',
-    age: 23,
-    foods: ['Steak', 'Omlet', 'Som Tum', 'Tom-Yum-Kung'],
-    role: Role.AUTHOR
-};
-if (person2.role === Role.AUTHOR) {
-    console.log('This person is admin');
-}
-console.log(Role.READ_ONLY);
+var combinedNum = combine(25, 50);
+console.log(combinedNum);
+var combinedName = combine('Tom', 'NgaiJa');
+console.log(combinedName);
