@@ -1,9 +1,9 @@
 /**
  * Object
  * Array
- * any
  * Tuple
  * Enum (Java like)
+ * any
  */
 var person = {
     name: 'Chayut',
@@ -23,16 +23,20 @@ for (var _i = 0, _a = person.foods; _i < _a.length; _i++) {
     console.log(food.toUpperCase());
 }
 // Enum example
-var ADMIN = 0;
-var READ_ONLY = 1;
-var NORMAL = 2;
+var Role;
+(function (Role) {
+    Role[Role["ADMIN"] = 5] = "ADMIN";
+    Role[Role["READ_ONLY"] = 6] = "READ_ONLY";
+    Role["AUTHOR"] = "5000";
+})(Role || (Role = {}));
 var person2 = {
     name: 'Chayut',
     nickname: 'Tom',
     age: 23,
     foods: ['Steak', 'Omlet', 'Som Tum', 'Tom-Yum-Kung'],
-    role: ADMIN
+    role: Role.AUTHOR
 };
-if (person2.role === ADMIN) {
+if (person2.role === Role.AUTHOR) {
     console.log('This person is admin');
 }
+console.log(Role.READ_ONLY);
