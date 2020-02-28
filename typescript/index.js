@@ -1,19 +1,16 @@
 /**
- * Union Types --> arg1 : string | number
- * Literal Types --> arg2 : 'my custom val1' | 'mu csutom val2'
- * Type Aliases --> `type` keyword
+ * More Functions
  */
-function combine(input1, input2, returnType) {
-    var result;
-    if (typeof input1 === 'number' && typeof input2 === 'number' || returnType === 'int') {
-        result = (+input1) + (+input2);
-    }
-    else {
-        result = input1.toString() + input2.toString();
-    }
-    return result;
+function add(num1, num2) {
+    return num1 + num2;
 }
-var combinedNum = combine(25, 50, 'int');
-console.log(combinedNum);
-var combinedName = combine('Tom', 'NgaiJa', 'str');
-console.log(combinedName);
+function printResult(num) {
+    console.log('Result =', num);
+    return; // <-- Not a good code ❌
+}
+printResult(add(6, 10));
+var combineValues;
+combineValues = add; // This refer to the add(num1: number, num2: number) function!!
+combineValues = 5;
+var myFunction;
+console.log(combineValues(5, 6));
