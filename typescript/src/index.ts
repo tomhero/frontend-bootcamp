@@ -1,7 +1,10 @@
 console.log('Hello TypeScript');
 
-const button = document.querySelector('button')!; // <- This "!" sign is very useful
+const button = document.querySelector('button');
 
-button.addEventListener('click', (e) => {
-    console.log(e);
-});
+if (button) {
+    // Ok to do this
+    button.addEventListener('click', (e) => {
+        console.log(e);
+    });
+}
