@@ -67,6 +67,6 @@
     "node_modules" // This is the default exclude dir
   ],
   "include": [
-    "./src/*.ts" // This is the default ts file to complie
+    "./src/**/*.ts" // This is the default ts file to complie
   ]
 }
