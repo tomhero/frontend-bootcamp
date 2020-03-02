@@ -2,7 +2,7 @@
  * Basic Type
  */
 
-function add(a: number, b: number, showResult: boolean, resultPrefix: string = '') {
+function addIt(a: number, b: number, showResult: boolean, resultPrefix: string = '') {
     if (showResult) {
         console.log(resultPrefix + (a + b))
     } else {
@@ -16,5 +16,5 @@ const num2 = 2.00
 let prefix: string
 prefix = 'Result : '
 
-const result = add(num1, num2, true, prefix)
+const result = addIt(num1, num2, true, prefix)
 

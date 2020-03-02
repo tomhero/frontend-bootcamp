@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc index.ts",
-    "dev": "onchange \"*.ts\" -- npm start",
+    "start": "tsc -w",
+    "dev": "npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
