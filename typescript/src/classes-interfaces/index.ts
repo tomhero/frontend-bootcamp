@@ -4,9 +4,19 @@ interface AddFn {
     (a: number, b: number): number;
 }
 
+let add: AddFn;
+
+add = (n1: number, n2: number) => {
+    return n1 + n2
+}
+
+console.log(add(1, 2));
+
+
 // interface is a custom type!! you could say.
 interface Named {
     readonly name: string; // you can add readonly within an interface
+    displayName?: string; // <-- optional
 }
 
 interface Greetable extends Named {
@@ -14,18 +24,20 @@ interface Greetable extends Named {
 }
 
 interface Shoutable {
-    bigWord: string;
+    bigWord?: string;
 
     shout(): void
 }
 
 class Person implements Greetable, Shoutable {
     name: string;
-    bigWord: string;
+    bigWord?: string;
 
-    constructor(pName: string, word: string) {
+    constructor(pName: string, word?: string) {
         this.name = pName;
-        this.bigWord = word
+        if (word) {
+            this.bigWord = word
+        }
     }
 
     greet(phrase: string): void {
@@ -33,7 +45,11 @@ class Person implements Greetable, Shoutable {
     }
     
     shout(): void {
-        console.log(this.bigWord + '!!!!!!!!!!!!!!!!!!!');
+        if (this.bigWord) { 
+            console.log(this.bigWord + '!!!!!!!!!!!!!!!!!!!');
+        } else {
+            console.log('Ughh!!');
+        }
     }
 }
 
