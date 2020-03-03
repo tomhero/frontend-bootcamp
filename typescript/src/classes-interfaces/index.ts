@@ -2,7 +2,7 @@ class Department {
 
     // private departmentId: string;
     // private name: string;
-    private employees: string[] = [];
+    protected employees: string[] = [];
 
     constructor(private readonly departmentId: string, public name: string) {
         // NOTE : You can simply do this for constructor
@@ -42,13 +42,18 @@ class AccountingDepartment extends Department {
         super(id, 'Accounting')
     }
 
+    addEmployee(name: string) {
+        // @override
+        if (name.length < 5) return;
+        this.employees.push(name)
+    }
+
     addReport(report: string) {
         this.reports.push(report)
     }
 
     printReport() {
         console.log(this.reports);
-        
     }
 }
 
