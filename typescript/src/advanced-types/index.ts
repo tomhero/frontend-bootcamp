@@ -63,6 +63,11 @@ const fetchedUserData = {
 
 // Optional chaining
 console.log(fetchedUserData?.job?.fullTitle);
-console.log(fetchedUserData?.job?.desc);
+console.log(fetchedUserData?.job?.desc);4
 
+const userTyper = null
+// Nullish Coalescing
+const storedData = userTyper ?? 'DEFAULT'
+// null or undefied will use the right side value here
+console.log(storedData);
 
