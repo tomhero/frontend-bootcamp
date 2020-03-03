@@ -64,9 +64,19 @@ class ITDepartment extends Department {
 
 class AccountingDepartment extends Department {
     private lastReport!: string;
+    private static instance: AccountingDepartment;
 
-    constructor(id: string, private reports: string[]) {
+    private constructor(id: string, private reports: string[]) {
         super(id, 'Accounting')
+    }
+
+    // singleton
+    static getInstance() {
+        if (AccountingDepartment.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountingDepartment("acc0", [])
+        return this.instance
     }
 
     // Getter method (Encapculation)
@@ -128,7 +138,11 @@ const preSellDept = new DigitalDepartment('Dig1', [
 
 console.log(preSellDept.admins);
 
-const accounting = new AccountingDepartment('ac1', [])
+const accounting = AccountingDepartment.getInstance()
+const accounting2 = AccountingDepartment.getInstance()
+
+console.log(accounting === accounting2);
+
 
 accounting.addEmployee('Arisa')
 console.log(accounting.getEmployee());
