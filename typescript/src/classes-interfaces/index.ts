@@ -1,5 +1,5 @@
 class Department {
-
+    static fisicalYear = 2020;
     // private departmentId: string;
     // private name: string;
     protected employees: string[] = [];
@@ -15,6 +15,13 @@ class Department {
             console.log(`Departmant(${this.departmentId}) name is ${this.name} | ${this.getDepartmentSecret()}`);
         } else {
             console.log(`Departmant(${this.departmentId}) name is ${this.name}`);
+        }
+    }
+
+    static createEmployee(name: string) {
+        return {
+            name,
+            department: 'unknow'
         }
     }
 
@@ -76,6 +83,14 @@ class AccountingDepartment extends Department {
         console.log(this.reports);
     }
 }
+
+// static method
+console.log(Math.PI);
+console.log(Department.fisicalYear);
+
+const emp1 = Department.createEmployee('June')
+console.log(emp1);
+
 
 const myDepartment = new Department('Dev1', 'SD');
 myDepartment.addEmployee("Tom");
