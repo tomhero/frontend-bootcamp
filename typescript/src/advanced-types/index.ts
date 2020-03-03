@@ -16,3 +16,20 @@ if (otherUsernameEl) {
     const text = (otherUsernameEl as HTMLInputElement).value
     console.log(text);
 }
+
+interface ErrorContainer { // { email: 'Invalid email', username: 'Wrong syntax' }
+    // id: number; // This is not allow when use index type
+    id: string;
+    // Index type (string | number | symbol)
+    // [propperty name]: value type
+    [prop: string]: string;
+}
+
+const errorPayload: ErrorContainer = {
+    id: 'e01',
+    // belows are extra properties name on the fly
+    email: 'Invalid email',
+    username: 'Wrong syntax'
+};
+
+console.log(errorPayload);
