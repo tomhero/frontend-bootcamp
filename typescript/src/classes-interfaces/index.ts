@@ -1,22 +1,16 @@
-class Department {
+abstract class Department {
     static fisicalYear = 2020;
     // private departmentId: string;
     // private name: string;
     protected employees: string[] = [];
 
-    constructor(private readonly departmentId: string, public name: string) {
+    constructor(protected readonly departmentId: string, public name: string) {
         // NOTE : You can simply do this for constructor
         // this.name = name
         // this.departmentId = id
     }
 
-    describe(needSecret: boolean) {
-        if (needSecret) {
-            console.log(`Departmant(${this.departmentId}) name is ${this.name} | ${this.getDepartmentSecret()}`);
-        } else {
-            console.log(`Departmant(${this.departmentId}) name is ${this.name}`);
-        }
-    }
+    abstract describe(needSecret: boolean): void
 
     static createEmployee(name: string) {
         return {
@@ -34,7 +28,7 @@ class Department {
         return this.employees
     }
 
-    private getDepartmentSecret() {
+    protected getDepartmentSecret() {
         return 'TopSecret!!'
     }
     
@@ -46,10 +40,30 @@ class DigitalDepartment extends Department {
         super(id, 'Digital') // this line of code should reside here!!
         this.admins = admins
     }
+
+    describe(needSecret: boolean) {
+        if (needSecret) {
+            console.log(`DigitalDepartment(${this.departmentId}) name is ${this.name} | ${this.getDepartmentSecret()}`);
+        } else {
+            console.log(`DigitalDepartment(${this.departmentId}) name is ${this.name}`);
+        }
+    }
+}
+
+class ITDepartment extends Department {
+
+    describe(needSecret: boolean) {
+        if (needSecret) {
+            console.log(`ITDepartment(${this.departmentId}) name is ${this.name} | ${this.getDepartmentSecret()}`);
+        } else {
+            console.log(`ITDepartment(${this.departmentId}) name is ${this.name}`);
+        }
+    }
+
 }
 
 class AccountingDepartment extends Department {
-    private lastReport: string;
+    private lastReport!: string;
 
     constructor(id: string, private reports: string[]) {
         super(id, 'Accounting')
@@ -82,6 +96,14 @@ class AccountingDepartment extends Department {
     printReport() {
         console.log(this.reports);
     }
+
+    describe(needSecret: boolean) {
+        if (needSecret) {
+            console.log(`AccountingDepartment(${this.departmentId}) name is ${this.name} | ${this.getDepartmentSecret()}`);
+        } else {
+            console.log(`AccountingDepartment(${this.departmentId}) name is ${this.name}`);
+        }
+    }
 }
 
 // static method
@@ -92,7 +114,7 @@ const emp1 = Department.createEmployee('June')
 console.log(emp1);
 
 
-const myDepartment = new Department('Dev1', 'SD');
+const myDepartment = new ITDepartment('Dev1', 'SD');
 myDepartment.addEmployee("Tom");
 myDepartment.addEmployee("Maya")
 
