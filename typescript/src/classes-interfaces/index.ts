@@ -1,18 +1,36 @@
 // interface is a custom type!! you could say.
-interface Person {
+interface Greetable {
     name: string;
-    age: number;
 
     greet(phrase: string): void
 }
 
-let villager: Person;
-villager = {
-    name: 'Tom',
-    age: 23,
-    greet(phrase: string) {
-        console.log(`${phrase} - I'm ${this.name}`);
+interface Shoutable {
+    bigWord: string;
+
+    shout(): void
+}
+
+class Person implements Greetable, Shoutable {
+    name: string;
+    bigWord: string;
+
+    constructor(name: string, word: string) {
+        this.name = name;
+        this.bigWord = word
+    }
+
+    greet(phrase: string): void {
+        console.log(phrase + ' my name is ' + this.name);
+    }
+    
+    shout(): void {
+        console.log(this.bigWord + '!!!!!!!!!!!!!!!!!!!');
     }
 }
 
-villager.greet('Hi there')
+let madScientist: Person;
+madScientist = new Person('Rintaro', 'El Psy Congroo')
+
+madScientist.greet('Hi there')
+madScientist.shout()
