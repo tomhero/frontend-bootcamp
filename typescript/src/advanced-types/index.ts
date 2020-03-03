@@ -57,13 +57,12 @@ const fetchedUserData = {
     job: {
         title: 'Jr. SE',
         fullTitle: 'Junior Software Engineer',
-        // desc: 'An ordinary programmer'
+        desc: 'An ordinary programmer'
     }
 };
-
 // Optional chaining
 console.log(fetchedUserData?.job?.fullTitle);
-console.log(fetchedUserData?.job?.desc);4
+console.log(fetchedUserData?.job?.desc);
 
 const userTyper = null
 // Nullish Coalescing
