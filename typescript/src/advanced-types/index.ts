@@ -33,3 +33,21 @@ const errorPayload: ErrorContainer = {
 };
 
 console.log(errorPayload);
+
+type Combination = string | number;
+
+// Overloading
+function plus(a:number, b: number): number
+function plus(a:string, b: string): string
+function plus(a:number, b: string): string
+function plus(a:string, b: number): string
+// OMG you should Overloading with union type!!
+function plus(a: Combination, b: Combination) {
+    if (typeof a === 'string' || typeof b === 'string') {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+
+console.log(plus('Chayut', ' Ruksomya'));
+
