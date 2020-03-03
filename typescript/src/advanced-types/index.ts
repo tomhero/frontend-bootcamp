@@ -51,3 +51,18 @@ function plus(a: Combination, b: Combination) {
 
 console.log(plus('Chayut', ' Ruksomya'));
 
+const fetchedUserData = {
+    id: 'u1',
+    name: 'Tom',
+    job: {
+        title: 'Jr. SE',
+        fullTitle: 'Junior Software Engineer',
+        // desc: 'An ordinary programmer'
+    }
+};
+
+// Optional chaining
+console.log(fetchedUserData?.job?.fullTitle);
+console.log(fetchedUserData?.job?.desc);
+
+
