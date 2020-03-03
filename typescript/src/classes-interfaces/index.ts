@@ -1,17 +1,20 @@
 class Department {
 
-    private name: string;
+    // private departmentId: string;
+    // private name: string;
     private employees: string[] = [];
 
-    constructor(name: string) {
-        this.name = name
+    constructor(private departmentId: string, public name: string) {
+        // NOTE : You can simply do this for constructor
+        // this.name = name
+        // this.departmentId = id
     }
 
     describe(needSecret: boolean) {
         if (needSecret) {
-            console.log(`Departmant name is ${this.name} | ${this.getDepartmentSecret()}`);
+            console.log(`Departmant(${this.departmentId}) name is ${this.name} | ${this.getDepartmentSecret()}`);
         } else {
-            console.log(`Departmant name is ${this.name}`);
+            console.log(`Departmant(${this.departmentId}) name is ${this.name}`);
         }
     }
 
@@ -25,7 +28,7 @@ class Department {
     
 }
 
-const myDepartment = new Department("SD");
+const myDepartment = new Department('123', 'SD');
 myDepartment.addEmployee("Tom");
 myDepartment.addEmployee("Maya")
 
