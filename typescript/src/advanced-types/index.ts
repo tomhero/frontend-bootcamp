@@ -89,3 +89,34 @@ function useVehicle(vehicle: Vehicle) {
 
 useVehicle(modelv1)
 useVehicle(modelv2)
+
+interface Bird {
+    type: 'bird'; // common property
+    flyingSpeed: number;
+}
+
+interface Horse {
+    type: 'horse'; // common property
+    runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+    let speed;
+    switch (animal.type) {
+        // 100% type safe
+        case 'bird':
+            speed = animal.flyingSpeed
+            break;
+        case 'horse':
+            speed = animal.runningSpeed
+            break;
+    }
+    console.log('Moving with in speed...' + speed);
+}
+
+moveAnimal({
+    type: 'horse',
+    runningSpeed: 99
+})
