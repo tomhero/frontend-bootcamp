@@ -4,7 +4,7 @@ class Department {
     // private name: string;
     private employees: string[] = [];
 
-    constructor(private departmentId: string, public name: string) {
+    constructor(private readonly departmentId: string, public name: string) {
         // NOTE : You can simply do this for constructor
         // this.name = name
         // this.departmentId = id
@@ -19,6 +19,7 @@ class Department {
     }
 
     addEmployee(employee: string) {
+        // this.departmentId = '1234' // You can not do this if it readonly 
         this.employees.push(employee)
     }
 
