@@ -23,6 +23,10 @@ class Department {
         this.employees.push(employee)
     }
 
+    getEmployee(): string[] {
+        return this.employees
+    }
+
     private getDepartmentSecret() {
         return 'TopSecret!!'
     }
@@ -38,10 +42,25 @@ class DigitalDepartment extends Department {
 }
 
 class AccountingDepartment extends Department {
+    private lastReport: string;
+
     constructor(id: string, private reports: string[]) {
         super(id, 'Accounting')
     }
 
+    // Getter method (Encapculation)
+    public get mostRecentReport() : string {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+        throw new Error('No report founded.');
+    }
+
+    // Setter method
+    public set mostRecentReport(value: string) {
+        this.addReport(value)
+    }
+    
     addEmployee(name: string) {
         // @override
         if (name.length < 5) return;
@@ -50,6 +69,7 @@ class AccountingDepartment extends Department {
 
     addReport(report: string) {
         this.reports.push(report)
+        this.lastReport = report
     }
 
     printReport() {
@@ -73,6 +93,16 @@ console.log(preSellDept.admins);
 
 const accounting = new AccountingDepartment('ac1', [])
 
-accounting.addReport('mayday mayday!!')
+accounting.addEmployee('Arisa')
+console.log(accounting.getEmployee());
 
+accounting.addReport('mayday mayday!!')
 accounting.printReport()
+
+// using getter
+console.log(accounting.mostRecentReport);
+
+// using setter
+accounting.mostRecentReport = 'nowadays!!'
+console.log(accounting.mostRecentReport);
+
