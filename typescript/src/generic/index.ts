@@ -97,3 +97,31 @@ const numberStorage = new DataStorage<number | boolean>();
 // objectStorage.removeItem({name: 'Tom'})
 // console.log(objectStorage.getItems()); // 🤷‍♂️
 
+// Partial type
+
+interface DailyGoal {
+    title: string;
+    desc: string;
+    completeUntil: Date;
+    completed: boolean
+}
+
+//. Exanple of Partial type
+function createDailyGoal(
+    title: string, desc: string, util: Date, completed: boolean
+    ) : DailyGoal {
+        let newDailyGoal: Partial<DailyGoal> = {};
+        newDailyGoal.title = title;
+        newDailyGoal.desc = desc;
+        newDailyGoal.completeUntil = util;
+        newDailyGoal.completed = completed;
+        return newDailyGoal as DailyGoal;
+}
+
+// console.log(createDailyGoal({title: 'Test', desc: 'test desc', completeUntil: new Date(), completed: false}));
+
+// Read-only type
+const authors: Readonly<string[]> = ['Tom', 'Anna'];
+// `Readonly` makes it immutable at once!!
+// authors.push('Marina'); ❌
+// authors.pop(); ❌
