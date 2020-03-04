@@ -98,17 +98,46 @@ function WithTemplate(template: string, hookID: string) {
     const newProduct = new Product('Book', 42.06)
     console.log(newProduct.getPriceWithTax(0.07));
 
+    function Autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+        const originalMethod = descriptor.value;
+        // This is custom (logic) PropertyDescriptor to add
+        const adjDescriptor: PropertyDescriptor = {
+            configurable: true,
+            enumerable: false,
+            get() {
+                // this refers to original caller (`Printer` class for example)
+                const boundFunction = originalMethod.bind(this)
+                return boundFunction
+            }
+        };
+        return adjDescriptor;
+    }
+
     class Printer {
         message = 'This works!!'
-
-        showMessage() {
+        
+        @Autobind
+        showMessage(ev?: MouseEvent) {
             console.log(this.message);
+            console.log('event :', ev);
         }
     }
 
+    const pen = new Printer()
+    pen.showMessage()
+
     const buttonEl = document.querySelector('button')! as HTMLButtonElement;
-    buttonEl.addEventListener('click', (e) => {
-        console.log(e);
-    })
+    // buttonEl.addEventListener('click', pen.showMessage.bind(pen)) // If you do not use Autobind decorator
+    buttonEl.addEventListener('click', pen.showMessage)
+
+    class Course {
+        title: string;
+        price: number;
+
+        constructor(title: string, price: number) {
+            this.title = title
+            this.price = price
+        }
+    }
 
 }
