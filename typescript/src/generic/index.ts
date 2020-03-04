@@ -50,3 +50,10 @@ console.log(countAndDescribe('qwerty'));
 // You can also call it with array type!! wow §(*￣▽￣*)§
 console.log(countAndDescribe(['qwerty', '123456', 999]));
 
+function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) {
+    // To tell typeScript that some arg use other args's key!! --> use `keyof`
+    return 'Val = ' + obj[key];
+}
+
+console.log(extractAndConvert({name: 'Tom'}, 'name'));
+// console.log(extractAndConvert({name: 'Tom'}, 'age')); // You can not do this bacause of `extends keyof T`
