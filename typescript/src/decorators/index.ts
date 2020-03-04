@@ -1,10 +1,12 @@
-function Logger(constructor: Function) {
-    console.log('logging...');
-    console.log(constructor);
+function Logger(logString: string) {
+    return (constructor: Function) => {
+        console.log('logging...' + logString);
+        console.log(constructor);
+    }
 }
 
 {
-    @Logger // Run when a particular class has been defined!!
+    @Logger('log text test') // Run when a particular class has been defined!!
     class Human {
         name = 'Tom'
     
