@@ -57,3 +57,39 @@ function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) 
 
 console.log(extractAndConvert({name: 'Tom'}, 'name'));
 // console.log(extractAndConvert({name: 'Tom'}, 'age')); // You can not do this bacause of `extends keyof T`
+
+// -- Generic Class
+class DataStorage<T> {
+    private  data: T[] = [];
+
+    addItem(item: T) {
+        this.data.push(item)
+    }
+
+    removeItem(item: T) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+
+    getItems() {
+        return [...this.data];
+    }
+}
+
+const testStorage = new DataStorage<string>();
+testStorage.addItem('car')
+testStorage.addItem('ipad')
+testStorage.addItem('iphone')
+testStorage.addItem('ipod')
+testStorage.removeItem('ipad')
+console.log(testStorage.getItems());
+
+// Strong type with class dynamic arrtibute type
+const numberStorage = new DataStorage<number | boolean>();
+
+const objectStorage = new DataStorage<object>();
+objectStorage.addItem({name: 'Tom'})
+objectStorage.addItem({name: 'Bassy'})
+// ...
+objectStorage.removeItem({name: 'Tom'})
+console.log(objectStorage.getItems()); // 🤷‍♂️
+
