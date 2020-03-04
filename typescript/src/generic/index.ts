@@ -125,3 +125,9 @@ const authors: Readonly<string[]> = ['Tom', 'Anna'];
 // `Readonly` makes it immutable at once!!
 // authors.push('Marina'); ❌
 // authors.pop(); ❌
+
+// FOOT NOTE :
+//      Generics Type : In cases where you have a type that actually works together with multiple other possible types
+//      (e.g. an object which emits data of different types).
+//      Union Type : In cases where you have a fixed set of types that you allow in a certain place 
+//      (e.g. a function parameter that's either a string or a number).
