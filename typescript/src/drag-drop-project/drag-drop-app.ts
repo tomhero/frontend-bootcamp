@@ -4,20 +4,29 @@ class ProjectInput {
     // HTMLTemplateElement is a interface from "DOM" lib
     templateEl: HTMLTemplateElement;
     renderTargetEl: HTMLDivElement;
+    el: HTMLFormElement;
 
     constructor(templateElId: string, targetElId: string) {
         this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
         this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
+        // Get document fragment (child elements)
+        this.el = this.templateEl.content.querySelector('form')! as HTMLFormElement;
+        this.configure()
         this.render()
     }
 
     /**
-     * render targetEl to screen
+     * Configure an element before render
+     */
+    private configure(): void {
+        this.el.id = 'user-input'
+    }
+
+    /**
+     * Render targetEl to screen
      */
     private render(): void {
-        // Get document fragment (child elements)
-        const elementsToRender = this.templateEl.content.querySelector('form')! as HTMLFormElement;
-        this.renderTargetEl.innerHTML = elementsToRender.outerHTML
+        this.renderTargetEl.innerHTML = this.el.outerHTML
     }
 }
 
