@@ -1,4 +1,4 @@
-function Logger(logString: string) { // This function is a decorator factory
+function Logger(logString: string) { // This function is a decorator factory (in capital case)
     console.log('Logger has been called'); // A.
     return (constructor: Function) => {
         console.log('logging...' + logString); // 2.
@@ -6,7 +6,7 @@ function Logger(logString: string) { // This function is a decorator factory
     }
 }
 
-function withTemplate(template: string, hookID: string) {
+function WithTemplate(template: string, hookID: string) {
     console.log('withTemplate has been called'); // B.
     // return (_: Function) => { // `_` variable means not use but decorator need at least one args | LOL
     return (constructor: any) => {
@@ -23,9 +23,9 @@ function withTemplate(template: string, hookID: string) {
 { // This is only block scope from JS knowledge \ no need to rousing
     // Decorator runs when a particular class has been defined!!
     @Logger('log text test') //  A. 2. 3.
-    @withTemplate('<h1>Human Header!! here</h1>', 'app') // B. 1.
+    @WithTemplate('<h1>Human Header!! here</h1>', 'app') // B. 1.
     class Human {
-        name = 'Tomhero'
+        name = 'Superman'
     
         constructor() {
             console.log('Create some human');
@@ -34,4 +34,62 @@ function withTemplate(template: string, hookID: string) {
     
     const person = new Human()
     console.log(person);
+}
+
+{
+    /**
+     * Property Decorators
+     */
+    function Log(target: any, PropertyName: string) {
+        console.log('Property Decorators test');
+        console.log(target, '\n', PropertyName);
+    }
+
+    function Log2(target: any, PropertyName: string, descriptor: PropertyDescriptor) {
+        console.log('Test Accessor Decorators');
+        console.log(target);
+        console.log(PropertyName);
+        console.log(descriptor);
+    }
+
+    function Log3(target: any, name: string | Symbol, descriptor: PropertyDescriptor) {
+        console.log('Method Decorators');
+        console.log(target);
+        console.log(name);
+        console.log(descriptor);
+    }
+
+    function Log4(target: any, name: string | Symbol, position: number) {
+        console.log('Parameter Decorators');
+        console.log(target);
+        console.log(name);
+        console.log(position);
+    }
+     
+    class Product {
+        @Log // This will this when your class definition has been registed by JS
+        title: string
+
+        constructor(title: string, private _price: number) {
+            this.title = title
+        }
+
+        @Log2
+        public set price(val : number) {
+            if (val > 0) {
+                this._price = val;
+            } else {
+                throw new Error('Invalid price to set');
+            }
+        }
+        
+        @Log3
+        getPriceWithTax(@Log4 tax: number): number {
+            return +((this._price * (1 + tax)).toFixed(2));
+        }
+    }
+
+    const newProduct = new Product('Book', 42.06)
+    console.log(newProduct.getPriceWithTax(0.07));
+
 }
