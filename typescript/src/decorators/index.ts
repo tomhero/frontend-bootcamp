@@ -130,8 +130,64 @@ function WithTemplate(template: string, hookID: string) {
     // buttonEl.addEventListener('click', pen.showMessage.bind(pen)) // If you do not use Autobind decorator
     buttonEl.addEventListener('click', pen.showMessage)
 
+    /**
+     * Example of decorator 2 (validation decorator)
+     */
+
+    interface ValidatorConfig {
+        // index type notation!!
+        [property: string]: {
+            [validatableProp: string]: string[] // example --> ['required', 'positive']
+        }
+    }
+
+    const registedValidators: ValidatorConfig = {};
+
+    function Required(target: any, propName: string) {
+        // Regis class name as a key
+        const validator = registedValidators[target.constructor.name]?.[propName] ?? []
+        registedValidators[target.constructor.name] = {
+            ...registedValidators[target.constructor.name],
+            [propName]: [...validator, 'required']
+        }
+    }
+
+    function PositiveNumber(target: any, propName: string) {
+        const validator = registedValidators[target.constructor.name]?.[propName] ?? []
+        registedValidators[target.constructor.name] = {
+            ...registedValidators[target.constructor.name],
+            [propName]: [...validator, 'positive']
+        }
+    }
+
+    function validate(obj: any) {
+        // apply validation logic (with configuration) here
+        const objValidatorConfig = registedValidators[obj.constructor.name];
+        if (!objValidatorConfig) {
+            // Nothing to validate
+            return true;
+        }
+        let isValid = true;
+        for (const prop in objValidatorConfig) {
+            console.log(prop);
+            for (const validator of objValidatorConfig[prop]) {
+                switch (validator) {
+                    case 'required':
+                        isValid = isValid && !!obj[prop]; // `!!` is double bang operator
+                        break;
+                    case 'positive':
+                        isValid = isValid && obj[prop] > 0;
+                        break;
+                }
+            }
+        }
+        return isValid;
+    }
+
     class Course {
+        @Required
         title: string;
+        @PositiveNumber
         price: number;
 
         constructor(title: string, price: number) {
@@ -140,4 +196,27 @@ function WithTemplate(template: string, hookID: string) {
         }
     }
 
+    const courseForm = document.querySelector('form')! as HTMLFormElement;
+    courseForm.addEventListener('submit', ev => {
+        ev.preventDefault();
+        const titleEl = document.getElementById('title') as HTMLInputElement
+        const priceEl = document.getElementById('price') as HTMLInputElement
+
+        const titleText = titleEl.value;
+        const priceNum = +priceEl.value;
+
+        // this validation can be also done by decorator!!
+        // if (titleText === '' || priceNum <= 0) {
+        //     return;
+        // }
+        
+        const createdCourse = new Course(titleText, priceNum)
+
+        if(!validate(createdCourse)) {
+            alert('Please input a valid value')
+            return;
+        }
+
+        console.log(createdCourse);
+    });
 }
