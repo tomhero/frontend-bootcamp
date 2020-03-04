@@ -1,4 +1,40 @@
 // console.log('Welcome to drag and drop app!!');
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+
+function validateInput(validatableInput: Validatable): boolean {
+    let isValid = true;
+    if (validatableInput.required) {
+        isValid = isValid && validatableInput.value.toString().length !== 0;
+    }
+    if ( // Because if `!= null` is also include check for undefine!!
+        validatableInput.minLength != null && 
+        typeof validatableInput.value === 'string'
+        ) {
+            isValid = isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    if (
+        validatableInput.maxLength != null && 
+        typeof validatableInput.value === 'string'
+        ) {
+            isValid = isValid && validatableInput.value.length <= validatableInput.maxLength;
+    }
+
+    if (validatableInput.min != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value >= validatableInput.min
+    }
+    if (validatableInput.max != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value <= validatableInput.max
+    }
+    return isValid
+}
+
 function Autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor): PropertyDescriptor {
     const originalMethod = descriptor.value;
     // This is custom (logic) PropertyDescriptor to add
@@ -62,10 +98,28 @@ class ProjectInput {
         const enteredDescription = this.descriptionInputEl.value
         const enteredPeople = this.peopleInputEl.value
 
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        }
+
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            minLength: 3,
+            maxLength: 120
+        }
+
+        const peopleValidatable: Validatable = {
+            value: +enteredPeople,
+            required: true,
+            min: 1,
+            max: 5
+        }
+
         if (
-            enteredTitle.trim().length === 0 ||
-            enteredDescription.trim().length === 0 ||
-            enteredPeople.trim().length === 0
+            !validateInput(titleValidatable) ||
+            !validateInput(descriptionValidatable) ||
+            !validateInput(peopleValidatable)
         ) {
             alert('Invalid input found');
             return;
