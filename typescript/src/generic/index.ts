@@ -59,7 +59,8 @@ console.log(extractAndConvert({name: 'Tom'}, 'name'));
 // console.log(extractAndConvert({name: 'Tom'}, 'age')); // You can not do this bacause of `extends keyof T`
 
 // -- Generic Class
-class DataStorage<T> {
+// `extends string | number | boolean` is a good idea to do so
+class DataStorage<T extends string | number | boolean> {
     private  data: T[] = [];
 
     addItem(item: T) {
@@ -67,6 +68,9 @@ class DataStorage<T> {
     }
 
     removeItem(item: T) {
+        if (this.data.indexOf(item) === -1) {
+            return;
+        }
         this.data.splice(this.data.indexOf(item), 1);
     }
 
@@ -86,10 +90,10 @@ console.log(testStorage.getItems());
 // Strong type with class dynamic arrtibute type
 const numberStorage = new DataStorage<number | boolean>();
 
-const objectStorage = new DataStorage<object>();
-objectStorage.addItem({name: 'Tom'})
-objectStorage.addItem({name: 'Bassy'})
-// ...
-objectStorage.removeItem({name: 'Tom'})
-console.log(objectStorage.getItems()); // 🤷‍♂️
+// const objectStorage = new DataStorage<object>();
+// objectStorage.addItem({name: 'Tom'})
+// objectStorage.addItem({name: 'Bassy'})
+// // ...
+// objectStorage.removeItem({name: 'Tom'})
+// console.log(objectStorage.getItems()); // 🤷‍♂️
 
