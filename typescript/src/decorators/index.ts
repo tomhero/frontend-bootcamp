@@ -98,4 +98,17 @@ function WithTemplate(template: string, hookID: string) {
     const newProduct = new Product('Book', 42.06)
     console.log(newProduct.getPriceWithTax(0.07));
 
+    class Printer {
+        message = 'This works!!'
+
+        showMessage() {
+            console.log(this.message);
+        }
+    }
+
+    const buttonEl = document.querySelector('button')! as HTMLButtonElement;
+    buttonEl.addEventListener('click', (e) => {
+        console.log(e);
+    })
+
 }
