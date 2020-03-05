@@ -83,7 +83,7 @@ class ProjectState {
 
         this.projects.push(newProject);
         this.listeners.forEach(listener => {
-            listener([...this.projects]);
+            listener(this.projects.slice());
         });
     }
 }
@@ -94,16 +94,23 @@ class ProjectList {
     templateEl: HTMLTemplateElement;
     renderTargetEl: HTMLDivElement;
     rootEl: HTMLElement;
+    assignedProjects?: any[];
 
     constructor(templateElId: string, targetElId: string, private type: 'active' | 'finished') {
         this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
         this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
         // Get document fragment (child elements)
         this.rootEl = this.templateEl.content.querySelector('section')?.cloneNode(true) as HTMLElement;
+        this.assignedProjects = [];
 
         this.configure();
         this.render();
         this.renderList();
+
+        projectState.addListener((projects: any[]) => {
+            this.assignedProjects = projects;
+            this.renderProject();
+        });
     }
 
     /**
@@ -117,6 +124,15 @@ class ProjectList {
         const listId = `${this.type}-project-list`;
         this.rootEl.querySelector('ul')!.id = listId;
         this.rootEl.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
+    }
+
+    private renderProject(): void {
+        const listEl = document.getElementById(`${this.type}-project-list`);
+        this.assignedProjects?.forEach(prjectItem => {
+            const listItemEl = document.createElement('li');
+            listItemEl.textContent = prjectItem.title;
+            listEl?.appendChild(listItemEl);
+        });
     }
 
     /**
@@ -157,9 +173,9 @@ class ProjectInput {
 
         if (Array.isArray(userInput)) {
             // Check if is tuple or not?
-            const [title, desc, people] = userInput
-            console.log(title, desc, people);
-            this.clearInputs()
+            const [title, desc, people] = userInput;
+            projectState.addProject(title, desc, people);
+            this.clearInputs();
         }
     }
 
