@@ -111,6 +111,36 @@ class ProjectState {
 
 const projectState = ProjectState.getInstance();
 
+// Base component class
+class Component<T extends HTMLElement, U extends HTMLElement> {
+    templateEl: HTMLTemplateElement;
+    insertAtStart: boolean;
+    renderTargetEl: T;
+    rootEl: U;
+
+    constructor(templateElId: string, targetElId: string, newElementId?: string) {
+        this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
+        this.renderTargetEl = <T>document.getElementById(targetElId)!;
+
+        this.rootEl = this.templateEl.content.firstElementChild?.cloneNode(true) as U;
+
+        if (newElementId) {
+            this.rootEl.id = newElementId;
+        }
+
+        this.attach()
+    }
+
+    private attach(insertAtBeginnig: boolean): void {
+        this.renderTargetEl.insertAdjacentElement(
+            insertAtBeginnig ? 'afterbegin' : 'beforeend',
+            this.rootEl
+        );
+    }
+}
+
+new Component('project-input', 'app')
+
 class ProjectList {
     templateEl: HTMLTemplateElement;
     renderTargetEl: HTMLDivElement;
