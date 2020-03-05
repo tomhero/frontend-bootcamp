@@ -117,7 +117,7 @@ class ProjectList {
     rootEl: HTMLElement;
     assignedProjects?: Project[];
 
-    constructor(templateElId: string, targetElId: string, private type: 'active' | 'finished') {
+    constructor(templateElId: string, targetElId: string, private type: ProjectStatus) {
         this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
         this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
         // Get document fragment (child elements)
@@ -128,8 +128,15 @@ class ProjectList {
         this.render();
         this.renderList();
 
+        // Add projects to subcriber here
         projectState.addListener((projects: Project[]) => {
-            this.assignedProjects = projects;
+            const relevantProjects = projects.filter(project => {
+                if (this.type === ProjectStatus.Active) {
+                    return project.status === ProjectStatus.Active;
+                }
+                return project.status === ProjectStatus.Finished;
+            });
+            this.assignedProjects = relevantProjects;
             this.renderProject();
         });
     }
@@ -148,7 +155,8 @@ class ProjectList {
     }
 
     private renderProject(): void {
-        const listEl = document.getElementById(`${this.type}-project-list`);
+        const listEl = document.getElementById(`${this.type}-project-list`) as HTMLUListElement;
+        listEl.innerHTML = '';
         this.assignedProjects?.forEach(prjectItem => {
             const listItemEl = document.createElement('li');
             listItemEl.textContent = prjectItem.title;
@@ -265,5 +273,5 @@ class ProjectInput {
 }
 
 const projectInput = new ProjectInput('project-input', 'app');
-const activeProjects = new ProjectList('project-list', 'app', 'active');
-const achivedProjects = new ProjectList('project-list', 'app', 'finished');
+const activeProjects = new ProjectList('project-list', 'app', ProjectStatus.Active);
+const achivedProjects = new ProjectList('project-list', 'app', ProjectStatus.Finished);
