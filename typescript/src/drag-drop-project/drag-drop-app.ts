@@ -1,4 +1,4 @@
-// console.log('Welcome to drag and drop app!!');
+console.log('Welcome to drag and drop app!!');
 interface Validatable {
     value: string | number;
     required?: boolean;
@@ -50,13 +50,33 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
     return adjDescriptor;
 }
 
+enum ProjectStatus {
+    Active = 'active',
+    Finished = 'finished',
+}
+
+// Project custom type
+class Project {
+    constructor(
+        public id: string,
+        public title: string,
+        public description: string,
+        public people: number,
+        public status: ProjectStatus,
+    ) {
+    }
+}
+
+// ------------- Function that return void!!
+type Listener = (items: Project[]) => void;
+
 /**
  * Class for state management that reflect UI
  * with singleton pattern
  */
 class ProjectState {
-    private listeners: any[] = [];
-    private projects: any[] = [];
+    private listeners: Listener[] = [];
+    private projects: Project[] = [];
     private static instance: ProjectState;
 
     private constructor() {
@@ -69,17 +89,18 @@ class ProjectState {
         return this.instance;
     }
 
-    addListener(listener: Function) {
+    addListener(listener: Listener) {
         this.listeners.push(listener);
     }
 
     addProject(title: string, description: string, numOfPeople: number) {
-        const newProject = {
-            id: Math.random().toString(),
+        const newProject = new Project(
+            Math.random().toString(),
             title,
             description,
-            people: numOfPeople
-        };
+            numOfPeople,
+            ProjectStatus.Active
+        );
 
         this.projects.push(newProject);
         this.listeners.forEach(listener => {
@@ -94,7 +115,7 @@ class ProjectList {
     templateEl: HTMLTemplateElement;
     renderTargetEl: HTMLDivElement;
     rootEl: HTMLElement;
-    assignedProjects?: any[];
+    assignedProjects?: Project[];
 
     constructor(templateElId: string, targetElId: string, private type: 'active' | 'finished') {
         this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
@@ -107,7 +128,7 @@ class ProjectList {
         this.render();
         this.renderList();
 
-        projectState.addListener((projects: any[]) => {
+        projectState.addListener((projects: Project[]) => {
             this.assignedProjects = projects;
             this.renderProject();
         });
