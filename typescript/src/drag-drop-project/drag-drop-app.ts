@@ -50,6 +50,83 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
     return adjDescriptor;
 }
 
+/**
+ * Class for state management that reflect UI
+ * with singleton pattern
+ */
+class ProjectState {
+    private listeners: any[] = [];
+    private projects: any[] = [];
+    private static instance: ProjectState;
+
+    private constructor() {
+    }
+    
+    public static getInstance() {
+        if(!this.instance) {
+            return new ProjectState();
+        }
+        return this.instance;
+    }
+
+    addListener(listener: Function) {
+        this.listeners.push(listener);
+    }
+
+    addProject(title: string, description: string, numOfPeople: number) {
+        const newProject = {
+            id: Math.random().toString(),
+            title,
+            description,
+            people: numOfPeople
+        };
+
+        this.projects.push(newProject);
+        this.listeners.forEach(listener => {
+            listener([...this.projects]);
+        });
+    }
+}
+
+const projectState = ProjectState.getInstance();
+
+class ProjectList {
+    templateEl: HTMLTemplateElement;
+    renderTargetEl: HTMLDivElement;
+    rootEl: HTMLElement;
+
+    constructor(templateElId: string, targetElId: string, private type: 'active' | 'finished') {
+        this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
+        this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
+        // Get document fragment (child elements)
+        this.rootEl = this.templateEl.content.querySelector('section')?.cloneNode(true) as HTMLElement;
+
+        this.configure();
+        this.render();
+        this.renderList();
+    }
+
+    /**
+     * Configure an element before render
+     */
+    private configure(): void {
+        this.rootEl.id = `${this.type}-projects`
+    }
+
+    private renderList(): void {
+        const listId = `${this.type}-project-list`;
+        this.rootEl.querySelector('ul')!.id = listId;
+        this.rootEl.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
+    }
+
+    /**
+     * Render templateEl into targetEl on screen
+     */
+    private render(): void {
+        this.renderTargetEl.insertAdjacentElement('beforeend', this.rootEl);
+    }
+}
+
 class ProjectInput {
     // HTMLTemplateElement is a interface from "DOM" lib
     templateEl: HTMLTemplateElement;
@@ -151,3 +228,5 @@ class ProjectInput {
 }
 
 const projectInput = new ProjectInput('project-input', 'app');
+const activeProjects = new ProjectList('project-list', 'app', 'active');
+const achivedProjects = new ProjectList('project-list', 'app', 'finished');
