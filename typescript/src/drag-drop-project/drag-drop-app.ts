@@ -1,4 +1,4 @@
-// console.log('Welcome to drag and drop app!!');
+console.log('Welcome to drag and drop app!!');
 interface Validatable {
     value: string | number;
     required?: boolean;
@@ -50,44 +50,148 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
     return adjDescriptor;
 }
 
-class ProjectState {
-    private projects: any[] = [];
+enum ProjectStatus {
+    Active = 'active',
+    Finished = 'finished',
+}
 
-    addProject(title: string, description: string, numOfpeople: number) {
-        const newProject = {
-            id: Math.random().toString(),
-            title,
-            description,
-            people: numOfpeople
-        };
-        this.projects.push(newProject);
+// Project custom type
+class Project {
+    constructor(
+        public id: string,
+        public title: string,
+        public description: string,
+        public people: number,
+        public status: ProjectStatus,
+    ) {
     }
 }
+
+// ------------- Function that return void!!
+type Listener = (items: Project[]) => void;
+
+/**
+ * Class for state management that reflect UI
+ * with singleton pattern
+ */
+class ProjectState {
+    private listeners: Listener[] = [];
+    private projects: Project[] = [];
+    private static instance: ProjectState;
+
+    private constructor() {
+    }
+    
+    public static getInstance() {
+        if(!this.instance) {
+            return new ProjectState();
+        }
+        return this.instance;
+    }
+
+    addListener(listener: Listener) {
+        this.listeners.push(listener);
+    }
+
+    addProject(title: string, description: string, numOfPeople: number) {
+        const newProject = new Project(
+            Math.random().toString(),
+            title,
+            description,
+            numOfPeople,
+            ProjectStatus.Active
+        );
+
+        this.projects.push(newProject);
+        this.listeners.forEach(listener => {
+            listener(this.projects.slice());
+        });
+    }
+}
+
+const projectState = ProjectState.getInstance();
+
+// Base component class
+class Component<T extends HTMLElement, U extends HTMLElement> {
+    templateEl: HTMLTemplateElement;
+    insertAtStart: boolean;
+    renderTargetEl: T;
+    rootEl: U;
+
+    constructor(templateElId: string, targetElId: string, newElementId?: string) {
+        this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
+        this.renderTargetEl = <T>document.getElementById(targetElId)!;
+
+        this.rootEl = this.templateEl.content.firstElementChild?.cloneNode(true) as U;
+
+        if (newElementId) {
+            this.rootEl.id = newElementId;
+        }
+
+        this.attach()
+    }
+
+    private attach(insertAtBeginnig: boolean): void {
+        this.renderTargetEl.insertAdjacentElement(
+            insertAtBeginnig ? 'afterbegin' : 'beforeend',
+            this.rootEl
+        );
+    }
+}
+
+new Component('project-input', 'app')
 
 class ProjectList {
     templateEl: HTMLTemplateElement;
     renderTargetEl: HTMLDivElement;
     rootEl: HTMLElement;
+    assignedProjects?: Project[];
 
-    constructor(
-        templateElId: string,
-        targetElId: string,
-        private type: 'active' | 'finished'
-    ) {
-        this.templateEl = document.getElementById(templateElId) as HTMLTemplateElement;
-        this.renderTargetEl = document.getElementById(targetElId) as HTMLDivElement;
-        this.rootEl = this.templateEl.content.querySelector('section')!.cloneNode(true) as HTMLFormElement;
+    constructor(templateElId: string, targetElId: string, private type: ProjectStatus) {
+        this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
+        this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
+        // Get document fragment (child elements)
+        this.rootEl = this.templateEl.content.querySelector('section')?.cloneNode(true) as HTMLElement;
+        this.assignedProjects = [];
 
         this.configure();
         this.render();
-        this.renderItems();
+        this.renderList();
+
+        // Add projects to subcriber here
+        projectState.addListener((projects: Project[]) => {
+            const relevantProjects = projects.filter(project => {
+                if (this.type === ProjectStatus.Active) {
+                    return project.status === ProjectStatus.Active;
+                }
+                return project.status === ProjectStatus.Finished;
+            });
+            this.assignedProjects = relevantProjects;
+            this.renderProject();
+        });
     }
 
     /**
- * Configure an element before render
- */
+     * Configure an element before render
+     */
     private configure(): void {
         this.rootEl.id = `${this.type}-projects`
+    }
+
+    private renderList(): void {
+        const listId = `${this.type}-project-list`;
+        this.rootEl.querySelector('ul')!.id = listId;
+        this.rootEl.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
+    }
+
+    private renderProject(): void {
+        const listEl = document.getElementById(`${this.type}-project-list`) as HTMLUListElement;
+        listEl.innerHTML = '';
+        this.assignedProjects?.forEach(prjectItem => {
+            const listItemEl = document.createElement('li');
+            listItemEl.textContent = prjectItem.title;
+            listEl?.appendChild(listItemEl);
+        });
     }
 
     /**
@@ -96,13 +200,6 @@ class ProjectList {
     private render(): void {
         this.renderTargetEl.insertAdjacentElement('beforeend', this.rootEl);
     }
-
-    private renderItems() {
-        const listId = `${this.type}-project-list`;
-        this.rootEl.querySelector('ul')!.id = listId;
-        this.rootEl.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECT';
-    }
-
 }
 
 class ProjectInput {
@@ -135,9 +232,9 @@ class ProjectInput {
 
         if (Array.isArray(userInput)) {
             // Check if is tuple or not?
-            const [title, desc, people] = userInput
-            console.log(title, desc, people);
-            this.clearInputs()
+            const [title, desc, people] = userInput;
+            projectState.addProject(title, desc, people);
+            this.clearInputs();
         }
     }
 
@@ -206,5 +303,5 @@ class ProjectInput {
 }
 
 const projectInput = new ProjectInput('project-input', 'app');
-const acativeProjects = new ProjectList('project-list', 'app', 'active');
-const finishedProject = new ProjectList('project-list', 'app', 'finished');
+const activeProjects = new ProjectList('project-list', 'app', ProjectStatus.Active);
+const achivedProjects = new ProjectList('project-list', 'app', ProjectStatus.Finished);
