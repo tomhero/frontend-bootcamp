@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "file:///Users/chayutr/Documents/Learning/frontend-bootcamp/typescript/src/drag-drop-project/drag-and-drop.html",
+            "url": "file://${workspaceFolder}/src/drag-drop-project/drag-and-drop.html",
             "webRoot": "${workspaceFolder}/src/drag-drop-project"
         }
     ]

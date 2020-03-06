@@ -1,4 +1,4 @@
-console.log('Welcome to drag and drop app!!');
+// console.log('Welcome to drag and drop app!!');
 interface Validatable {
     value: string | number;
     required?: boolean;
@@ -68,18 +68,26 @@ class Project {
 }
 
 // ------------- Function that return void!!
-type Listener = (items: Project[]) => void;
+type Listener<T> = (items: T[]) => void;
+
+class State<T> {
+    protected listeners: Listener<T>[] = [];
+
+    addListener(listener: Listener<T>) {
+        this.listeners.push(listener);
+    }
+}
 
 /**
  * Class for state management that reflect UI
  * with singleton pattern
  */
-class ProjectState {
-    private listeners: Listener[] = [];
+class ProjectState extends State<Project> {
     private projects: Project[] = [];
     private static instance: ProjectState;
 
     private constructor() {
+        super();
     }
     
     public static getInstance() {
@@ -89,7 +97,7 @@ class ProjectState {
         return this.instance;
     }
 
-    addListener(listener: Listener) {
+    addListener(listener: Listener<Project>) {
         this.listeners.push(listener);
     }
 
@@ -112,13 +120,12 @@ class ProjectState {
 const projectState = ProjectState.getInstance();
 
 // Base component class
-class Component<T extends HTMLElement, U extends HTMLElement> {
+abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     templateEl: HTMLTemplateElement;
-    insertAtStart: boolean;
     renderTargetEl: T;
     rootEl: U;
 
-    constructor(templateElId: string, targetElId: string, newElementId?: string) {
+    constructor(templateElId: string, targetElId: string, insertAtStart: boolean, newElementId?: string) {
         this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
         this.renderTargetEl = <T>document.getElementById(targetElId)!;
 
@@ -128,36 +135,41 @@ class Component<T extends HTMLElement, U extends HTMLElement> {
             this.rootEl.id = newElementId;
         }
 
-        this.attach()
+        this.attach(insertAtStart)
     }
 
+    /**
+     * Attach templateEl into targetEl on screen
+     */
     private attach(insertAtBeginnig: boolean): void {
+        // This is not working (っ °Д °;)っ for event listener
+        // this.renderTargetEl.innerHTML = this.rootEl.outerHTML
         this.renderTargetEl.insertAdjacentElement(
             insertAtBeginnig ? 'afterbegin' : 'beforeend',
             this.rootEl
         );
     }
+
+    abstract configure(): void;
+    abstract renderContent(): void;
+
 }
 
-new Component('project-input', 'app')
-
-class ProjectList {
-    templateEl: HTMLTemplateElement;
-    renderTargetEl: HTMLDivElement;
-    rootEl: HTMLElement;
+class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     assignedProjects?: Project[];
 
     constructor(templateElId: string, targetElId: string, private type: ProjectStatus) {
-        this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
-        this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
-        // Get document fragment (child elements)
-        this.rootEl = this.templateEl.content.querySelector('section')?.cloneNode(true) as HTMLElement;
+        super(templateElId, targetElId, false, `${type}-projects`);
         this.assignedProjects = [];
 
         this.configure();
-        this.render();
-        this.renderList();
+        this.renderContent();
+    }
 
+    /**
+     * Configure an element before render
+     */
+    configure(): void {
         // Add projects to subcriber here
         projectState.addListener((projects: Project[]) => {
             const relevantProjects = projects.filter(project => {
@@ -171,20 +183,13 @@ class ProjectList {
         });
     }
 
-    /**
-     * Configure an element before render
-     */
-    private configure(): void {
-        this.rootEl.id = `${this.type}-projects`
-    }
-
-    private renderList(): void {
+    renderContent(): void {
         const listId = `${this.type}-project-list`;
         this.rootEl.querySelector('ul')!.id = listId;
         this.rootEl.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
     }
 
-    private renderProject(): void {
+    renderProject(): void {
         const listEl = document.getElementById(`${this.type}-project-list`) as HTMLUListElement;
         listEl.innerHTML = '';
         this.assignedProjects?.forEach(prjectItem => {
@@ -193,36 +198,22 @@ class ProjectList {
             listEl?.appendChild(listItemEl);
         });
     }
-
-    /**
-     * Render templateEl into targetEl on screen
-     */
-    private render(): void {
-        this.renderTargetEl.insertAdjacentElement('beforeend', this.rootEl);
-    }
 }
 
-class ProjectInput {
+class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     // HTMLTemplateElement is a interface from "DOM" lib
-    templateEl: HTMLTemplateElement;
-    renderTargetEl: HTMLDivElement;
-    rootEl: HTMLFormElement;
     titleInputEl: HTMLInputElement;
     descriptionInputEl: HTMLInputElement;
     peopleInputEl: HTMLInputElement;
 
     constructor(templateElId: string, targetElId: string) {
-        this.templateEl = document.getElementById(templateElId)! as HTMLTemplateElement;
-        this.renderTargetEl = <HTMLDivElement>document.getElementById(targetElId)!;
-        // Get document fragment (child elements) with deep copy!!
-        this.rootEl = this.templateEl.content.querySelector('form')!.cloneNode(true) as HTMLFormElement;
+        super(templateElId, targetElId, true, 'user-input');
 
         this.titleInputEl = this.rootEl.querySelector('#title') as HTMLInputElement;
         this.descriptionInputEl = this.rootEl.querySelector('#description') as HTMLInputElement;
         this.peopleInputEl = this.rootEl.querySelector('#people') as HTMLInputElement;
 
-        this.configure()
-        this.render()
+        this.configure();
     }
 
     @Autobind
@@ -287,19 +278,14 @@ class ProjectInput {
     /**
      * Configure an element before render
      */
-    private configure(): void {
-        this.rootEl.id = 'user-input'
+    configure(): void {
         this.rootEl.addEventListener('submit', this.submitHandler);
     }
 
-    /**
-     * Render templateEl into targetEl on screen
-     */
-    private render(): void {
-        // This is not working (っ °Д °;)っ for event listener
-        // this.renderTargetEl.innerHTML = this.rootEl.outerHTML
-        this.renderTargetEl.insertAdjacentElement('afterbegin', this.rootEl);
+    renderContent(): void {
+        throw new Error("Method not implemented.");
     }
+
 }
 
 const projectInput = new ProjectInput('project-input', 'app');
