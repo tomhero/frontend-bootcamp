@@ -124,6 +124,18 @@ class ProjectState extends State<Project> {
         );
 
         this.projects.push(newProject);
+        this.updateListeners();
+    }
+
+    moveProject(projectId: string, newStatus: ProjectStatus) {
+        const movingProject = this.projects.find(project => project.id === projectId);
+        if (movingProject && movingProject.status !== newStatus) {
+            movingProject.status = newStatus;
+            this.updateListeners()
+        }
+    }
+
+    private updateListeners() {
         this.listeners.forEach(listener => {
             listener(this.projects.slice());
         });
@@ -216,20 +228,29 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drop
     }
 
     @Autobind
-    dragOverHandler(_event: DragEvent): void {
-        const listEl = this.rootEl.querySelector('ul') as HTMLUListElement;
-        listEl.classList.add('droppable');
+    dragOverHandler(event: DragEvent): void {
+        if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault();
+            const listEl = this.rootEl.querySelector('ul') as HTMLUListElement;
+            listEl.classList.add('droppable');
+        }
     }
 
     @Autobind
-    dropHandler(_event: DragEvent): void {
+    dropHandler(event: DragEvent): void {
+        const projecId = event.dataTransfer!.getData('text/plain');
+        projectState.moveProject(
+            projecId, 
+            this.type === ProjectStatus.Active ? ProjectStatus.Active : ProjectStatus.Finished
+        );
     }
 
     @Autobind
-    dropLeaveHandler(_event: DragEvent): void {
+    dropLeaveHandler(event: DragEvent): void {
         const listEl = this.rootEl.querySelector('ul') as HTMLUListElement;
         listEl.classList.remove('droppable');
     }
+    
 }
 
 class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
@@ -347,12 +368,14 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
         this.rootEl.addEventListener('dragend', this.dragEndHandler);
     }
 
+    @Autobind
     renderContent(): void {
         this.rootEl.querySelector('h2')!.textContent = this.project.title;
         this.rootEl.querySelector('h3')!.textContent = this.persons; // Use getter
         this.rootEl.querySelector('p')!.textContent = this.project.description;
     }
 
+    @Autobind
     dragStartHandler(event: DragEvent): void {
         console.log('start dragging');
         event.dataTransfer!.setData('text/plain', this.project.id);
