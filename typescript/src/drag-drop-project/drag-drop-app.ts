@@ -1,4 +1,17 @@
 // console.log('Welcome to drag and drop app!!');
+
+// Drap and Drop interface
+interface Draggable {
+    dragStartHandler(event: DragEvent): void;
+    dragEndHandler(event: DragEvent): void;
+}
+
+interface Droppable {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dropLeaveHandler(event: DragEvent): void;
+}
+
 interface Validatable {
     value: string | number;
     required?: boolean;
@@ -155,22 +168,26 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 
 }
 
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Droppable {
     assignedProjects?: Project[];
-
+    
     constructor(templateElId: string, targetElId: string, private type: ProjectStatus) {
         super(templateElId, targetElId, false, `${type}-projects`);
         this.assignedProjects = [];
-
+        
         this.configure();
         this.renderContent();
     }
-
+    
     /**
      * Configure an element before render
      */
     configure(): void {
         // Add projects to subcriber here
+        this.rootEl.addEventListener('dragover', this.dragOverHandler);
+        this.rootEl.addEventListener('dragleave', this.dropLeaveHandler);
+        this.rootEl.addEventListener('drop', this.dropHandler);
+
         projectState.addListener((projects: Project[]) => {
             const relevantProjects = projects.filter(project => {
                 if (this.type === ProjectStatus.Active) {
@@ -182,7 +199,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
             this.renderProject();
         });
     }
-
+    
     renderContent(): void {
         const listId = `${this.type}-project-list`;
         this.rootEl.querySelector('ul')!.id = listId;
@@ -192,11 +209,26 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     renderProject(): void {
         const listEl = document.getElementById(`${this.type}-project-list`) as HTMLUListElement;
         listEl.innerHTML = '';
-        this.assignedProjects?.forEach(prjectItem => {
-            const listItemEl = document.createElement('li');
-            listItemEl.textContent = prjectItem.title;
-            listEl?.appendChild(listItemEl);
+        this.assignedProjects?.forEach(projectItem => {
+            // new ProjectItem('single-project', this.rootEl.id, projectItem); // This still work!!
+            new ProjectItem('single-project', this.rootEl.querySelector('ul')!.id, projectItem);
         });
+    }
+
+    @Autobind
+    dragOverHandler(_event: DragEvent): void {
+        const listEl = this.rootEl.querySelector('ul') as HTMLUListElement;
+        listEl.classList.add('droppable');
+    }
+
+    @Autobind
+    dropHandler(_event: DragEvent): void {
+    }
+
+    @Autobind
+    dropLeaveHandler(_event: DragEvent): void {
+        const listEl = this.rootEl.querySelector('ul') as HTMLUListElement;
+        listEl.classList.remove('droppable');
     }
 }
 
@@ -205,17 +237,17 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     titleInputEl: HTMLInputElement;
     descriptionInputEl: HTMLInputElement;
     peopleInputEl: HTMLInputElement;
-
+    
     constructor(templateElId: string, targetElId: string) {
         super(templateElId, targetElId, true, 'user-input');
-
+        
         this.titleInputEl = this.rootEl.querySelector('#title') as HTMLInputElement;
         this.descriptionInputEl = this.rootEl.querySelector('#description') as HTMLInputElement;
         this.peopleInputEl = this.rootEl.querySelector('#people') as HTMLInputElement;
-
+        
         this.configure();
     }
-
+    
     @Autobind
     private submitHandler(event: Event) {
         event.preventDefault()
@@ -284,6 +316,51 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 
     renderContent(): void {
         throw new Error("Method not implemented.");
+    }
+
+}
+
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable {
+
+    private project: Project;
+
+    get persons(): string {
+        if (this.project.people === 1) {
+            return 'one person'
+        } else {
+            return `${this.project.people} persons`
+        }
+    }
+
+    constructor(templateElId: string, targetElId: string, project: Project) {
+        super(templateElId, targetElId, false, project.id);
+        this.project = project;
+
+        this.configure();
+        this.renderContent();
+    }
+
+    @Autobind
+    configure(): void {
+        this.rootEl.draggable = true;
+        this.rootEl.addEventListener('dragstart', this.dragStartHandler);
+        this.rootEl.addEventListener('dragend', this.dragEndHandler);
+    }
+
+    renderContent(): void {
+        this.rootEl.querySelector('h2')!.textContent = this.project.title;
+        this.rootEl.querySelector('h3')!.textContent = this.persons; // Use getter
+        this.rootEl.querySelector('p')!.textContent = this.project.description;
+    }
+
+    dragStartHandler(event: DragEvent): void {
+        console.log('start dragging');
+        event.dataTransfer!.setData('text/plain', this.project.id);
+        event.dataTransfer!.effectAllowed = 'mone';
+        
+    }
+    dragEndHandler(event: DragEvent): void {
+        console.log('drag ending');
     }
 
 }
