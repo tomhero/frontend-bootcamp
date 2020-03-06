@@ -1,6 +1,6 @@
 import { Droppable } from '../models/drag-drop.js'
 import { Autobind } from "../decorators/autobind.js";
-import { Component } from "./base-component.js";
+import Component from "./base-component.js";
 import { ProjectItem } from "./project-item.js";
 import { Project, ProjectStatus } from "../models/project-model.js";
 import { projectState } from "../state/project-state.js";

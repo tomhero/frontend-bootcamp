@@ -1,9 +1,9 @@
-import { Component } from "./base-component.js";
-import { Validatable, validateInput } from "../util/validation.js";
-import { Autobind } from "../decorators/autobind.js";
+import BaseComponent from "./base-component.js"; // the name is up to you because of default export
+import * as validation from "../util/validation.js"; // alias
+import { Autobind as AutoBind } from "../decorators/autobind.js"; // rename
 import { projectState } from "../state/project-state.js";
 
-export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+export class ProjectInput extends BaseComponent<HTMLDivElement, HTMLFormElement> {
     // HTMLTemplateElement is a interface from "DOM" lib
     titleInputEl: HTMLInputElement;
     descriptionInputEl: HTMLInputElement;
@@ -19,7 +19,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
         this.configure();
     }
 
-    @Autobind
+    @AutoBind
     private submitHandler(event: Event) {
         event.preventDefault()
         const userInput = this.gatherUserInput();
@@ -44,18 +44,18 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
         const enteredDescription = this.descriptionInputEl.value
         const enteredPeople = this.peopleInputEl.value
 
-        const titleValidatable: Validatable = {
+        const titleValidatable: validation.Validatable = {
             value: enteredTitle,
             required: true
         }
 
-        const descriptionValidatable: Validatable = {
+        const descriptionValidatable: validation.Validatable = {
             value: enteredDescription,
             minLength: 3,
             maxLength: 120
         }
 
-        const peopleValidatable: Validatable = {
+        const peopleValidatable: validation.Validatable = {
             value: +enteredPeople,
             required: true,
             min: 1,
@@ -63,9 +63,9 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
         }
 
         if (
-            !validateInput(titleValidatable) ||
-            !validateInput(descriptionValidatable) ||
-            !validateInput(peopleValidatable)
+            !validation.validateInput(titleValidatable) ||
+            !validation.validateInput(descriptionValidatable) ||
+            !validation.validateInput(peopleValidatable)
         ) {
             alert('Invalid input found');
             return;
