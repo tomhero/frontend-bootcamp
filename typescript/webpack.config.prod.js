@@ -3,10 +3,10 @@ const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'production',
-    entry: './src/drag-drop-project/drag-drop-app.ts',
+    entry: './src/typescript-with-3rdparty/use-3rdparty.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist/drag-drop-project')
+        path: path.resolve(__dirname, 'dist/typescript-with-3rdparty')
     },
     devtool: 'none',
     module: {
