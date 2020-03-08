@@ -13,9 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.15",
     "onchange": "^6.1.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.149",
     "clean-webpack-plugin": "^3.0.0",
     "ts-loader": "^6.2.1",
     "typescript": "3.8.3",
