@@ -1,7 +1,7 @@
-import BaseComponent from "./base-component.js"; // the name is up to you because of default export
-import * as validation from "../util/validation.js"; // alias
-import { Autobind as AutoBind } from "../decorators/autobind.js"; // rename
-import { projectState } from "../state/project-state.js";
+import BaseComponent from "./base-component"; // the name is up to you because of default export
+import * as validation from "../util/validation"; // alias
+import { Autobind as AutoBind } from "../decorators/autobind"; // rename
+import { projectState } from "../state/project-state";
 
 export class ProjectInput extends BaseComponent<HTMLDivElement, HTMLFormElement> {
     // HTMLTemplateElement is a interface from "DOM" lib

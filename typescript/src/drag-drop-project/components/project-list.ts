@@ -1,9 +1,9 @@
-import { Droppable } from '../models/drag-drop.js'
-import { Autobind } from "../decorators/autobind.js";
-import Component from "./base-component.js";
-import { ProjectItem } from "./project-item.js";
-import { Project, ProjectStatus } from "../models/project-model.js";
-import { projectState } from "../state/project-state.js";
+import { Droppable } from '../models/drag-drop'
+import { Autobind } from "../decorators/autobind";
+import Component from "./base-component";
+import { ProjectItem } from "./project-item";
+import { Project, ProjectStatus } from "../models/project-model";
+import { projectState } from "../state/project-state";
 
 export class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Droppable {
     assignedProjects?: Project[];

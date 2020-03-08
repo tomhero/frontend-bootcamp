@@ -1,7 +1,7 @@
 // console.log('Welcome to drag and drop app!!');
-import { ProjectInput } from "./components/project-input.js";
-import { ProjectList } from "./components/project-list.js";
-import { ProjectStatus } from "./models/project-model.js";
+import { ProjectInput } from "./components/project-input";
+import { ProjectList } from "./components/project-list";
+import { ProjectStatus } from "./models/project-model";
 // `///` <-- this is a typscript syntax!! | use it to import namespace!!
 /// <reference path="models/drag-drop.ts" /> |
 
