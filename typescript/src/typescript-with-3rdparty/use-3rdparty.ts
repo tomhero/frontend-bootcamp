@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { plainToClass } from "../../node_modules/class-transformer/index";
+import { validate } from "../../node_modules/class-validator/index";
 
 import _ from 'lodash';
 import { Product } from "./product.model";
@@ -21,6 +22,18 @@ const products = [
 //     return new Product(product.title, product.price)
 // })
 
+// load with class class-transformer
 const loadedProducts = plainToClass(Product, products);
 
-console.log(loadedProducts[0]);
+const newProd = new Product('testestsetestset', -789);
+
+console.log('loadedProducts', loadedProducts[0]);
+
+validate(newProd).then(error => {
+    if (error.length > 0) {
+        console.log('Error validation');
+        console.log(error);
+    }
+    console.log(newProd.getInformation());
+})
+
