@@ -2,11 +2,11 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/google-maps-project/script.ts',
+    entry: './src/share-loma-project/script.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist/google-maps-project'),
-        publicPath: 'dist/google-maps-project'
+        path: path.resolve(__dirname, 'dist/share-loma-project'),
+        publicPath: 'dist/share-loma-project'
     },
     devtool: 'inline-source-map',
     module: {
@@ -23,8 +23,8 @@ module.exports = {
         extensions: ['.ts', '.js']
     },
     devServer: {
-        index: path.resolve(__dirname, 'src/google-maps-project/share-lo-ma.html'),
+        index: path.resolve(__dirname, 'src/share-loma-project/share-lo-ma.html'),
         open: true,
-        openPage: 'src/google-maps-project/share-lo-ma.html'
+        openPage: 'src/share-loma-project/share-lo-ma.html'
     }
 }
