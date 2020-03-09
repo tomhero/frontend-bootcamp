@@ -2,11 +2,11 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/drag-drop-project/drag-drop-app.ts',
+    entry: './src/google-maps-project/script.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist/drag-drop-project'),
-        publicPath: 'dist/drag-drop-project'
+        path: path.resolve(__dirname, 'dist/google-maps-project'),
+        publicPath: 'dist/google-maps-project'
     },
     devtool: 'inline-source-map',
     module: {
@@ -23,8 +23,8 @@ module.exports = {
         extensions: ['.ts', '.js']
     },
     devServer: {
-        index: path.resolve(__dirname, 'src/drag-drop-project/drag-and-drop.html'),
+        index: path.resolve(__dirname, 'src/google-maps-project/share-lo-ma.html'),
         open: true,
-        openPage: 'src/drag-drop-project/drag-and-drop.html'
+        openPage: 'src/google-maps-project/share-lo-ma.html'
     }
 }

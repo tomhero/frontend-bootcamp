@@ -18,8 +18,8 @@
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
     "sourceMap": true,                     /* Generates corresponding '.map' file. */
     // "outFile": "./dist/drag-drop-project/bundel.js",                       /* Concatenate and emit output to single file. */
-    "outDir": "./dist/typescript-with-3rdparty",                        /* Redirect output structure to the directory. */
-    "rootDir": "./src/typescript-with-3rdparty",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "outDir": "./dist/google-maps-project",                        /* Redirect output structure to the directory. */
+    "rootDir": "./src/google-maps-project",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "composite": true,                     /* Enable project compilation */
     // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */
     // "removeComments": true,                /* Do not emit comments to output. */
@@ -73,6 +73,6 @@
     "node_modules" // This is the default exclude dir
   ],
   "include": [
-    "src/typescript-with-3rdparty"
+    "src/google-maps-project"
   ]
 }
