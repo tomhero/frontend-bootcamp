@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Person from './Person/Person'
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         >
           Learn React
         </a>
+        <Person name="Tom" age="20"/>
+        <Person name="Art" age="30">This is Chlidren</Person>
       </header>
     </div>
   );
