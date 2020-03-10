@@ -41,6 +41,18 @@ class App extends React.Component {
       cursor: 'pointer'
     };
 
+    let personList = <br/>;
+    // conditional rendering with JS way!!
+    if (this.state.showPerson) {
+      personList =  (
+        <div>
+          <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+          <Person name={this.state.persons[1].name} age={this.state.persons[1].age} ></Person>
+          <Person name={this.state.persons[2].name} age={this.state.persons[2].age} >This is Chlidren</Person>
+        </div>
+      )
+    }
+
     return (
       <div className="App">
         <header className="App-header">
@@ -71,14 +83,7 @@ class App extends React.Component {
           }>
             Click for Toggle
           </button>
-          {this.state.showPerson ?
-            // Please use only one child for conditional rendering
-            <div>
-              <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-              <Person name={this.state.persons[1].name} age={this.state.persons[1].age} ></Person>
-              <Person name={this.state.persons[2].name} age={this.state.persons[2].age} >This is Chlidren</Person>
-            </div>
-            : <br />}
+          {personList}
           <i>{this.state.otherState}</i>
         </header>
       </div>
