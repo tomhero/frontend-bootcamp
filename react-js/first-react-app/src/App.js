@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import Radium from "radium";
 import './App.css';
 import Person from './Person/Person'
 
@@ -65,7 +66,11 @@ class App extends React.Component {
       backgroundColor: 'lightgreen',
       border: '1px solid blue',
       padding: '4px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'green',
+        color: 'white'
+      }
     };
 
     let personList = <br />;
@@ -85,6 +90,9 @@ class App extends React.Component {
         </div>
       )
       style.backgroundColor = 'pink';
+      style[':hover'] = {
+        backgroundColor: 'salmon'
+      }
     }
 
     // let classes = ['red', 'bold'].join(' '); // --> "red bold"
@@ -115,4 +123,5 @@ class App extends React.Component {
   }
 }
 
-export default App;
+// Radium is a high order component!!
+export default Radium(App);
