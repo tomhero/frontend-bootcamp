@@ -87,11 +87,21 @@ class App extends React.Component {
       style.backgroundColor = 'pink';
     }
 
+    // let classes = ['red', 'bold'].join(' '); // --> "red bold"
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push('red') // class = ['red']
+    }
+
+    if (this.state.persons.length <= 1) {
+      classes.push('bold') // class = ['red', 'bold']
+    }
+
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <br />
+          <p className={classes.join(' ')}> This is really working </p>
           <button style={style} onClick={
             this.toggleHandler.bind(this)
           }>
