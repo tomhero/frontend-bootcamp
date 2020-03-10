@@ -61,7 +61,8 @@ class App extends React.Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      // This JS with css code can not use :psudo feature of css
+      backgroundColor: 'lightgreen',
       border: '1px solid blue',
       padding: '4px',
       cursor: 'pointer'
@@ -83,6 +84,7 @@ class App extends React.Component {
           })}
         </div>
       )
+      style.backgroundColor = 'pink';
     }
 
     return (
