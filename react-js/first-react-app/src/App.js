@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from './logo.svg';
 import './App.css';
+import footerStyle from './Footer.module.css'
 import Person from './Person/Person';
 
 // `styled.button` is a component with props 
@@ -113,7 +114,7 @@ class App extends React.Component {
             Click for Toggle
           </StyledButton>
           {personList}
-          <i>{this.state.otherState}</i>
+          <i className={footerStyle.upper}>{this.state.otherState}</i>
         </header>
       </div>
     );

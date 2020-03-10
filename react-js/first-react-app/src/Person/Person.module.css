@@ -12,3 +12,9 @@
     color: aliceblue;
     background-color: orangered;
 }
+
+@media (min-width: 500px) {
+    .person-item  {
+        width: '450px'
+    }
+}
