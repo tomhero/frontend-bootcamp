@@ -4,3 +4,11 @@
     border: 1px solid blueviolet;
     cursor: pointer;
 }
+.person-item > p {
+    transition: all 0.25s linear;
+    padding: .25rem;
+}
+.person-item > p:hover {
+    color: aliceblue;
+    background-color: orangered;
+}

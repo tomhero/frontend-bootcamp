@@ -7,9 +7,9 @@ class App extends React.Component {
 
   state = {
     persons: [
-      { name: 'Tom', age: 23 },
-      { name: 'Que', age: 29 },
-      { name: 'Art', age: 30 }
+      { id: Math.random().toString(), name: 'Tom', age: 23 },
+      { id: Math.random().toString(), name: 'Que', age: 29 },
+      { id: Math.random().toString(), name: 'Art', age: 30 }
     ],
     showPerson: true,
     otherState: 'some others state!!?'
@@ -23,6 +23,22 @@ class App extends React.Component {
         { name: 'Que', age: 29 },
         { name: 'Art', age: 30 }
       ]
+    })
+  }
+
+  nameChangedHandler = (target, id) => {
+    const personIndex = this.state.persons.findIndex(person => person.id === id);
+    // Clonning is very impoertant!!
+    const person = {...this.state.persons[personIndex]};
+
+    person.name = target.value;
+
+    // Clonning is very impoertant!!
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({
+      persons: persons
     })
   }
 
@@ -60,9 +76,10 @@ class App extends React.Component {
             // key={index} <-- this is nessessary.
             return <Person
               click={this.deletePersonHandler.bind(this, index)}
+              change={({target}) => this.nameChangedHandler(target, person.id)}
               name={person.name}
               age={person.age}
-              key={index} />
+              key={person.id} />
           })}
         </div>
       )
