@@ -1,8 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 import logo from './logo.svg';
-import Radium, { StyleRoot } from "radium";
 import './App.css';
-import Person from './Person/Person'
+import Person from './Person/Person';
+
+const StyledButton = styled.button`
+  background-color: lightgreen;
+  border: 1px solid blue;
+  padding: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: green;
+    color: white;
+  }
+`;
 
 class App extends React.Component {
 
@@ -16,7 +28,7 @@ class App extends React.Component {
     otherState: 'some others state!!?'
   }
 
-  // In a class component ou need to use arrow function as a handler
+  // In a class component you need to use arrow function as a handler
   switchNameHandler = (newName) => {
     this.setState({
       persons: [
@@ -30,7 +42,7 @@ class App extends React.Component {
   nameChangedHandler = (target, id) => {
     const personIndex = this.state.persons.findIndex(person => person.id === id);
     // Clonning is very impoertant!!
-    const person = {...this.state.persons[personIndex]};
+    const person = { ...this.state.persons[personIndex] };
 
     person.name = target.value;
 
@@ -66,11 +78,11 @@ class App extends React.Component {
       backgroundColor: 'lightgreen',
       border: '1px solid blue',
       padding: '4px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'green',
-        color: 'white'
-      }
+      cursor: 'pointer'
+      // ':hover': {
+      //   backgroundColor: 'green',
+      //   color: 'white'
+      // }
     };
 
     let personList = <br />;
@@ -82,7 +94,7 @@ class App extends React.Component {
             // key={index} <-- this is nessessary.
             return <Person
               click={this.deletePersonHandler.bind(this, index)}
-              change={({target}) => this.nameChangedHandler(target, person.id)}
+              change={({ target }) => this.nameChangedHandler(target, person.id)}
               name={person.name}
               age={person.age}
               key={person.id} />
@@ -107,24 +119,20 @@ class App extends React.Component {
 
     return (
       // StyleRoot use with radium with @media query
-      <StyleRoot>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p className={classes.join(' ')}> This is really working </p>
-            <button style={style} onClick={
-              this.toggleHandler.bind(this)
-            }>
-              Click for Toggle
-            </button>
-            {personList}
-            <i>{this.state.otherState}</i>
-          </header>
-        </div>
-      </StyleRoot>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p className={classes.join(' ')}> This is really working </p>
+          <StyledButton onClick={this.toggleHandler.bind(this)}>
+            Click for Toggle
+          </StyledButton>
+          {personList}
+          <i>{this.state.otherState}</i>
+        </header>
+      </div>
     );
   }
 }
 
 // Radium is a high order component!!
-export default Radium(App);
+export default App;
