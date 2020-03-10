@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from './logo.svg';
 import './App.css';
 import footerStyle from './Footer.module.css'
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
 
 // `styled.button` is a component with props 
 const StyledButton = styled.button`
@@ -108,7 +107,6 @@ class App extends React.Component {
       // StyleRoot use with radium with @media query
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <p className={classes.join(' ')}> This is really working </p>
           <StyledButton toggleColor={this.state.showPerson} onClick={this.toggleHandler.bind(this)}>
             Click for Toggle
