@@ -4,14 +4,15 @@ import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
 
+// `styled.button` is a component with props 
 const StyledButton = styled.button`
-  background-color: lightgreen;
+  background-color: ${props => props.toggleColor ? 'pink' : 'lightgreen'};
   border: 1px solid blue;
   padding: 4px;
   cursor: pointer;
 
   &:hover {
-    background-color: green;
+    background-color: ${props => props.toggleColor ? 'salmon' : 'green'};
     color: white;
   }
 `;
@@ -73,17 +74,6 @@ class App extends React.Component {
   }
 
   render() {
-    const style = {
-      // This JS with css code can not use :psudo feature of css
-      backgroundColor: 'lightgreen',
-      border: '1px solid blue',
-      padding: '4px',
-      cursor: 'pointer'
-      // ':hover': {
-      //   backgroundColor: 'green',
-      //   color: 'white'
-      // }
-    };
 
     let personList = <br />;
     // conditional rendering with JS way!!
@@ -101,10 +91,6 @@ class App extends React.Component {
           })}
         </div>
       )
-      style.backgroundColor = 'pink';
-      style[':hover'] = {
-        backgroundColor: 'salmon'
-      }
     }
 
     // let classes = ['red', 'bold'].join(' '); // --> "red bold"
@@ -123,7 +109,7 @@ class App extends React.Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p className={classes.join(' ')}> This is really working </p>
-          <StyledButton onClick={this.toggleHandler.bind(this)}>
+          <StyledButton toggleColor={this.state.showPerson} onClick={this.toggleHandler.bind(this)}>
             Click for Toggle
           </StyledButton>
           {personList}
