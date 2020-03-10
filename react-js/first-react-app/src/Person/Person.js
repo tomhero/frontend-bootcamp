@@ -1,8 +1,11 @@
 import React from 'react';
+import './Person.css'
 
 const person = (props) => {
     return (
-            <p>I'm Person | {props.name} | {props.age} | {props.children}</p>
+            <div className="person-item" onClick={props.click}>
+                <p>I'm Person | {props.name} | {props.age} | {props.children}</p>
+            </div>
         )
 }
 

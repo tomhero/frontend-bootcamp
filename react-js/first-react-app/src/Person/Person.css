@@ -1,0 +1,6 @@
+.person-item {
+    margin: 1rem;
+    padding: .5rem;
+    border: 1px solid blueviolet;
+    cursor: pointer;
+}

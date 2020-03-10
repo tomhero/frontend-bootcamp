@@ -26,6 +26,16 @@ class App extends React.Component {
     })
   }
 
+  deletePersonHandler = (pIndex) => {
+    // Just clone it before di sonething with your state
+    let newPersons = [...this.state.persons];
+    newPersons.splice(pIndex, 1);
+    this.setState({
+      persons: newPersons
+    });
+    console.log(newPersons);
+  }
+
   toggleHandler = () => {
     console.log('Toggling...');
     this.setState({
@@ -41,14 +51,19 @@ class App extends React.Component {
       cursor: 'pointer'
     };
 
-    let personList = <br/>;
+    let personList = <br />;
     // conditional rendering with JS way!!
     if (this.state.showPerson) {
-      personList =  (
+      personList = (
         <div>
-          <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-          <Person name={this.state.persons[1].name} age={this.state.persons[1].age} ></Person>
-          <Person name={this.state.persons[2].name} age={this.state.persons[2].age} >This is Chlidren</Person>
+          {this.state.persons.map((person, index) => {
+            // key={index} <-- this is nessessary.
+            return <Person
+              click={this.deletePersonHandler.bind(this, index)}
+              name={person.name}
+              age={person.age}
+              key={index} />
+          })}
         </div>
       )
     }
@@ -57,26 +72,6 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <br></br>
-          <button style={style} onClick={
-            () => this.switchNameHandler(this.state.persons[0].name.toUpperCase())
-          }>
-            Click for UPPER
-          </button>
-          <br />
-          <button style={style} onClick={
-            this.switchNameHandler.bind(this, this.state.persons[0].name.toLowerCase())
-          }>
-            Click for lower
-          </button>
           <br />
           <button style={style} onClick={
             this.toggleHandler.bind(this)
