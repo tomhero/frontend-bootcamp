@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import Radium from "radium";
+import Radium, { StyleRoot } from "radium";
 import './App.css';
 import Person from './Person/Person'
 
@@ -106,19 +106,22 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p className={classes.join(' ')}> This is really working </p>
-          <button style={style} onClick={
-            this.toggleHandler.bind(this)
-          }>
-            Click for Toggle
-          </button>
-          {personList}
-          <i>{this.state.otherState}</i>
-        </header>
-      </div>
+      // StyleRoot use with radium with @media query
+      <StyleRoot>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <p className={classes.join(' ')}> This is really working </p>
+            <button style={style} onClick={
+              this.toggleHandler.bind(this)
+            }>
+              Click for Toggle
+            </button>
+            {personList}
+            <i>{this.state.otherState}</i>
+          </header>
+        </div>
+      </StyleRoot>
     );
   }
 }
