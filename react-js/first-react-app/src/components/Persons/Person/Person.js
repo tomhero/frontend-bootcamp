@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import personStyle from './Person.module.css';
 // import Aux from "../../../hoc/Auxiliary";
 import withClass from '../../../hoc/withClass'
 
-const Person = (props) => {
-    console.log('rendering...');
-    return (
-        // <div className={personStyle['person-item']}>
-        // <Aux> component does the React.createElement() function call then send chidren pass down to itself.
-        // Same as <React.Fragment>
-        <React.Fragment>
-            <p onClick={props.click}>I'm Person | {props.name} | {props.age} | {props.children}</p>
-            <input onChange={props.change} value={props.name} type="text" />
-        </React.Fragment>
-        // </div>
-    )
+class Person extends Component {
+
+    // since react 16.3 --> React.createRef();
+    constructor(props) {
+        super(props);
+        this.nameInputRef = React.createRef(); // $ref In Vue JS
+    }
+
+    componentDidMount() {
+        // this.nameInputEl.focus();
+        this.nameInputRef.current.focus();
+    }
+
+    render() {
+        console.log('rendering...');
+        return (
+            <React.Fragment>
+                <p onClick={this.props.click}>I'm Person | {this.props.name} | {this.props.age} | {this.props.children}</p>
+                <input 
+                    onChange={this.props.change} 
+                    value={this.props.name} 
+                    type="text"
+                    // ref={(myInputEl) => {this.nameInputEl = myInputEl}}
+                    ref={this.nameInputRef} // $ref In Vue JS
+                     />
+            </React.Fragment>
+        )
+    }
 
 }
 
