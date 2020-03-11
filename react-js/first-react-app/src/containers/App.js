@@ -24,6 +24,7 @@ class App extends React.Component {
     showPerson: false,
     showCockpit: true,
     otherState: 'some others state!!?',
+    authenticated: false,
     changeCounter: 0 // For tracking purpose
   }
 
@@ -80,6 +81,10 @@ class App extends React.Component {
     });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   // 3rd lifecycle call
   render() {
     console.log('render...')
@@ -90,7 +95,8 @@ class App extends React.Component {
         <Persons
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.nameChangedHandler} />
+          changed={this.nameChangedHandler}
+          isAuthenticated={this.state.authenticated} />
     }
 
     return (
@@ -100,7 +106,8 @@ class App extends React.Component {
         {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
           personsLength={this.state.persons.length}
           click={this.toggleHandler.bind(this)}
-          title={this.props.appTitle}></Cockpit> : null
+          title={this.props.appTitle}
+          login={this.loginHandler.bind(this)}></Cockpit> : null
         }
         {personList}
         <i className={footerStyle.upper}>{this.state.otherState}</i>

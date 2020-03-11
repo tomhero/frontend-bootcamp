@@ -58,10 +58,13 @@ const Cockpit = props => {
             <h2>{props.title}</h2>
             <p className={classes.join(' ')}> This is really working </p>
             <StyledButton 
-                ref={toggleButtonRef}
+                ref={toggleButtonRef} // $ref In Vue JS
                 toggleColor={props.showPerson}
                 onClick={props.click}>
                 Click for Toggle
+            </StyledButton>
+            <StyledButton onClick={props.login}>
+                Login
             </StyledButton>
         </div>
     );
