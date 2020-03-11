@@ -1,16 +1,46 @@
-import React from "react";
+import React, { Component } from "react";
 import Person from "./Person/Person";
 
-const persons = props => {
-    console.log('rendering...');
-    return props.persons.map((person, index) => {
-        return <Person
-            click={() => props.clicked(index)}
-            change={({ target }) => props.changed(target, person.id)}
-            name={person.name}
-            age={person.age}
-            key={person.id} />
-    });
+class Persons extends Component {
+
+    // 1st update lifecycle
+    // static getDerivedStateFromProps(props, state) {
+    //     // Don't use this if component have no state!!
+    //     console.log('getDerivedStateFromProps', props);
+    //     return state;
+    // }
+
+    // 2nd update lifecycle
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('shouldComponentUpdate');
+        return true;
+    }
+
+    // 3rd update lifecycle
+    render() {
+        console.log('rendering...');
+        return this.props.persons.map((person, index) => {
+            return <Person
+                click={() => this.props.clicked(index)}
+                change={({ target }) => this.props.changed(target, person.id)}
+                name={person.name}
+                age={person.age}
+                key={person.id} />
+        });
+    }
+
+    // 4th update lifecycle
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('getSnapshotBeforeUpdate');
+        return { message: 'Snapshot!!' };
+    }
+
+    // 5th update lifecycle
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('componentDidUpdate');
+        console.log(snapshot);
+    }
+
 }
 
-export default persons;
+export default Persons;
