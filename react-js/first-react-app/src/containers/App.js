@@ -1,21 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import './App.css';
 import footerStyle from './Footer.module.css'
-import Person from '../components/Persons/Person/Person';
-
-// `styled.button` is a component with props 
-const StyledButton = styled.button`
-  background-color: ${props => props.toggleColor ? 'pink' : 'lightgreen'};
-  border: 1px solid blue;
-  padding: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${props => props.toggleColor ? 'salmon' : 'green'};
-    color: white;
-  }
-`;
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends React.Component {
 
@@ -78,39 +65,20 @@ class App extends React.Component {
     let personList = <br />;
     // conditional rendering with JS way!!
     if (this.state.showPerson) {
-      personList = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            // key={index} <-- this is nessessary.
-            return <Person
-              click={this.deletePersonHandler.bind(this, index)}
-              change={({ target }) => this.nameChangedHandler(target, person.id)}
-              name={person.name}
-              age={person.age}
-              key={person.id} />
-          })}
-        </div>
-      )
-    }
-
-    // let classes = ['red', 'bold'].join(' '); // --> "red bold"
-    const classes = [];
-    if (this.state.persons.length <= 2) {
-      classes.push('red') // class = ['red']
-    }
-
-    if (this.state.persons.length <= 1) {
-      classes.push('bold') // class = ['red', 'bold']
+      personList =
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler} />
     }
 
     return (
       // StyleRoot use with radium with @media query
       <div className="App">
         <header className="App-header">
-          <p className={classes.join(' ')}> This is really working </p>
-          <StyledButton toggleColor={this.state.showPerson} onClick={this.toggleHandler.bind(this)}>
-            Click for Toggle
-          </StyledButton>
+          <Cockpit showPerson={this.state.showPerson}
+            persons={this.state.persons}
+            click={this.toggleHandler.bind(this)}></Cockpit>
           {personList}
           <i className={footerStyle.upper}>{this.state.otherState}</i>
         </header>
