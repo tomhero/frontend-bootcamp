@@ -3,7 +3,8 @@ import './App.css';
 import footerStyle from './Footer.module.css'
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from "../hoc/WithClass";
+import withClass from "../hoc/withClass";
+import Aux from '../hoc/Auxiliary';
 
 class App extends React.Component {
 
@@ -88,7 +89,7 @@ class App extends React.Component {
 
     return (
       // StyleRoot use with radium with @media query
-      <WithClass classes={"App"}>
+      <Aux>
         <button onClick={() => this.setState({ showCockpit: !this.state.showCockpit })}> Toggle Cockpit </button>
         {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
           personsLength={this.state.persons.length}
@@ -97,7 +98,7 @@ class App extends React.Component {
         }
         {personList}
         <i className={footerStyle.upper}>{this.state.otherState}</i>
-      </WithClass>
+      </Aux>
     );
   }
 
@@ -121,5 +122,5 @@ class App extends React.Component {
 
 }
 
-// Radium is a high order component!!
-export default App;
+// withClass is a (custom) high order component!!
+export default withClass(App, "App");

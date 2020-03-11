@@ -1,9 +1,12 @@
 import React from "react";
 
-const WithClass = props => (
-    <div className={props.classes}>
-        {props.children}
-    </div>
-)
+// HOC can hold more than one argument and return function that return JSX
+const WithClass = (WrappedComponent, className) => {
+    return props => (
+        <div className={className}>
+            <WrappedComponent />
+        </div>
+    );
+}
 
 export default WithClass;
