@@ -4,6 +4,8 @@ import personStyle from './Person.module.css';
 // import Aux from "../../../hoc/Auxiliary";
 import withClass from '../../../hoc/withClass'
 
+import AuthContext from '../../../contexts/auth-context'
+
 class Person extends Component {
 
     // since react 16.3 --> React.createRef();
@@ -21,7 +23,10 @@ class Person extends Component {
         console.log('rendering...');
         return (
             <React.Fragment>
-                {this.props.isAuth ? <span>Logined</span> : <span>Please login first</span>}
+                <AuthContext.Consumer>
+                    {/* Under the AuthContext.Consumer please use {(context) => <jsx></jsx>} syntax */}
+                    {(context) => context.authenticated ? <span>Logined</span> : <span>Please login first</span>}
+                </AuthContext.Consumer>
                 <p onClick={this.props.click}>I'm Person | {this.props.name} | {this.props.age} | {this.props.children}</p>
                 <input 
                     onChange={this.props.change} 

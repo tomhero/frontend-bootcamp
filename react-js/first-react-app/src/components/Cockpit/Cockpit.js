@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import styled from 'styled-components';
 import './Cockpit.css'
 
+import AuthContext from '../../contexts/auth-context'
+
 // `styled.button` is a component with props 
 const StyledButton = styled.button`
     background-color: ${props => props.toggleColor ? 'pink' : 'lightgreen'};
@@ -63,9 +65,13 @@ const Cockpit = props => {
                 onClick={props.click}>
                 Click for Toggle
             </StyledButton>
-            <StyledButton onClick={props.login}>
-                Login
-            </StyledButton>
+            <AuthContext.Consumer>
+                {context => 
+                    <StyledButton onClick={context.login}>
+                        Login
+                    </StyledButton>
+                }
+            </AuthContext.Consumer>
         </div>
     );
 }

@@ -6,6 +6,8 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from "../hoc/withClass";
 import Aux from '../hoc/Auxiliary';
 
+import AuthContext from '../contexts/auth-context'
+
 class App extends React.Component {
 
   // 1st lifecycle call
@@ -103,13 +105,15 @@ class App extends React.Component {
       // StyleRoot use with radium with @media query
       <Aux>
         <button onClick={() => this.setState({ showCockpit: !this.state.showCockpit })}> Toggle Cockpit </button>
-        {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
-          personsLength={this.state.persons.length}
-          click={this.toggleHandler.bind(this)}
-          title={this.props.appTitle}
-          login={this.loginHandler.bind(this)}></Cockpit> : null
-        }
-        {personList}
+        {/* .Provider wraps components with context (global value along components) */}
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler.bind(this)}}>
+          {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
+            personsLength={this.state.persons.length}
+            click={this.toggleHandler.bind(this)}
+            title={this.props.appTitle}></Cockpit> : null
+          }
+          {personList}
+        </AuthContext.Provider>
         <i className={footerStyle.upper}>{this.state.otherState}</i>
       </Aux>
     );
