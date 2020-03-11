@@ -14,19 +14,22 @@ class Person extends Component {
         this.nameInputRef = React.createRef(); // $ref In Vue JS
     }
 
+    // Rreact 16.6 and newer
+    // NOTE : Access via this.context (only in class component)
+    static contextType = AuthContext;
+
     componentDidMount() {
         // this.nameInputEl.focus();
         this.nameInputRef.current.focus();
+        console.log('context.authenticated', this.context.authenticated);
     }
 
     render() {
         console.log('rendering...');
         return (
             <React.Fragment>
-                <AuthContext.Consumer>
-                    {/* Under the AuthContext.Consumer please use {(context) => <jsx></jsx>} syntax */}
-                    {(context) => context.authenticated ? <span>Logined</span> : <span>Please login first</span>}
-                </AuthContext.Consumer>
+                {/* <AuthContext.Consumer> */}
+                {this.context.authenticated ? <span>Logined</span> : <span>Please login first</span>}
                 <p onClick={this.props.click}>I'm Person | {this.props.name} | {this.props.age} | {this.props.children}</p>
                 <input 
                     onChange={this.props.change} 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import styled from 'styled-components';
 import './Cockpit.css'
 
@@ -22,6 +22,9 @@ const Cockpit = props => {
 
     const toggleButtonRef = useRef(null);
     // toggleButtonRef.current.click(); // You cannot do this here because of hook procedure
+
+    // Context API in React Hook
+    const context = useContext(AuthContext);
 
     useEffect(() => {
         console.log('useEffect');
@@ -65,13 +68,9 @@ const Cockpit = props => {
                 onClick={props.click}>
                 Click for Toggle
             </StyledButton>
-            <AuthContext.Consumer>
-                {context => 
-                    <StyledButton onClick={context.login}>
-                        Login
-                    </StyledButton>
-                }
-            </AuthContext.Consumer>
+            <StyledButton onClick={context.login}>
+                Login
+            </StyledButton>
         </div>
     );
 }
