@@ -1,7 +1,8 @@
 .person-item {
-    margin: 1rem;
+    margin: 1rem auto;
     padding: .5rem;
     border: 1px solid blueviolet;
+    width: 450px;
 }
 .person-item > p {
     cursor: pointer;
@@ -13,8 +14,8 @@
     background-color: orangered;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 800px) {
     .person-item  {
-        width: '450px'
+        width: 750px;
     }
 }

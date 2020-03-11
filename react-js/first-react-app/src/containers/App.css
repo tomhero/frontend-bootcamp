@@ -36,12 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-/* Use for dynamic class switch in react */
-.red {
-  color: purple;
-}
-
-.bold {
-  font-weight: bold;
-}

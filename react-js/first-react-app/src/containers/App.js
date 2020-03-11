@@ -6,14 +6,27 @@ import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends React.Component {
 
+  // 1st lifecycle call
+  constructor(props) {
+    super(props);
+    // if you want to set dome initial state based on props, Do it here¡!
+    console.log('constructure');
+  }
+
   state = {
     persons: [
       { id: Math.random().toString(), name: 'Tom', age: 23 },
       { id: Math.random().toString(), name: 'Que', age: 29 },
       { id: Math.random().toString(), name: 'Art', age: 30 }
     ],
-    showPerson: true,
+    showPerson: false,
     otherState: 'some others state!!?'
+  }
+
+  // 2nd lifecycle call
+  static getDerivedStateFromProps(props, state) {
+    console.log('getDerivedStateFromProps', props);
+    return state;
   }
 
   // In a class component you need to use arrow function as a handler
@@ -54,14 +67,14 @@ class App extends React.Component {
   }
 
   toggleHandler = () => {
-    console.log('Toggling...');
     this.setState({
       showPerson: !this.state.showPerson
     });
   }
 
+  // 3rd lifecycle call
   render() {
-
+    console.log('render...')
     let personList = <br />;
     // conditional rendering with JS way!!
     if (this.state.showPerson) {
@@ -75,16 +88,21 @@ class App extends React.Component {
     return (
       // StyleRoot use with radium with @media query
       <div className="App">
-        <header className="App-header">
           <Cockpit showPerson={this.state.showPerson}
             persons={this.state.persons}
-            click={this.toggleHandler.bind(this)}></Cockpit>
+            click={this.toggleHandler.bind(this)}
+            title={this.props.appTitle}></Cockpit>
           {personList}
           <i className={footerStyle.upper}>{this.state.otherState}</i>
-        </header>
       </div>
     );
   }
+
+  // 4th lifecycle call
+  componentDidMount() {
+    console.log('componentDidMount');
+  }
+
 }
 
 // Radium is a high order component!!

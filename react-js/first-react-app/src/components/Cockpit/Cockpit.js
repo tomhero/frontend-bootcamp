@@ -1,5 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
+import './Cockpit.css'
 
 // `styled.button` is a component with props 
 const StyledButton = styled.button`
@@ -27,6 +28,7 @@ const cockpit = props => {
 
     return (
         <div>
+            <h2>{props.title}</h2>
             <p className={classes.join(' ')}> This is really working </p>
             <StyledButton
                 toggleColor={props.showPerson} 
