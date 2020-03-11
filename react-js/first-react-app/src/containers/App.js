@@ -37,7 +37,7 @@ class App extends React.Component {
   switchNameHandler = (newName) => {
     this.setState({
       persons: [
-        { name: newName, age: 23 },
+        { name: newName, age: '23' },
         { name: 'Que', age: 29 },
         { name: 'Art', age: 30 }
       ]
