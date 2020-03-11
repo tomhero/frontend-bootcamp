@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from 'styled-components';
 import './Cockpit.css'
 
@@ -15,7 +15,30 @@ const StyledButton = styled.button`
     }
 `;
 
-const cockpit = props => {
+// Component name (variable) must a Capital case!!
+const Cockpit = props => {
+
+    useEffect(() => {
+        console.log('useEffect');
+        // Http Request...
+        setTimeout(() => {
+            alert('data saved');
+        }, 1000);
+        return () => {
+            // This run before the main useEffect but after (first) render cycle!!
+            console.log('clean up work for useEffect');
+        }
+        // You can out a data that should be watched inside the `[]`
+        // Or do it when destroy component (To clean up something)
+    }, [])
+
+    useEffect(() => {
+        console.log('2nd useEffect');
+        return () => {
+            console.log('clean up work for 2nd useEffect');
+        }
+    // There is no secound agrument, So it will run every update cycle
+    });
 
     const classes = [];
     if (props.persons.length <= 2) {
@@ -31,7 +54,7 @@ const cockpit = props => {
             <h2>{props.title}</h2>
             <p className={classes.join(' ')}> This is really working </p>
             <StyledButton
-                toggleColor={props.showPerson} 
+                toggleColor={props.showPerson}
                 onClick={props.click}>
                 Click for Toggle
             </StyledButton>
@@ -39,4 +62,4 @@ const cockpit = props => {
     );
 }
 
-export default cockpit;
+export default Cockpit;

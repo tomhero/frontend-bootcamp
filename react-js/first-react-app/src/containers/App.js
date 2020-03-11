@@ -20,6 +20,7 @@ class App extends React.Component {
       { id: Math.random().toString(), name: 'Art', age: 30 }
     ],
     showPerson: false,
+    showCockpit: true,
     otherState: 'some others state!!?'
   }
 
@@ -63,7 +64,6 @@ class App extends React.Component {
     this.setState({
       persons: newPersons
     });
-    console.log(newPersons);
   }
 
   toggleHandler = () => {
@@ -88,19 +88,34 @@ class App extends React.Component {
     return (
       // StyleRoot use with radium with @media query
       <div className="App">
-          <Cockpit showPerson={this.state.showPerson}
-            persons={this.state.persons}
-            click={this.toggleHandler.bind(this)}
-            title={this.props.appTitle}></Cockpit>
-          {personList}
-          <i className={footerStyle.upper}>{this.state.otherState}</i>
+        <button onClick={() => this.setState({ showCockpit: !this.state.showCockpit })}> Toggle Cockpit </button>
+        {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
+          persons={this.state.persons}
+          click={this.toggleHandler.bind(this)}
+          title={this.props.appTitle}></Cockpit> : null
+        }
+        {personList}
+        <i className={footerStyle.upper}>{this.state.otherState}</i>
       </div>
     );
   }
 
   // 4th lifecycle call
   componentDidMount() {
+    // do async task...
     console.log('componentDidMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // This cycle is very important
+    console.log('shouldComponentUpdate');
+    // Allow to update with `retrun true`
+    return true;
+  }
+
+  componentDidUpdate() {
+    // do async task...
+    console.log('componentDidUpdate');
   }
 
 }
