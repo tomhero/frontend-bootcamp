@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from 'styled-components';
 import './Cockpit.css'
 
@@ -18,12 +18,16 @@ const StyledButton = styled.button`
 // Component name (variable) must a Capital case!!
 const Cockpit = props => {
 
+    const toggleButtonRef = useRef(null);
+    // toggleButtonRef.current.click(); // You cannot do this here because of hook procedure
+
     useEffect(() => {
         console.log('useEffect');
         // Http Request...
-        setTimeout(() => {
-            console.log('data saved');
-        }, 1000);
+        // setTimeout(() => {
+        //     console.log('data saved');
+        // }, 1000);
+        toggleButtonRef.current.click();
         return () => {
             // This run before the main useEffect but after (first) render cycle!!
             console.log('clean up work for useEffect');
@@ -53,7 +57,8 @@ const Cockpit = props => {
         <div>
             <h2>{props.title}</h2>
             <p className={classes.join(' ')}> This is really working </p>
-            <StyledButton
+            <StyledButton 
+                ref={toggleButtonRef}
                 toggleColor={props.showPerson}
                 onClick={props.click}>
                 Click for Toggle
