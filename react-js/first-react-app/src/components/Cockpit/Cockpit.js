@@ -63,4 +63,5 @@ const Cockpit = props => {
 }
 
 // use React.memo for prevent unnessesary re-render action
+// or no need to update every time
 export default React.memo(Cockpit);

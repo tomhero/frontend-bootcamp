@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import Person from "./Person/Person";
 
-class Persons extends Component {
+class Persons extends PureComponent {
 
     // 1st update lifecycle
     // static getDerivedStateFromProps(props, state) {
@@ -11,16 +11,20 @@ class Persons extends Component {
     // }
 
     // 2nd update lifecycle
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('shouldComponentUpdate');
-        if (nextProps.persons !== this.props.persons) {
-            // To determine that should update this component when persons prop was changed only!!
-            // NOTE : performance optimization
-            // But this is not work because of not deep equal if check above!!
-            return true
-        }
-        return false;
-    }
+    // NOTE : shouldComponentUpdate that check all data before decide to render is does a same way as `PureComponent`
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('shouldComponentUpdate');
+    //     if (nextProps.persons !== this.props.persons 
+    //         || nextProps.changed !== this.props.changed
+    //         || nextProps.clicked !== this.props.clicked
+    //     ) {
+    //         // To determine that should update this component when persons prop was changed only!!
+    //         // NOTE : performance optimization
+    //         // But this is not work because of not deep equal if check above!!
+    //         return true
+    //     }
+    //     return false;
+    // }
 
     // 3rd update lifecycle
     render() {
