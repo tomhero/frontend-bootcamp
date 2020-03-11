@@ -22,7 +22,7 @@ const Cockpit = props => {
         console.log('useEffect');
         // Http Request...
         setTimeout(() => {
-            alert('data saved');
+            console.log('data saved');
         }, 1000);
         return () => {
             // This run before the main useEffect but after (first) render cycle!!
@@ -41,11 +41,11 @@ const Cockpit = props => {
     });
 
     const classes = [];
-    if (props.persons.length <= 2) {
+    if (props.personsLength <= 2) {
         classes.push('red') // class = ['red']
     }
 
-    if (props.persons.length <= 1) {
+    if (props.personsLength <= 1) {
         classes.push('bold') // class = ['red', 'bold']
     }
 
@@ -62,4 +62,5 @@ const Cockpit = props => {
     );
 }
 
-export default Cockpit;
+// use React.memo for prevent unnessesary re-render action
+export default React.memo(Cockpit);

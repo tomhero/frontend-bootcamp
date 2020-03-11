@@ -90,7 +90,7 @@ class App extends React.Component {
       <div className="App">
         <button onClick={() => this.setState({ showCockpit: !this.state.showCockpit })}> Toggle Cockpit </button>
         {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
-          persons={this.state.persons}
+          personsLength={this.state.persons.length}
           click={this.toggleHandler.bind(this)}
           title={this.props.appTitle}></Cockpit> : null
         }

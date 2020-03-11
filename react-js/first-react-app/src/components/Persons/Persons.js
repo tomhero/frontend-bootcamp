@@ -13,7 +13,13 @@ class Persons extends Component {
     // 2nd update lifecycle
     shouldComponentUpdate(nextProps, nextState) {
         console.log('shouldComponentUpdate');
-        return true;
+        if (nextProps.persons !== this.props.persons) {
+            // To determine that should update this component when persons prop was changed only!!
+            // NOTE : performance optimization
+            // But this is not work because of not deep equal if check above!!
+            return true
+        }
+        return false;
     }
 
     // 3rd update lifecycle
