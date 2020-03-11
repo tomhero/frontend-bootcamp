@@ -23,7 +23,8 @@ class App extends React.Component {
     ],
     showPerson: false,
     showCockpit: true,
-    otherState: 'some others state!!?'
+    otherState: 'some others state!!?',
+    changeCounter: 0 // For tracking purpose
   }
 
   // 2nd lifecycle call
@@ -54,8 +55,13 @@ class App extends React.Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({
-      persons: persons
+    this.setState((prevState, props) => {
+      // Update state base on previous state
+      // NOTE : best practice
+        return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      }
     })
   }
 
