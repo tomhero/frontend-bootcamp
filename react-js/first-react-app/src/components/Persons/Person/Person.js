@@ -1,6 +1,7 @@
 import React from 'react';
 import personStyle from './Person.module.css';
 // import Aux from "../../../hoc/Auxiliary";
+import withClass from '../../../hoc/withClass'
 
 const person = (props) => {
     console.log('rendering...');
@@ -17,4 +18,4 @@ const person = (props) => {
 
 }
 
-export default person;
+export default withClass(person, personStyle['person-item']);
