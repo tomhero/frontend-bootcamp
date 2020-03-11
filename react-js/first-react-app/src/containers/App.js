@@ -3,6 +3,7 @@ import './App.css';
 import footerStyle from './Footer.module.css'
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from "../hoc/WithClass";
 
 class App extends React.Component {
 
@@ -87,7 +88,7 @@ class App extends React.Component {
 
     return (
       // StyleRoot use with radium with @media query
-      <div className="App">
+      <WithClass classes={"App"}>
         <button onClick={() => this.setState({ showCockpit: !this.state.showCockpit })}> Toggle Cockpit </button>
         {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
           personsLength={this.state.persons.length}
@@ -96,7 +97,7 @@ class App extends React.Component {
         }
         {personList}
         <i className={footerStyle.upper}>{this.state.otherState}</i>
-      </div>
+      </WithClass>
     );
   }
 
