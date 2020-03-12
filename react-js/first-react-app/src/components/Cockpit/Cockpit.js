@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import styled from 'styled-components';
 import './Cockpit.css'
+
+import AuthContext from '../../contexts/auth-context'
 
 // `styled.button` is a component with props 
 const StyledButton = styled.button`
@@ -18,12 +20,19 @@ const StyledButton = styled.button`
 // Component name (variable) must a Capital case!!
 const Cockpit = props => {
 
+    const toggleButtonRef = useRef(null);
+    // toggleButtonRef.current.click(); // You cannot do this here because of hook procedure
+
+    // Context API in React Hook
+    const context = useContext(AuthContext);
+
     useEffect(() => {
         console.log('useEffect');
         // Http Request...
-        setTimeout(() => {
-            console.log('data saved');
-        }, 1000);
+        // setTimeout(() => {
+        //     console.log('data saved');
+        // }, 1000);
+        toggleButtonRef.current.click();
         return () => {
             // This run before the main useEffect but after (first) render cycle!!
             console.log('clean up work for useEffect');
@@ -53,10 +62,14 @@ const Cockpit = props => {
         <div>
             <h2>{props.title}</h2>
             <p className={classes.join(' ')}> This is really working </p>
-            <StyledButton
+            <StyledButton 
+                ref={toggleButtonRef} // $ref In Vue JS
                 toggleColor={props.showPerson}
                 onClick={props.click}>
                 Click for Toggle
+            </StyledButton>
+            <StyledButton onClick={context.login}>
+                Login
             </StyledButton>
         </div>
     );

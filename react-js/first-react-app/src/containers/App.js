@@ -6,6 +6,8 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from "../hoc/withClass";
 import Aux from '../hoc/Auxiliary';
 
+import AuthContext from '../contexts/auth-context'
+
 class App extends React.Component {
 
   // 1st lifecycle call
@@ -24,6 +26,7 @@ class App extends React.Component {
     showPerson: false,
     showCockpit: true,
     otherState: 'some others state!!?',
+    authenticated: false,
     changeCounter: 0 // For tracking purpose
   }
 
@@ -37,7 +40,7 @@ class App extends React.Component {
   switchNameHandler = (newName) => {
     this.setState({
       persons: [
-        { name: newName, age: 23 },
+        { name: newName, age: '23' },
         { name: 'Que', age: 29 },
         { name: 'Art', age: 30 }
       ]
@@ -80,6 +83,10 @@ class App extends React.Component {
     });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   // 3rd lifecycle call
   render() {
     console.log('render...')
@@ -90,19 +97,23 @@ class App extends React.Component {
         <Persons
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.nameChangedHandler} />
+          changed={this.nameChangedHandler}
+          isAuthenticated={this.state.authenticated} />
     }
 
     return (
       // StyleRoot use with radium with @media query
       <Aux>
         <button onClick={() => this.setState({ showCockpit: !this.state.showCockpit })}> Toggle Cockpit </button>
-        {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
-          personsLength={this.state.persons.length}
-          click={this.toggleHandler.bind(this)}
-          title={this.props.appTitle}></Cockpit> : null
-        }
-        {personList}
+        {/* .Provider wraps components with context (global value along components) */}
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler.bind(this)}}>
+          {this.state.showCockpit ? <Cockpit showPerson={this.state.showPerson}
+            personsLength={this.state.persons.length}
+            click={this.toggleHandler.bind(this)}
+            title={this.props.appTitle}></Cockpit> : null
+          }
+          {personList}
+        </AuthContext.Provider>
         <i className={footerStyle.upper}>{this.state.otherState}</i>
       </Aux>
     );
