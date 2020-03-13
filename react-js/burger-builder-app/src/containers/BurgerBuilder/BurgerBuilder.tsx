@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/Ordersummary/Ordersummary';
 
 import { BurgerBuilderState, Ingredient, OrderableIngredients } from '../../models/Burger';
 
@@ -37,7 +39,7 @@ class BurgerBuilder extends Component {
             .reduce((sum, el) => {
                 return sum + el;
             }, 0);
-        this.setState({pusrchasable: sum > 0})
+        this.setState({ pusrchasable: sum > 0 })
     }
 
     addIngredientHandler = (type: Ingredient) => {
@@ -88,13 +90,16 @@ class BurgerBuilder extends Component {
         }
         return (
             <>
+                <Modal>
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
-                <BuildControls 
+                <BuildControls
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemoved={this.removeIngredientHandler}
                     disabled={disabledInfo}
                     price={this.state.totalPrice}
-                    purchasable={this.state.pusrchasable}/>
+                    purchasable={this.state.pusrchasable} />
             </>
         );
     }
