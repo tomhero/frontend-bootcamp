@@ -7,12 +7,14 @@ export enum Ingredient {
     Bacon = "bacon"
 }
 
+type amount = number | boolean;
+
 export type OrderableIngredients = {
     // This tell type script to use `string` type as indexing
-    [salad: string]: number;
-    bacon: number;
-    cheese: number;
-    meat: number;
+    [salad: string]: amount;
+    bacon: amount;
+    cheese: amount;
+    meat: amount;
 }
 
 export type BurgerBuilderState = {
@@ -27,9 +29,13 @@ export type BurgerControls = {
 
 export type BuildControlsProp = {
     ingredientAdded: (type: Ingredient) => void;
+    ingredientRemoved: (type: Ingredient) => void;
+    disabled: OrderableIngredients;
 }
 
 export type BuildControlProp = {
     label: string;
     added: () => void;
+    removed: () => void;
+    disabled: boolean | undefined;
 }
