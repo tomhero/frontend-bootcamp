@@ -18,3 +18,8 @@ export type OrderableIngredients = {
 export type BurgerBuilderState = {
     ingredients: OrderableIngredients
 }
+
+export type BurgerControls = {
+    [label: string]: string;
+    type: string;
+}[]
