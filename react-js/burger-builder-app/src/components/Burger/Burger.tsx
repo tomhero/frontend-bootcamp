@@ -8,9 +8,16 @@ type BurgerProp = {
 }
 
 const Burger: React.FC<any> = (props: BurgerProp) => {
-    const trasformedIngredients = Object.keys(props.ingredients)
+    // NOTE : JSX.Element[] | JSX.Element can be useful here
+    let trasformedIngredients: JSX.Element[] | JSX.Element = Object.keys(props.ingredients)
         .map(ingredientName => [...Array(props.ingredients[ingredientName])]
-            .map((_, index) => <BurgerIngredient key={ingredientName + index} type={ingredientName} />));
+            .map((_, index) => <BurgerIngredient key={ingredientName + index} type={ingredientName} />))
+        .reduce((prev, current) => {
+            return prev.concat(current);
+        }, []);
+        if (trasformedIngredients.length === 0) {
+            trasformedIngredients = <p>Please adding ingredient first!</p>
+        }
     return (
         <div className={classes.Burger}>
             <BurgerIngredient type="bread-top" />
