@@ -1,5 +1,6 @@
 import React from 'react'
 import { OrderableIngredients } from '../../../models/Burger'
+import Button from '../../UI/Button/Button';
 
 type OrderSummaryProp = {
     title?: string;
@@ -22,6 +23,8 @@ const OrderSummary: React.FC<OrderSummaryProp> = (props) => {
                 {ingredientSummary}
             </ul>
             <p>Continue to checkout?</p>
+            <Button buttonType="danger" clicked={null}>Cancel</Button>
+            <Button buttonType="info" clicked={null}>Ok</Button>
         </>
     )
 }

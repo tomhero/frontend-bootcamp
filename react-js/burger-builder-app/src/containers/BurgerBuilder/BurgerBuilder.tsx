@@ -82,7 +82,7 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        this.setState({purchasing: true});
+        this.setState({ purchasing: true });
     }
 
     render() {
@@ -98,14 +98,16 @@ class BurgerBuilder extends Component {
                 <Modal isShowing={this.state.purchasing}>
                     <OrderSummary ingredients={this.state.ingredients} />
                 </Modal>
-                <Burger ingredients={this.state.ingredients} />
-                <BuildControls
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    disabled={disabledInfo}
-                    price={this.state.totalPrice}
-                    purchasable={this.state.pusrchasable}
-                    ordered={this.purchaseHandler} />
+                <div style={{ filter: this.state.purchasing ? 'blur(2rem)' : 'none' }}>
+                    <Burger ingredients={this.state.ingredients} />
+                    <BuildControls
+                        ingredientAdded={this.addIngredientHandler}
+                        ingredientRemoved={this.removeIngredientHandler}
+                        disabled={disabledInfo}
+                        price={this.state.totalPrice}
+                        purchasable={this.state.pusrchasable}
+                        ordered={this.purchaseHandler} />
+                </div>
             </>
         );
     }

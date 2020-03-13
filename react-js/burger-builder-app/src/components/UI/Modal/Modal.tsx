@@ -1,6 +1,7 @@
 import React from 'react';
-import classes from './Modal.module.css'
-
+import classes from './Modal.module.css';
+import Backdrop from '../Backdrop/Backdrop';
+ 
 type ModalProp = {
     /** For the best practice --> use React.ReactNode type for child */
     children: React.ReactNode;
@@ -9,6 +10,8 @@ type ModalProp = {
 
 function Modal(props: ModalProp) {
     return (
+        <>
+        <Backdrop isShowing={props.isShowing}></Backdrop>
         <div 
             className={classes.Modal}
             style={{
@@ -20,6 +23,7 @@ function Modal(props: ModalProp) {
             >
             {props.children}
         </div>
+        </>
     );
 }
 
