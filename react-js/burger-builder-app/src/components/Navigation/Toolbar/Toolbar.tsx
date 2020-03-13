@@ -4,11 +4,12 @@ import classes from './Toolbar.module.css';
 import Logo from '../../Logo/Logo';
 
 import NavigationItems from '../NavigationItems/NavigationItems';
+import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 
-const Toolbar = (props: any) => {
+const Toolbar = (props: {drawToggleClicked: (ev: React.MouseEvent) => void}) => {
     return (
         <header className={classes.Toolbar}>
-            <div>MENU</div>
+            <DrawerToggle clicked={props.drawToggleClicked} />
             {/* NOTE : classes.Logo is hacking!! */}
             <div className={classes.Logo}>
                 <Logo />

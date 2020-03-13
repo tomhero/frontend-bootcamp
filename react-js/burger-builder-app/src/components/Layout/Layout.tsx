@@ -3,25 +3,39 @@ import React, { Component } from "react";
 import classes from './Layout.module.css';
 
 import Toolbar from "../Navigation/Toolbar/Toolbar";
-import SideDrawer from '../Navigation/Sidedrawer/SideDrawer';
+import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 
-type LayoutProp = {};
+type LayoutProp = {
+    children: React.ReactNode;
+};
 
-class Layout<LayoutProp> extends Component {
+type LayoutState = {
+    showSideDrawer: boolean;
+}
+
+class Layout extends Component<LayoutProp, LayoutState> {
 
     state = {
-        showSideDrawer: true
+        showSideDrawer: false
     }
 
     setDrawerClosedHandler = () => {
         this.setState({showSideDrawer: false});
     }
 
+    sideDrawerToggleHandler = () => {
+        this.setState((prevState) => {
+            return {
+                showSideDrawer: !prevState.showSideDrawer
+            };
+        });
+    }
+
     render() {
         return (
             // Just like a React.Fragment below
             <>
-                <Toolbar />
+                <Toolbar drawToggleClicked={this.sideDrawerToggleHandler}/>
                 <SideDrawer open={this.state.showSideDrawer} closed={this.setDrawerClosedHandler}/>
                 <main className={classes.Content}>
                     {this.props.children}
