@@ -16,7 +16,7 @@ function Modal(props: ModalProp) {
             className={classes.Modal}
             style={{
                 transition: 'all 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86)',
-                transform: props.isShowing ? 'translateY(0vh)' : 'translateY(25vh)',
+                transform: props.isShowing ? 'translateY(0vh)' : 'translateY(-100vh)',
                 opacity: props.isShowing ? 1 : 0,
                 zIndex: props.isShowing ? 500 : -1,
             }}

@@ -8,17 +8,23 @@
     padding: 10px;
     margin: 10px;
     font-weight: bold;
+    float: right;
 }
 
 .Button:first-of-type {
     margin-left: 0;
-    padding-left: 0;
 }
 
 .Success {
+    transition: all 0.25s ease-in-out;
     color: #5C9210;
 }
 
 .Danger {
+    transition: all 0.25s ease-in-out;
     color: #944317;
+}
+
+.Success:hover, .Danger:hover {
+    background-color: rgba(0, 0, 0, 0.125);
 }

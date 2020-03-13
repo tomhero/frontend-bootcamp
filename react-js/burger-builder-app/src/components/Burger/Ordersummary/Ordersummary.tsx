@@ -6,6 +6,9 @@ type OrderSummaryProp = {
     title?: string;
     description?: string;
     ingredients: OrderableIngredients;
+    purchaseContinued: (ev: React.MouseEvent) => void;
+    purchaseCanceled: (ev: React.MouseEvent) => void;
+    price: number;
 }
 
 const OrderSummary: React.FC<OrderSummaryProp> = (props) => {
@@ -22,9 +25,14 @@ const OrderSummary: React.FC<OrderSummaryProp> = (props) => {
             <ul>
                 {ingredientSummary}
             </ul>
+            <p><strong>Total Price: </strong><u>{props.price}</u> ฿</p>
             <p>Continue to checkout?</p>
-            <Button buttonType="danger" clicked={null}>Cancel</Button>
-            <Button buttonType="info" clicked={null}>Ok</Button>
+            <Button buttonType="Danger" clicked={props.purchaseCanceled}>
+                <span>Cancel</span>
+            </Button>
+            <Button buttonType="Success" clicked={props.purchaseContinued}>
+                <span>Ok</span>
+            </Button>
         </>
     )
 }
