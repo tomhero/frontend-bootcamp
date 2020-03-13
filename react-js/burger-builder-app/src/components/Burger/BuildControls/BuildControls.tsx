@@ -16,14 +16,21 @@ const BuildControls = (props: BuildControlsProp) => {
             <p> Price : {props.price} </p>
             {
                 controls.map(ctrl => (
-                    <BuildControl 
-                        key={ctrl.label} 
+                    <BuildControl
+                        key={ctrl.label}
                         label={ctrl.label}
                         added={() => props.ingredientAdded(ctrl.type)}
                         removed={() => props.ingredientRemoved(ctrl.type)}
                         disabled={props.disabled[ctrl.type] as boolean} />
                 ))
             }
+            <button 
+                className={classes.OrderButton} 
+                style={{ textTransform: 'uppercase' }}
+                disabled={!props.purchasable}
+                >
+                Order Now
+                </button>
         </div>
     );
 }
