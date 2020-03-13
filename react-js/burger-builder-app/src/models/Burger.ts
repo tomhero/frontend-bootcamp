@@ -16,10 +16,20 @@ export type OrderableIngredients = {
 }
 
 export type BurgerBuilderState = {
-    ingredients: OrderableIngredients
+    ingredients: OrderableIngredients,
+    totalPrice: number
 }
 
 export type BurgerControls = {
     [label: string]: string;
-    type: string;
+    type: Ingredient;
 }[]
+
+export type BuildControlsProp = {
+    ingredientAdded: (type: Ingredient) => void;
+}
+
+export type BuildControlProp = {
+    label: string;
+    added: () => void;
+}
