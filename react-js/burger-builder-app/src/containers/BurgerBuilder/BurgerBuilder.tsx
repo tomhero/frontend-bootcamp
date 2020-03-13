@@ -18,7 +18,7 @@ class BurgerBuilder extends Component {
         return (
             <>
                 <Burger ingredients={this.state.ingredients}/>
-                <div>Builder</div>
+                <div>Builder Controller</div>
             </>
         );
     }
