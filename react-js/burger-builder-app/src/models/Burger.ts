@@ -21,6 +21,7 @@ export type BurgerBuilderState = {
     ingredients: OrderableIngredients;
     totalPrice: number;
     pusrchasable: boolean;
+    purchasing: boolean;
 }
 
 export type BurgerControls = {
@@ -34,6 +35,7 @@ export type BuildControlsProp = {
     disabled: OrderableIngredients;
     price: number;
     purchasable: boolean;
+    ordered: () => void;
 }
 
 export type BuildControlProp = {

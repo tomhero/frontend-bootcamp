@@ -28,6 +28,7 @@ const BuildControls = (props: BuildControlsProp) => {
                 className={classes.OrderButton} 
                 style={{ textTransform: 'uppercase' }}
                 disabled={!props.purchasable}
+                onClick={props.ordered}
                 >
                 Order Now
                 </button>

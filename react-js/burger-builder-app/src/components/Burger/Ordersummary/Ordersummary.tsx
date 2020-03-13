@@ -10,14 +10,14 @@ type OrderSummaryProp = {
 const OrderSummary: React.FC<OrderSummaryProp> = (props) => {
     const ingredientSummary = Object.keys(props.ingredients)
         .map(ingredientName => {
-            return <li>
+            return <li key={ingredientName}>
                     <span style={{ textTransform: 'capitalize' }}>{ingredientName}</span> : {props.ingredients[ingredientName]}
                 </li>
         });
     return (
         <>
-            <h3>Your Orders {props.title}</h3>
-            <p>A delicious burger with the following ingredients {props.description}</p>
+            <h3>{props.title ||  'Your Orders'}</h3>
+            <p>{props.description || 'A delicious burger with the following ingredients '}</p>
             <ul>
                 {ingredientSummary}
             </ul>
