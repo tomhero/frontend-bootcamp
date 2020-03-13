@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
 
+import Layout from "./components/Layout/Layout";
+
 function App() {
   return (
     <div className="App">
-      <h2> React With TypeScript </h2>
+      <Layout>
+        <p> React With TypeScript </p>
+      </Layout>
     </div>
   );
 }
