@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { OrderableIngredients } from '../../../models/Burger'
 import Button from '../../UI/Button/Button';
 
@@ -11,30 +11,38 @@ type OrderSummaryProp = {
     price: number;
 }
 
-const OrderSummary: React.FC<OrderSummaryProp> = (props) => {
-    const ingredientSummary = Object.keys(props.ingredients)
-        .map(ingredientName => {
-            return <li key={ingredientName}>
-                    <span style={{ textTransform: 'capitalize' }}>{ingredientName}</span> : {props.ingredients[ingredientName]}
+class OrderSummary extends Component<OrderSummaryProp, {}> {
+    // NOTE : This could be a FC, dosen't have to be class component
+    
+    componentDidUpdate() {
+        console.log('componentDidUpdate');
+    }
+
+    render() {
+        const ingredientSummary = Object.keys(this.props.ingredients)
+            .map(ingredientName => {
+                return <li key={ingredientName}>
+                    <span style={{ textTransform: 'capitalize' }}>{ingredientName}</span> : {this.props.ingredients[ingredientName]}
                 </li>
-        });
-    return (
-        <>
-            <h3>{props.title ||  'Your Orders'}</h3>
-            <p>{props.description || 'A delicious burger with the following ingredients '}</p>
-            <ul>
-                {ingredientSummary}
-            </ul>
-            <p><strong>Total Price: </strong><u>{props.price}</u> ฿</p>
-            <p>Continue to checkout?</p>
-            <Button buttonType="Danger" clicked={props.purchaseCanceled}>
-                <span>Cancel</span>
-            </Button>
-            <Button buttonType="Success" clicked={props.purchaseContinued}>
-                <span>Ok</span>
-            </Button>
-        </>
-    )
+            });
+        return (
+            <>
+                <h3>{this.props.title || 'Your Orders'}</h3>
+                <p>{this.props.description || 'A delicious burger with the following ingredients '}</p>
+                <ul>
+                    {ingredientSummary}
+                </ul>
+                <p><strong>Total Price: </strong><u>{this.props.price}</u> ฿</p>
+                <p>Continue to checkout?</p>
+                <Button buttonType="Danger" clicked={this.props.purchaseCanceled}>
+                    <span>Cancel</span>
+                </Button>
+                <Button buttonType="Success" clicked={this.props.purchaseContinued}>
+                    <span>Ok</span>
+                </Button>
+            </>
+        )
+    }
 }
 
 export default OrderSummary
