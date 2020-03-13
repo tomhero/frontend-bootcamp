@@ -10,10 +10,10 @@ const INGREDIENT_PRICE: {
     meat: number | boolean,
     bacon: number | boolean
 } = {
-    salad: 10,
-    cheese: 5,
-    meat: 30,
-    bacon: 10
+    salad: 6.75,
+    cheese: 4.25,
+    meat: 30.50,
+    bacon: 10.75
 }
 
 class BurgerBuilder extends Component {
@@ -75,7 +75,8 @@ class BurgerBuilder extends Component {
                 <BuildControls 
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemoved={this.removeIngredientHandler}
-                    disabled={disabledInfo}/>
+                    disabled={disabledInfo}
+                    price={this.state.totalPrice}/>
             </>
         );
     }

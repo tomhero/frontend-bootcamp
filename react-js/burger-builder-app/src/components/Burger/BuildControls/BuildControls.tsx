@@ -13,6 +13,7 @@ const controls: BurgerControls = [
 const BuildControls = (props: BuildControlsProp) => {
     return (
         <div className={classes.BuildControls}>
+            <p> Price : {props.price} </p>
             {
                 controls.map(ctrl => (
                     <BuildControl 

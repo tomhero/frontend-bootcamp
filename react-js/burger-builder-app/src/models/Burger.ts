@@ -31,6 +31,7 @@ export type BuildControlsProp = {
     ingredientAdded: (type: Ingredient) => void;
     ingredientRemoved: (type: Ingredient) => void;
     disabled: OrderableIngredients;
+    price: number;
 }
 
 export type BuildControlProp = {
