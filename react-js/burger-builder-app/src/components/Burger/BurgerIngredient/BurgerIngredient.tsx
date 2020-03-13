@@ -1,32 +1,25 @@
 import React from "react";
 import classes from './BurgerIngredient.module.css'
 
-enum Ingredient {
-    BredBottom= "bred-bottom",
-    BreadTop = "bread-top",
-    Meat = "meat",
-    Cheese = "chesse",
-    Salad = "salad",
-    Bacon = "bacon"
-}
+import { Ingredient } from "../../../models/Burger";
 
 type IngredientProp= {
     /** The type of ingredient */
     type: string;
 }
 
-function BurgerIngredient(props: IngredientProp) {
-    let ingredient = null;
+function BurgerIngredient(props: IngredientProp): JSX.Element {
+    let ingredient = <i>Not a valid ingredient!!</i>;
 
     switch (props.type.toLowerCase()) {
-        case Ingredient.BredBottom:
-            ingredient = <div className={classes.BredBottom}></div>
+        case Ingredient.BreadBottom:
+            ingredient = <div className={classes.BreadBottom}></div>
             break;
         case Ingredient.BreadTop:
             ingredient = (
                 <div className={classes.BreadTop}>
-                    <div className={classes.Seed1}></div>
-                    <div className={classes.Seed2}></div>
+                    <div className={classes.Seeds1}></div>
+                    <div className={classes.Seeds2}></div>
                 </div>
             );
             break;
