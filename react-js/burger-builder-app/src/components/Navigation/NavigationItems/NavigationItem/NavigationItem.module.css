@@ -3,6 +3,7 @@
     box-sizing: border-box;
     display: block;
     width: 100%;
+    margin-bottom: 24px;
 }
 
 .NavigationItem a {
@@ -26,13 +27,14 @@
         height: 100%;
         width: auto;
         align-items: center;
+        margin-bottom: 0;
     }
     
     .NavigationItem a {
         color: whitesmoke;
         height: 100%;
         padding: 16px 10px;
-        border-bottom: 4px solid transparent;
+        border-bottom: 4px solid trs;
     }
     
     .NavigationItem a:hover,
