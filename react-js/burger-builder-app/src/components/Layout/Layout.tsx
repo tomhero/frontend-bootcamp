@@ -2,13 +2,15 @@ import React from "react";
 
 import classes from './Layout.module.css';
 
+import Toolbar from "../Navigation/Toolbar/Toolbar";
+
 type LayoutProps = any;
 
 const Layout: React.FC = (props: LayoutProps) => {
     return (
     // Just like a React.Fragment below
     <>
-        <div>Toolbar, Sidedrawer, Backdrop</div>
+        <Toolbar />
         <main className={classes.Content}>
             {props.children}
         </main>
