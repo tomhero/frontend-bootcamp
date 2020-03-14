@@ -6,13 +6,16 @@ import { AxiosInstance } from 'axios';
 const WithErrorHandler = (WrappedComponent: any, axios: AxiosInstance) => {
     return class extends Component {
 
+        private reqInterceptor!: number
+        private resInterceptor!: number
+
         constructor(props: any) {
             super(props);
-            axios.interceptors.request.use(req => {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
             });
-            axios.interceptors.response.use(res => res, error => {
+            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
                 this.setState({error: error});
             });
         }
@@ -32,6 +35,13 @@ const WithErrorHandler = (WrappedComponent: any, axios: AxiosInstance) => {
             // axios.interceptors.response.use(res => res, error => {
             //     this.setState({error: error});
             // });
+        }
+
+        componentWillUnmount() {
+            // NOTE : For prevent memory leak!!
+            console.log('componentWillUnmount', this.reqInterceptor, this.resInterceptor);
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.response.eject(this.resInterceptor);
         }
     
         errorConfirmedHandler = () => {
