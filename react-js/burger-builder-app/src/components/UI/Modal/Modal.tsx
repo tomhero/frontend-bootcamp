@@ -12,7 +12,8 @@ class Modal extends Component<ModalProp, {}> {
 
     shouldComponentUpdate(nextProps: ModalProp, _nextState: {}) {
         // NOTE : for better performance!!
-        return nextProps.isShowing !== this.props.isShowing;
+        // NOTEx2 : This may prevent loading spinner to not showing if it has a wrong condition
+        return nextProps.isShowing !== this.props.isShowing || nextProps.children !== this.props.children;
     }
 
     componentDidUpdate() {
