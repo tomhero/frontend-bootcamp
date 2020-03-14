@@ -5,6 +5,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from "axios";
 
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+
 // eslint-disable-next-line
 const myReqInterceptor = axios.interceptors.request.use(request => {
     // NOTE : You can add more configuration before sending a request.
