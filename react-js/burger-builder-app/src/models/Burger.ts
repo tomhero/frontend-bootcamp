@@ -23,6 +23,7 @@ export type BurgerBuilderState = {
     pusrchasable: boolean;
     purchasing: boolean;
     loading: boolean;
+    error: boolean;
 }
 
 export type BurgerControls = {

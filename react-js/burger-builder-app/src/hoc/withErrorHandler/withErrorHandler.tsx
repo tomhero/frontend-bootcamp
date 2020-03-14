@@ -5,6 +5,17 @@ import { AxiosInstance } from 'axios';
 
 const WithErrorHandler = (WrappedComponent: any, axios: AxiosInstance) => {
     return class extends Component {
+
+        constructor(props: any) {
+            super(props);
+            axios.interceptors.request.use(req => {
+                this.setState({error: null});
+                return req;
+            });
+            axios.interceptors.response.use(res => res, error => {
+                this.setState({error: error});
+            });
+        }
         
         state: {
             error: any
@@ -13,13 +24,14 @@ const WithErrorHandler = (WrappedComponent: any, axios: AxiosInstance) => {
         }
 
         componentDidMount() {
-            axios.interceptors.request.use(req => {
-                this.setState({error: null});
-                return req;
-            });
-            axios.interceptors.response.use(res => res, error => {
-                this.setState({error: error});
-            });
+            // NOTE : Please do this in constructure instead because of HOC and lifecycle hook
+            // axios.interceptors.request.use(req => {
+            //     this.setState({error: null});
+            //     return req;
+            // });
+            // axios.interceptors.response.use(res => res, error => {
+            //     this.setState({error: error});
+            // });
         }
     
         errorConfirmedHandler = () => {
