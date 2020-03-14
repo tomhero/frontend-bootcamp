@@ -6,6 +6,8 @@ type ModalProp = {
     /** For the best practice --> use React.ReactNode type for child */
     children: React.ReactNode;
     isShowing: boolean;
+    modalClosed: () => void;
+    clicked?: () => void;
 }
 
 class Modal extends Component<ModalProp, {}> {
@@ -23,7 +25,7 @@ class Modal extends Component<ModalProp, {}> {
     render() {
         return (
             <>
-                <Backdrop isShowing={this.props.isShowing}></Backdrop>
+                <Backdrop isShowing={this.props.isShowing} clicked={this.props.modalClosed}></Backdrop>
                 <div
                     className={classes.Modal}
                     style={{

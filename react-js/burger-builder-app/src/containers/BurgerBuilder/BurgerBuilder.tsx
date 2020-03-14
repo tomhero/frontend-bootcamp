@@ -4,6 +4,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/Ordersummary/Ordersummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-order';
 
 import { BurgerBuilderState, Ingredient, OrderableIngredients } from '../../models/Burger';
@@ -110,7 +111,7 @@ class BurgerBuilder extends Component {
             },
             deliveryMethod: 'Jet'
         }
-        axios.post('/orders.json', order)
+        axios.post('/orders.', order)
             .then(response => {
                 console.log(response);
             })
@@ -138,7 +139,7 @@ class BurgerBuilder extends Component {
         }
         return (
             <>
-                <Modal isShowing={this.state.purchasing}>
+                <Modal isShowing={this.state.purchasing} modalClosed={() => () => {}}>
                     {orderSummary}
                 </Modal>
                 <div style={{ filter: (this.state.purchasing ? 'blur(2rem)' : 'none') }}>
@@ -156,4 +157,4 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
