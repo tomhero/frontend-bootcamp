@@ -5,6 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from "axios";
 
+// This is for global axios instance, not a custom one.
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 
 // eslint-disable-next-line
