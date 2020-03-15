@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import Button from "../../../components/UI/Button/Button";
+// import { OrderableIngredients } from '../../../models/Burger';
 import classes from "./ContactData.module.css";
+import axios from '../../../axios-order';
 
-export class ContactData extends Component {
+// type ContactDataProps = {
+//     ingredients: OrderableIngredients
+// }
+
+class ContactData extends Component {
 
     state = {
         name: '',
@@ -10,11 +16,37 @@ export class ContactData extends Component {
         address: {
             street: '',
             postalCode: ''
-        }
+        },
+        loading: false
     }
 
-    componentDidMount() {
-        console.log('componentDidMount');
+    orderHandler = (ev) => {
+        // NOTE : this.props from Router parent component
+        ev.preventDefault();
+        // Send data to backend
+        this.setState({loading: true});
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customer: {
+                name: 'Chayut Ruksonya',
+                address: {
+                    street: 'TestStreet 101',
+                    zipCode: '10260',
+                    country: 'Thailand'
+                },
+                email: 'mymail@test.com'
+            },
+            deliveryMethod: 'Jet'
+        }
+        axios.post('/orders.json', order)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => console.log(error))
+            .finally(() => { 
+                this.setState({loading: false, purchasing: false});
+            });
     }
 
     render() {
@@ -26,7 +58,7 @@ export class ContactData extends Component {
                     <input className={classes.Input} type="email" name="email" placeholder="Your email" />
                     <input className={classes.Input} type="text" name="street" placeholder="Your Street" />
                     <input className={classes.Input} type="text" name="postal" placeholder="Your postal" />
-                    <Button buttonType="Success">ORDER</Button>
+                    <Button buttonType="Success" clicked={this.orderHandler}>ORDER</Button>
                 </form>
             </div>
         )

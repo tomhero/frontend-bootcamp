@@ -110,30 +110,6 @@ class BurgerBuilder extends Component<RouteComponentProps> {
 
     purchaseContinueHandler = () => {
         // alert('purchaseContinueHandler');
-        // Send data to backend
-        // this.setState({loading: true});
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.totalPrice,
-        //     customer: {
-        //         name: 'Chayut Ruksonya',
-        //         address: {
-        //             street: 'TestStreet 101',
-        //             zipCode: '10260',
-        //             country: 'Thailand'
-        //         },
-        //         email: 'mymail@test.com'
-        //     },
-        //     deliveryMethod: 'Jet'
-        // }
-        // axios.post('/orders.json', order)
-        //     .then(response => {
-        //         console.log(response);
-        //     })
-        //     .catch(error => console.log(error))
-        //     .finally(() => { 
-        //         this.setState({loading: false, purchasing: false});
-        //     });
         const queryParams: string[] = [];
         for (const key in this.state.ingredients) {
             queryParams.push(encodeURIComponent(key) + '=' + encodeURIComponent(this.state.ingredients[key]));
