@@ -6,6 +6,7 @@ import OrderSummary from '../../components/Burger/Ordersummary/Ordersummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-order';
+import { RouteComponentProps } from "react-router-dom";
 
 import { BurgerBuilderState, Ingredient, OrderableIngredients } from '../../models/Burger';
 
@@ -21,7 +22,8 @@ const INGREDIENT_PRICE: {
     bacon: 10.75
 }
 
-class BurgerBuilder extends Component {
+// If you nedd to use props from router object --> `RouteComponentProps`
+class BurgerBuilder extends Component<RouteComponentProps> {
 
     state: BurgerBuilderState = {
         ingredients: {
@@ -38,14 +40,14 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         axios.get('/ingredients.json')
             .then(response => {
-                this.setState({ingredients: response.data});
+                this.setState({ ingredients: response.data });
             })
-            .catch(error => this.setState({error: true}))
+            .catch(error => this.setState({ error: true }))
             .finally(() => {
-                this.setState({loading: false});
+                this.setState({ loading: false });
             });
     }
 
@@ -109,29 +111,30 @@ class BurgerBuilder extends Component {
     purchaseContinueHandler = () => {
         // alert('purchaseContinueHandler');
         // Send data to backend
-        this.setState({loading: true});
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Chayut Ruksonya',
-                address: {
-                    street: 'TestStreet 101',
-                    zipCode: '10260',
-                    country: 'Thailand'
-                },
-                email: 'mymail@test.com'
-            },
-            deliveryMethod: 'Jet'
-        }
-        axios.post('/orders.json', order)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => console.log(error))
-            .finally(() => { 
-                this.setState({loading: false, purchasing: false});
-            });
+        // this.setState({loading: true});
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Chayut Ruksonya',
+        //         address: {
+        //             street: 'TestStreet 101',
+        //             zipCode: '10260',
+        //             country: 'Thailand'
+        //         },
+        //         email: 'mymail@test.com'
+        //     },
+        //     deliveryMethod: 'Jet'
+        // }
+        // axios.post('/orders.json', order)
+        //     .then(response => {
+        //         console.log(response);
+        //     })
+        //     .catch(error => console.log(error))
+        //     .finally(() => { 
+        //         this.setState({loading: false, purchasing: false});
+        //     });
+        this.props.history.push('/checkout');
     }
 
     render() {
@@ -162,7 +165,7 @@ class BurgerBuilder extends Component {
                     </>);
 
             }
-            orderSummary = (<OrderSummary 
+            orderSummary = (<OrderSummary
                 ingredients={this.state.ingredients}
                 purchaseContinued={this.purchaseContinueHandler}
                 purchaseCanceled={this.purchaseCancelHandler}
@@ -170,7 +173,7 @@ class BurgerBuilder extends Component {
         }
         return (
             <>
-                <Modal isShowing={this.state.purchasing} modalClosed={() => () => {}}>
+                <Modal isShowing={this.state.purchasing} modalClosed={() => () => { }}>
                     {orderSummary}
                 </Modal>
                 <div style={{ filter: (this.state.purchasing ? 'blur(2rem)' : 'none') }}>
