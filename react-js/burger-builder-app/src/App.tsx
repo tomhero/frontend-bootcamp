@@ -12,8 +12,8 @@ class App extends Component {
         <Layout>
           {/* NOTE : You can see BrowserRouter in index.jsx file */}
           <Switch>
-            <Route path="/checkout" exact={true} component={Checkout}/>
-            <Route path="/" component={BurgerBuilder}/>
+            <Route path="/checkout" exact={false} component={Checkout}/>
+            <Route path="/"exact={true}  component={BurgerBuilder}/>
           </Switch>
         </Layout>
       </div>

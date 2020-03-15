@@ -13,6 +13,10 @@ export class ContactData extends Component {
         }
     }
 
+    componentDidMount() {
+        console.log('componentDidMount');
+    }
+
     render() {
         return (
             <div className={classes.ContactData}>
