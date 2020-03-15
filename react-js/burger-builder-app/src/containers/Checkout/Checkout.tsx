@@ -6,28 +6,34 @@ import { Route } from 'react-router-dom';
 import ContactData from "./ContactData/ContactData";
 
 type CheckoutState = {
-    ingredients: OrderableIngredients
+    ingredients: OrderableIngredients;
+    totalPrice: number;
 }
 
 class Checkout extends Component<RouteComponentProps> {
 
     state: CheckoutState = {
         ingredients: {
-            salad: 1,
-            meat: 1,
-            cheese: 1,
-            bacon: 1
-        }
+            salad: 0,
+            meat: 0,
+            cheese: 0,
+            bacon: 0
+        },
+        totalPrice: 0
     }
 
     componentDidMount() {
         let query = new URLSearchParams(this.props.location.search);
         const ingredients: any = {};
+        let totalPrice = 0;
         query.forEach((val, key) => {
             // key = bacon , val = '0'
             ingredients[key] = +val as number;
+            if (key === 'price') {
+                totalPrice += ingredients[key];
+            }
         });
-        this.setState({ingredients: ingredients});
+        this.setState({ingredients: ingredients, totalPrice: totalPrice});
     }
 
     checkoutCanceledHandler = () => {
@@ -51,7 +57,7 @@ class Checkout extends Component<RouteComponentProps> {
                 <Route 
                     path={`${this.props.match.path}/contact-data`} 
                     // NOTE : passing props (binding...)
-                    render={() => <ContactData ingredients={this.state.ingredients}/>} />
+                    render={() => <ContactData ingredients={this.state.ingredients} totalPrice={this.state.totalPrice} />} />
             </div>
         );
     }
