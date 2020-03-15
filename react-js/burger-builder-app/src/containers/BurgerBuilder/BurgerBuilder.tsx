@@ -134,7 +134,15 @@ class BurgerBuilder extends Component<RouteComponentProps> {
         //     .finally(() => { 
         //         this.setState({loading: false, purchasing: false});
         //     });
-        this.props.history.push('/checkout');
+        const queryParams: string[] = [];
+        for (const key in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(key) + '=' + encodeURIComponent(this.state.ingredients[key]));
+        }
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: queryString
+        });
     }
 
     render() {
