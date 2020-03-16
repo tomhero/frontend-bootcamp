@@ -23,7 +23,7 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         type: 'text',
                         placeholder: 'Your Name'
                     },
-                    value: ''
+                    value: '',
                 },
                 street: {
                     elementType: 'input',
@@ -71,7 +71,7 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                             }
                         ]
                     },
-                    value: ''
+                    value: 'fastest'
                 }
         },
         loading: false
@@ -97,20 +97,16 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
         // NOTE : this.props from Router parent component
         ev.preventDefault();
         // Send data to backend
+        const orderData: any = {};
+        Object.keys(this.state.orderForm)
+            .forEach((fieldName: string) => {
+                orderData[fieldName] =  this.state.orderForm[fieldName].value
+            });
         this.setState({ loading: true });
         const order: OrderingData = {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
-            customer: {
-                name: 'Chayut Ruksonya',
-                address: {
-                    street: 'TestStreet 101',
-                    zipCode: '10260',
-                    country: 'Thailand'
-                },
-                email: 'mymail@test.com'
-            },
-            deliveryMethod: 'Jet'
+            orderData
         }
         axios.post('/orders.json', order)
             .then(response => {
@@ -127,6 +123,7 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
 
     render() {
         let formElements: any = [];
+        // https://stackoverflow.com/questions/47012169/a-component-is-changing-an-uncontrolled-input-of-type-text-to-be-controlled-erro
         formElements = Object.keys(this.state.orderForm)
             .map(fieldName => {
                 const fieldValue = this.state.orderForm[fieldName];

@@ -4,16 +4,7 @@ export type OrderingData = {
     id?: string;
     ingredients: OrderableIngredients;
     price: number;
-    customer: {
-        name: string;
-        address: {
-            street: string;
-            zipCode: string;
-            country: string;
-        };
-        email: string;
-    };
-    deliveryMethod: string;
+    orderData: any
 }
 
 export type ContactInputElements = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
