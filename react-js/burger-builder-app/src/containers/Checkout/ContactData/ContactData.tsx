@@ -27,7 +27,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 street: {
                     elementType: 'input',
@@ -39,7 +40,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 zipCode: {
                     elementType: 'input',
@@ -53,7 +55,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         minLength: 5,
                         maxLength: 5
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 country: {
                     elementType: 'input',
@@ -65,7 +68,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 email: {
                     elementType: 'input',
@@ -77,7 +81,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                     validation: {
                         required: true
                     },
-                    valid: false
+                    valid: false,
+                    touched: false
                 },
                 deliveryMethod: {
                     elementType: 'select',
@@ -92,6 +97,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                                 displayValue: 'Cheapest'
                             }
                         ]
+                    },
+                    validation: {
                     },
                     value: 'fastest',
                 }
@@ -132,8 +139,9 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
             updatedFormElement.value, 
             updatedFormElement.validation
         );
-
-        console.log(updatedFormElement);
+        if (!updatedFormElement.touched) {
+            updatedFormElement.touched = true
+        }
 
         updatedOrderForm[inputId] = updatedFormElement;
         this.setState({orderForm: updatedOrderForm});
@@ -177,6 +185,9 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                     elementType={fieldValue.elementType} 
                     elementConfig={fieldValue.elementConfig} 
                     value={fieldValue.value}
+                    invalid={!fieldValue.valid}
+                    shouldValidate={fieldValue.validation}
+                    touched={fieldValue.touched}
                     changed={(event: React.ChangeEvent<ContactInputElements>) => this.inputChangedHandler(event, fieldName)}
                     />
             });
