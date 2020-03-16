@@ -24,6 +24,10 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         placeholder: 'Your Name'
                     },
                     value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 street: {
                     elementType: 'input',
@@ -31,7 +35,11 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         type: 'text',
                         placeholder: 'Street'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 zipCode: {
                     elementType: 'input',
@@ -39,7 +47,13 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         type: 'text',
                         placeholder: 'ZIP CODE'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 5,
+                        maxLength: 5
+                    },
+                    valid: false
                 },
                 country: {
                     elementType: 'input',
@@ -47,7 +61,11 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         type: 'text',
                         placeholder: 'Country'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 email: {
                     elementType: 'input',
@@ -55,7 +73,11 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                         type: 'email',
                         placeholder: 'Your E-mail'
                     },
-                    value: ''
+                    value: '',
+                    validation: {
+                        required: true
+                    },
+                    valid: false
                 },
                 deliveryMethod: {
                     elementType: 'select',
@@ -71,10 +93,28 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                             }
                         ]
                     },
-                    value: 'fastest'
+                    value: 'fastest',
                 }
         },
         loading: false
+    }
+
+    checkValidity = (value: string, rule: any) => {
+        let isValid: boolean = true;
+        // NOTE ... && isValid <-- OMG this is the best
+        if (rule.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if (rule.minLength) {
+            isValid = value.length >= rule.minLength && isValid;
+        }
+
+        if (rule.maxLength) {
+            isValid = value.length <= rule.minLength && isValid;
+        }
+
+        return isValid;
     }
 
     inputChangedHandler = (ev: React.ChangeEvent<ContactInputElements>, inputId: string) => {
@@ -88,6 +128,12 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
         };
 
         updatedFormElement.value = ev.target.value;
+        updatedFormElement.valid = this.checkValidity(
+            updatedFormElement.value, 
+            updatedFormElement.validation
+        );
+
+        console.log(updatedFormElement);
 
         updatedOrderForm[inputId] = updatedFormElement;
         this.setState({orderForm: updatedOrderForm});
