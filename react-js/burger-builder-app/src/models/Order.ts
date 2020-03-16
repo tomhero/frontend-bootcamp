@@ -15,3 +15,5 @@ export type OrderingData = {
     };
     deliveryMethod: string;
 }
+
+export type ContactInputElements = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
