@@ -6,6 +6,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import classes from "./ContactData.module.css";
 import axios from '../../../axios-order';
 import { OrderingData } from '../../../models/Order';
+import Input from '../../../components/UI/Input/Input';
 
 type ContactDataProps = {
     ingredients: OrderableIngredients;
@@ -58,10 +59,10 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
 
     render() {
         let form = (<form>
-            <input className={classes.Input} type="text" name="name" placeholder="Your name" />
-            <input className={classes.Input} type="email" name="email" placeholder="Your email" />
-            <input className={classes.Input} type="text" name="street" placeholder="Your Street" />
-            <input className={classes.Input} type="text" name="postal" placeholder="Your postal" />
+            <Input inputtype="input" type="text" name="name" placeholder="Your name" />
+            <Input inputtype="input" type="email" name="email" placeholder="Your email" />
+            <Input inputtype="input" type="text" name="street" placeholder="Your Street" />
+            <Input inputtype="input" type="text" name="postal" placeholder="Your postal" />
             <Button buttonType="Success" clicked={this.orderHandler}>ORDER</Button>
         </form>);
         if (this.state.loading) {
