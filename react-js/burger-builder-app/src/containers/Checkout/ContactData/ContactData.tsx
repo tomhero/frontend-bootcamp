@@ -5,6 +5,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import classes from "./ContactData.module.css";
 import axios from '../../../axios-order';
+import { OrderingData } from '../../../models/Order';
 
 type ContactDataProps = {
     ingredients: OrderableIngredients;
@@ -28,7 +29,7 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
         ev.preventDefault();
         // Send data to backend
         this.setState({ loading: true });
-        const order = {
+        const order: OrderingData = {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
             customer: {

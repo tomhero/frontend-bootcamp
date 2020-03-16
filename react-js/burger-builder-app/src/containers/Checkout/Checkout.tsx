@@ -28,9 +28,10 @@ class Checkout extends Component<RouteComponentProps> {
         let totalPrice = 0;
         query.forEach((val, key) => {
             // key = bacon , val = '0'
-            ingredients[key] = +val as number;
             if (key === 'price') {
-                totalPrice += ingredients[key];
+                totalPrice += (+val as number);
+            } else {
+                ingredients[key] = +val as number;
             }
         });
         this.setState({ingredients: ingredients, totalPrice: totalPrice});
