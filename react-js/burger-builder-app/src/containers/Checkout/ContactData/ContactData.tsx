@@ -100,9 +100,11 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
                     },
                     validation: {
                     },
+                    valid: true,
                     value: 'fastest',
                 }
         },
+        formIsValid: false,
         loading: false
     }
 
@@ -143,8 +145,14 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
             updatedFormElement.touched = true
         }
 
+        let formIsValid = true;
+        Object.keys(this.state.orderForm)
+            .forEach(fieldName => {
+                formIsValid = updatedOrderForm[fieldName].valid && formIsValid;
+            });
+
         updatedOrderForm[inputId] = updatedFormElement;
-        this.setState({orderForm: updatedOrderForm});
+        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
     orderHandler = (ev: React.MouseEvent) => {
@@ -193,7 +201,7 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
             });
         let form = (<form>
             {formElements}
-            <Button buttonType="Success" clicked={this.orderHandler}>ORDER</Button>
+            <Button buttonType="Success" disabled={!this.state.formIsValid} clicked={this.orderHandler}>ORDER</Button>
         </form>);
         if (this.state.loading) {
             form = <Spinner />
