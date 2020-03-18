@@ -4,13 +4,15 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import { RouteComponentProps } from "react-router-dom";
 import { Route } from 'react-router-dom';
 import ContactData from "./ContactData/ContactData";
+import { Ingredient as IngredientState } from "../../store/actions";
+import { connect, ConnectedProps } from "react-redux";
 
 type CheckoutState = {
     ingredients: OrderableIngredients;
     totalPrice: number;
 }
 
-class Checkout extends Component<RouteComponentProps> {
+class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutState> {
 
     state: CheckoutState = {
         ingredients: {
@@ -51,20 +53,28 @@ class Checkout extends Component<RouteComponentProps> {
         return (
             <div>
                 <CheckoutSummary 
-                    ingredients={this.state.ingredients}
+                    ingredients={this.props.ings}
                     checkoutContinued={this.checkoutContinuedHandler}
                     checkoutCanceled={this.checkoutCanceledHandler}
                     />
                 <Route 
                     path={`${this.props.match.path}/contact-data`} 
                     // NOTE : passing props (binding...)
-                    render={
-                        (props) => <ContactData ingredients={this.state.ingredients} totalPrice={this.state.totalPrice} />
-                    } 
+                    component={ContactData} 
                 />
             </div>
         );
     }
 }
 
-export default Checkout;
+const mapStateToProps = (state: IngredientState) => {
+    return {
+        ings: state.ingredients
+    }
+}
+
+const connector = connect(mapStateToProps)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+export default connector(Checkout);

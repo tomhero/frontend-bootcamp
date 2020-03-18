@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import Button from "../../../components/UI/Button/Button";
-import { OrderableIngredients } from '../../../models/Burger';
+// import { OrderableIngredients } from '../../../models/Burger';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import classes from "./ContactData.module.css";
 import axios from '../../../axios-order';
 import { OrderingData, ContactInputElements } from '../../../models/Order';
 import Input from '../../../components/UI/Input/Input';
+import { Ingredient as IngredientState } from "../../../store/actions";
+import { connect, ConnectedProps } from "react-redux";
 
-type ContactDataProps = {
-    ingredients: OrderableIngredients;
-    totalPrice: number;
-}
+// type ContactDataProps = {
+//     ingredients: OrderableIngredients;
+//     totalPrice: number;
+// }
 
-class ContactData extends Component<ContactDataProps & RouteComponentProps> {
+class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
 
     state: {[indexing: string]: any} = {
         orderForm: {
@@ -166,8 +168,8 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
             });
         this.setState({ loading: true });
         const order: OrderingData = {
-            ingredients: this.props.ingredients,
-            price: this.props.totalPrice,
+            ingredients: this.props.ings,
+            price: this.props.price,
             orderData
         }
         axios.post('/orders.json', order)
@@ -215,4 +217,15 @@ class ContactData extends Component<ContactDataProps & RouteComponentProps> {
     }
 }
 
-export default withRouter(ContactData);
+const mapStateToProps = (state: IngredientState) => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+const connector = connect(mapStateToProps)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+export default connector(withRouter(ContactData));
