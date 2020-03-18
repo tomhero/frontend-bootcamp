@@ -43,7 +43,7 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
             .reduce((sum, el) => {
                 return sum + el;
             }, 0);
-        this.setState({ pusrchasable: sum > 0 })
+        return sum > 0;
     }
 
     purchaseHandler = () => {
@@ -91,7 +91,7 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
                             ingredientRemoved={this.props.onIngredientRemoved}
                             disabled={disabledInfo}
                             price={this.props.price}
-                            purchasable={this.state.pusrchasable}
+                            purchasable={this.updatePurchaseState(this.props.ings)}
                             ordered={this.purchaseHandler} />
                     </>);
 
