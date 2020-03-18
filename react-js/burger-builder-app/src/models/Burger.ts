@@ -18,8 +18,6 @@ export type OrderableIngredients = {
 }
 
 export type BurgerBuilderState = {
-    ingredients: OrderableIngredients;
-    totalPrice: number;
     pusrchasable: boolean;
     purchasing: boolean;
     loading: boolean;
