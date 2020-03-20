@@ -49,7 +49,7 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
     purchaseContinueHandler = () => {
         // NOTE : Call init purchase first to reset purchased state (false)
         this.props.onInitPurchase();
-        this.props.history.push("/");
+        this.props.history.push("/checkout");
     }
 
     render() {

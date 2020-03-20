@@ -20,7 +20,8 @@ const initialState: Ingredient = {
         cheese: 0,
         meat: 0
     },
-    totalPrice: 4,
+    // this is inital price (5 ฿)
+    totalPrice: 5,
     error: false,
     loadingIngredients: true
 }
@@ -49,6 +50,7 @@ const reducer = (state = initialState, action: IngredientAction): Ingredient => 
             return {
                 ...state,
                 ingredients: action.ingredients as OrderableIngredients,
+                totalPrice: 5,
                 error: false,
                 loadingIngredients: false
             }
