@@ -9,6 +9,9 @@ import { OrderingData, ContactInputElements } from '../../../models/Order';
 import Input from '../../../components/UI/Input/Input';
 import { Ingredient as IngredientState } from "../../../store/actions/actionTypes";
 import { connect, ConnectedProps } from "react-redux";
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+
+import * as actions from '../../../store/actions/index'
 
 // type ContactDataProps = {
 //     ingredients: OrderableIngredients;
@@ -17,94 +20,94 @@ import { connect, ConnectedProps } from "react-redux";
 
 class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
 
-    state: {[indexing: string]: any} = {
+    state: { [indexing: string]: any } = {
         orderForm: {
-                name: {
-                    elementType: 'input',
-                    elementConfig: {
-                        type: 'text',
-                        placeholder: 'Your Name'
-                    },
-                    value: '',
-                    validation: {
-                        required: true
-                    },
-                    valid: false,
-                    touched: false
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name'
                 },
-                street: {
-                    elementType: 'input',
-                    elementConfig: {
-                        type: 'text',
-                        placeholder: 'Street'
-                    },
-                    value: '',
-                    validation: {
-                        required: true
-                    },
-                    valid: false,
-                    touched: false
+                value: '',
+                validation: {
+                    required: true
                 },
-                zipCode: {
-                    elementType: 'input',
-                    elementConfig: {
-                        type: 'text',
-                        placeholder: 'ZIP CODE'
-                    },
-                    value: '',
-                    validation: {
-                        required: true,
-                        minLength: 5,
-                        maxLength: 5
-                    },
-                    valid: false,
-                    touched: false
+                valid: false,
+                touched: false
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street'
                 },
-                country: {
-                    elementType: 'input',
-                    elementConfig: {
-                        type: 'text',
-                        placeholder: 'Country'
-                    },
-                    value: '',
-                    validation: {
-                        required: true
-                    },
-                    valid: false,
-                    touched: false
+                value: '',
+                validation: {
+                    required: true
                 },
-                email: {
-                    elementType: 'input',
-                    elementConfig: {
-                        type: 'email',
-                        placeholder: 'Your E-mail'
-                    },
-                    value: '',
-                    validation: {
-                        required: true
-                    },
-                    valid: false,
-                    touched: false
+                valid: false,
+                touched: false
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'ZIP CODE'
                 },
-                deliveryMethod: {
-                    elementType: 'select',
-                    elementConfig: {
-                        options: [
-                            {
-                                value: 'fastest',
-                                displayValue: 'Fastest'
-                            },
-                            {
-                                value: 'cheapest',
-                                displayValue: 'Cheapest'
-                            }
-                        ]
-                    },
-                    validation: {
-                    },
-                    valid: true,
-                    value: 'fastest',
-                }
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 5
+                },
+                valid: false,
+                touched: false
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Country'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your E-mail'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options: [
+                        {
+                            value: 'fastest',
+                            displayValue: 'Fastest'
+                        },
+                        {
+                            value: 'cheapest',
+                            displayValue: 'Cheapest'
+                        }
+                    ]
+                },
+                validation: {
+                },
+                valid: true,
+                value: 'fastest',
+            }
         },
         formIsValid: false,
         loading: false
@@ -140,7 +143,7 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
 
         updatedFormElement.value = ev.target.value;
         updatedFormElement.valid = this.checkValidity(
-            updatedFormElement.value, 
+            updatedFormElement.value,
             updatedFormElement.validation
         );
         if (!updatedFormElement.touched) {
@@ -154,7 +157,7 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
             });
 
         updatedOrderForm[inputId] = updatedFormElement;
-        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
+        this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
     }
 
     orderHandler = (ev: React.MouseEvent) => {
@@ -164,25 +167,27 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
         const orderData: any = {};
         Object.keys(this.state.orderForm)
             .forEach((fieldName: string) => {
-                orderData[fieldName] =  this.state.orderForm[fieldName].value
+                orderData[fieldName] = this.state.orderForm[fieldName].value
             });
-        this.setState({ loading: true });
+        // this.setState({ loading: true });
         const order: OrderingData = {
             ingredients: this.props.ings,
             price: this.props.price,
             orderData
         }
-        axios.post('/orders.json', order)
-            .then(response => {
-                console.log(response);
-                // NOTE : Because of {...props} form parent component
-                this.setState({ loading: false, purchasing: false });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({ loading: false, purchasing: false });
-            })
+
+        this.props.onOrderBurger(order)
+        // axios.post('/orders.json', order)
+        //     .then(response => {
+        //         console.log(response);
+        //         // NOTE : Because of {...props} form parent component
+        //         this.setState({ loading: false, purchasing: false });
+        //         this.props.history.push('/');
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //         this.setState({ loading: false, purchasing: false });
+        //     })
     }
 
     render() {
@@ -191,15 +196,15 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
         formElements = Object.keys(this.state.orderForm)
             .map(fieldName => {
                 const fieldValue = this.state.orderForm[fieldName];
-                return <Input key={fieldName} 
-                    elementType={fieldValue.elementType} 
-                    elementConfig={fieldValue.elementConfig} 
+                return <Input key={fieldName}
+                    elementType={fieldValue.elementType}
+                    elementConfig={fieldValue.elementConfig}
                     value={fieldValue.value}
                     invalid={!fieldValue.valid}
                     shouldValidate={fieldValue.validation}
                     touched={fieldValue.touched}
                     changed={(event: React.ChangeEvent<ContactInputElements>) => this.inputChangedHandler(event, fieldName)}
-                    />
+                />
             });
         let form = (<form>
             {formElements}
@@ -224,8 +229,14 @@ const mapStateToProps = (state: IngredientState) => {
     }
 }
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Function) => {
+    return {
+        onOrderBurger: (orderData: OrderingData) => dispatch(actions.purchaseBurgerStart(orderData))
+    }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-export default connector(withRouter(ContactData));
+export default connector(withErrorHandler(withRouter(ContactData), axios));

@@ -1,7 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-order';
+import { OrderingData } from '../../models/Order';
 
-export const purchaseBurgerSuccess = (id: string, orderData: any) => {
+export const purchaseBurgerSuccess = (id: string, orderData: OrderingData) => {
     return {
         type: actionTypes.OrderAction.PURCHASE_SUCCESS,
         orderId: id,
@@ -16,7 +17,7 @@ export const purchaseBurgerFail = (error: any) => {
     }
 }
 
-export const purchaseBurgerStart = (orderData: any) => {
+export const purchaseBurgerStart = (orderData: OrderingData) => {
     // Redux thunk middleware --> dispatch
     return (dispatch: Function) => {
         axios.post('/orders.json', orderData)

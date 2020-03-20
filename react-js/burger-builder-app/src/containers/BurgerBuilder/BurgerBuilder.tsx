@@ -115,7 +115,7 @@ const mapStateToProps = (state: IngredientState) => {
         loading: state.loadingIngredients
     }
 }
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Function) => {
     return {
         onIngredientAdded: (ingName: string) => dispatch(bugerBuilderActions.addIngredient(ingName)),
         onIngredientRemoved: (ingName: string) => dispatch(bugerBuilderActions.removeIngredient(ingName)),
