@@ -7,7 +7,7 @@ import classes from "./ContactData.module.css";
 import axios from '../../../axios-order';
 import { OrderingData, ContactInputElements } from '../../../models/Order';
 import Input from '../../../components/UI/Input/Input';
-import { Ingredient as IngredientState } from "../../../store/actions";
+import { Ingredient as IngredientState } from "../../../store/actions/actionTypes";
 import { connect, ConnectedProps } from "react-redux";
 
 // type ContactDataProps = {

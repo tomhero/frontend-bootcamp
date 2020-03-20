@@ -4,7 +4,7 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import { RouteComponentProps } from "react-router-dom";
 import { Route } from 'react-router-dom';
 import ContactData from "./ContactData/ContactData";
-import { Ingredient as IngredientState } from "../../store/actions";
+import { Ingredient as IngredientState } from "../../store/actions/actionTypes";
 import { connect, ConnectedProps } from "react-redux";
 
 type CheckoutState = {

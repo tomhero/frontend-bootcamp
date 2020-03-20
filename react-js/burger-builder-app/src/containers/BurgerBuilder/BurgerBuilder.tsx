@@ -9,7 +9,7 @@ import axios from '../../axios-order';
 import { RouteComponentProps } from "react-router-dom";
 
 import { connect, ConnectedProps } from "react-redux";
-import {  Ingredient as IngredientState, IngredientActions } from "../../store/actions";
+import {  Ingredient as IngredientState, IngredientActions } from "../../store/actions/actionTypes";
 
 import { BurgerBuilderState, OrderableIngredients } from '../../models/Burger';
 

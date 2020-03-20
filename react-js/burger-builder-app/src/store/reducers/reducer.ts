@@ -1,4 +1,4 @@
-import { Ingredient, IngredientActions, IngredientAction } from './actions';
+import { Ingredient, IngredientActions, IngredientAction } from '../actions/actionTypes';
 
 const INGREDIENT_PRICE: {
     [salad: string]: number | boolean,

@@ -1,4 +1,4 @@
-import { OrderableIngredients } from "../models/Burger";
+import { OrderableIngredients } from "../../models/Burger";
 
 export interface Ingredient {
     ingredients: OrderableIngredients;
