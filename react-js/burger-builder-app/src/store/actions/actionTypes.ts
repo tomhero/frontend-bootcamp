@@ -44,7 +44,7 @@ export interface Order {
      PURCHASE_SUCCESS = "PURCHASE_ORDER_SUCCESS",
      PURCHASE_FAIL = "PURCHASE_ORDER_FAILED",
      PUCHASE_INIT = "INITIAL_ORDER_PURCHASE",
-     PURCHASE_START = "PURCHASE_ORDER_START"
+     PURCHASE_START = "PURCHASE_ORDER_START",
  }
 
  interface OrderActionType<T, P> {
@@ -59,3 +59,23 @@ export type OrderActions =
     | OrderActionType<typeof OrderAction.PURCHASE_START, Order>
     | OrderActionType<typeof OrderAction.PUCHASE_INIT, Order>
 
+/**
+ * Retrive Orders Action types
+ */
+
+export enum OrdersAction {
+    FETCH_START =  "FETCH_ORDERS_START",
+    FETCH_SUCCESS =  "FETCH_ORDERS_SUCCESS",
+    FETCH_FAIL =  "FETCH_ORDERS_START"
+}
+
+interface OrdersActionType<T, P> {
+    [x: string]: any;
+    type: T,
+    payload: P
+}
+
+export type OrdersActions = 
+    | OrdersActionType<typeof OrdersAction.FETCH_START, OrderingData[]>
+    | OrdersActionType<typeof OrdersAction.FETCH_SUCCESS, OrderingData[]>
+    | OrdersActionType<typeof OrdersAction.FETCH_FAIL, OrderingData[]>

@@ -46,3 +46,46 @@ export const purchaseInit = () => {
         type: actionTypes.OrderAction.PUCHASE_INIT
     }
 }
+
+export const fetchOrdersSuccess = (orders: OrderingData[]) => {
+    return {
+        type: actionTypes.OrdersAction.FETCH_SUCCESS,
+        orders: orders
+    }
+}
+
+export const fetchOrdersFail = (error: any) => {
+    return {
+        type: actionTypes.OrdersAction.FETCH_FAIL,
+        error: error
+    }
+}
+
+export const fetchOrdersStart = () => {
+    return {
+        type: actionTypes.OrdersAction.FETCH_START
+    }
+}
+
+export const fetchOrders = () => {
+    return (dispatch: Function) => {
+        // To make spinner showing on screen
+        // NOTE : Don't forget to call ot with dispatch()
+        dispatch(fetchOrdersStart())
+        axios.get('/orders.json')
+            .then(response => {
+                // NOTE : Mapping data into a valid form
+                const fetchedOrders: OrderingData[] = Object.keys(response.data)
+                    .map(orderKey => {
+                        return {
+                            id: orderKey,
+                            ...response.data[orderKey]
+                        };
+                    })
+                dispatch(fetchOrdersSuccess(fetchedOrders));
+            })
+            .catch(error => {
+                dispatch(fetchOrdersFail(error));
+            });
+    }
+}
