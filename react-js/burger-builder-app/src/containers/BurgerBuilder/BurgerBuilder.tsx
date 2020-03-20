@@ -19,21 +19,12 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
 
     state: BurgerBuilderState = {
         pusrchasable: false,
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
     }
 
     componentDidMount() {
-        // this.setState({ loading: true });
-        // axios.get('/ingredients.json')
-        //     .then(response => {
-        //         this.setState({ ingredients: response.data });
-        //     })
-        //     .catch(error => this.setState({ error: true }))
-        //     .finally(() => {
-        //         this.setState({ loading: false });
-        //     });
+        // Call of ingredients here to redux store
+        this.props.onInitIngredients()
     }
 
     updatePurchaseState(ingredients: OrderableIngredients) {
@@ -79,8 +70,8 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
         }
         let orderSummary: any = <Spinner />
         let burger: any = <Spinner />
-        if (!this.state.loading) {
-            if (this.state.error) {
+        if (!this.props.loading) {
+            if (this.props.error) {
                 burger = <p> Burger cannot be loaded!! </p>
                 orderSummary = null
             } else {
@@ -119,13 +110,16 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
 const mapStateToProps = (state: IngredientState) => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error,
+        loading: state.loadingIngredients
     }
 }
 const mapDispatchToProps = (dispatch: any) => {
     return {
         onIngredientAdded: (ingName: string) => dispatch(bugerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName: string) => dispatch(bugerBuilderActions.removeIngredient(ingName))
+        onIngredientRemoved: (ingName: string) => dispatch(bugerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(bugerBuilderActions.initIngredients())
     }
 }
 

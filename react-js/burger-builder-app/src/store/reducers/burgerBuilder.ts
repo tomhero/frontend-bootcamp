@@ -19,7 +19,9 @@ const initialState: Ingredient = {
         cheese: 0,
         meat: 0
     },
-    totalPrice: 4
+    totalPrice: 4,
+    error: false,
+    loadingIngredients: true
 }
 
 const reducer = (state = initialState, action: IngredientAction): Ingredient => {
@@ -41,6 +43,19 @@ const reducer = (state = initialState, action: IngredientAction): Ingredient => 
                     [action.ingredientName]: (state.ingredients[action.ingredientName] as number) - 1
                 },
                 totalPrice: state.totalPrice - (INGREDIENT_PRICE[action.ingredientName] as number)
+            }
+        case IngredientActions.SET:
+            return {
+                ...state,
+                ingredients: action.ingredients,
+                error: false,
+                loadingIngredients: false
+            }
+        case IngredientActions.FETCH_FAILED:
+            return {
+                ...state,
+                loadingIngredients: false,
+                error: true
             }
         default:
             return state;
