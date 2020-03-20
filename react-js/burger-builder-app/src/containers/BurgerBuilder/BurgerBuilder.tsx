@@ -9,7 +9,8 @@ import axios from '../../axios-order';
 import { RouteComponentProps } from "react-router-dom";
 
 import { connect, ConnectedProps } from "react-redux";
-import {  Ingredient as IngredientState, IngredientActions } from "../../store/actions/actionTypes";
+import {  Ingredient as IngredientState } from "../../store/actions/actionTypes";
+import * as bugerBuilderActions from '../../store/actions/index';
 
 import { BurgerBuilderState, OrderableIngredients } from '../../models/Burger';
 
@@ -123,8 +124,8 @@ const mapStateToProps = (state: IngredientState) => {
 }
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onIngredientAdded: (ingName: string) => dispatch({ type: IngredientActions.ADD, ingredientName: ingName }),
-        onIngredientRemoved: (ingName: string) => dispatch({ type: IngredientActions.REMOVE, ingredientName: ingName })
+        onIngredientAdded: (ingName: string) => dispatch(bugerBuilderActions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName: string) => dispatch(bugerBuilderActions.removeIngredient(ingName))
     }
 }
 

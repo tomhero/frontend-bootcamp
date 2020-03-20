@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, compose } from "redux";
-import reducer from "./store/reducers/reducer";
+import burgerBuilderReducer from "./store/reducers/burgerBuilder";
 
 declare global {
     interface Window {
@@ -16,7 +16,7 @@ declare global {
 }
 
 const store = createStore(
-    reducer, 
+    burgerBuilderReducer, 
     window.__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 );
 
