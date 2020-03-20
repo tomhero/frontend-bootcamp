@@ -40,3 +40,9 @@ export const purchaseBurger = (orderData: OrderingData) => {
             })
     }
 }
+
+export const purchaseInit = () => {
+    return {
+        type: actionTypes.OrderAction.PUCHASE_INIT
+    }
+}

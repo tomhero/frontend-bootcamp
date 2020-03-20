@@ -2,11 +2,17 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState: actionTypes.Order = {
     orders: [],
-    loading: false
+    loading: false,
+    purchased: false
 }
 
 const reducer = (state: actionTypes.Order = initialState, action: actionTypes.OrderActions) => {
     switch (action.type) {
+        case actionTypes.OrderAction.PUCHASE_INIT:
+            return {
+                ...state,
+                purchased: false
+            }
         case actionTypes.OrderAction.PURCHASE_START:
             // NOTE : On PURCHASE_START action set loading = true
             return {
@@ -22,6 +28,7 @@ const reducer = (state: actionTypes.Order = initialState, action: actionTypes.Or
             return {
                 ...state,
                 loading: false,
+                purchased: true,
                 orders: state.orders.concat(newOrder) // Add as immutability array
             };
         case actionTypes.OrderAction.PURCHASE_FAIL:

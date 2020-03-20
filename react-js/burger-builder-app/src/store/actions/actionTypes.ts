@@ -37,11 +37,13 @@ export type IngredientAction =
 export interface Order {
     orders: OrderingData[];
     loading: boolean;
+    purchased: boolean;
 }
 
  export enum OrderAction {
      PURCHASE_SUCCESS = "PURCHASE_ORDER_SUCCESS",
      PURCHASE_FAIL = "PURCHASE_ORDER_FAILED",
+     PUCHASE_INIT = "INITIAL_ORDER_PURCHASE",
      PURCHASE_START = "PURCHASE_ORDER_START"
  }
 
@@ -55,4 +57,5 @@ export type OrderActions =
     | OrderActionType<typeof OrderAction.PURCHASE_SUCCESS, Order>
     | OrderActionType<typeof OrderAction.PURCHASE_FAIL, Order>
     | OrderActionType<typeof OrderAction.PURCHASE_START, Order>
+    | OrderActionType<typeof OrderAction.PUCHASE_INIT, Order>
 

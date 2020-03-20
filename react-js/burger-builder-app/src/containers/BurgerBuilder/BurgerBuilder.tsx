@@ -10,7 +10,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/index";
-import * as bugerBuilderActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 import { BurgerBuilderState, OrderableIngredients } from '../../models/Burger';
 
@@ -47,17 +47,9 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
     }
 
     purchaseContinueHandler = () => {
-        // alert('purchaseContinueHandler');
-        const queryParams: string[] = [];
-        for (const key in this.props.ings) {
-            queryParams.push(encodeURIComponent(key) + '=' + encodeURIComponent(this.props.ings[key]));
-        }
-        queryParams.push('price=' + this.props.price);
-        const queryString = queryParams.join('&');
-        this.props.history.push({
-            pathname: '/checkout',
-            search: queryString
-        });
+        // NOTE : Call init purchase first to reset purchased state (false)
+        this.props.onInitPurchase();
+        this.props.history.push("/");
     }
 
     render() {
@@ -117,9 +109,10 @@ const mapStateToProps = (state: RootState) => {
 }
 const mapDispatchToProps = (dispatch: Function) => {
     return {
-        onIngredientAdded: (ingName: string) => dispatch(bugerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName: string) => dispatch(bugerBuilderActions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(bugerBuilderActions.initIngredients())
+        onIngredientAdded: (ingName: string) => dispatch(actions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName: string) => dispatch(actions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(actions.initIngredients()),
+        onInitPurchase: () => dispatch(actions.purchaseInit())
     }
 }
 

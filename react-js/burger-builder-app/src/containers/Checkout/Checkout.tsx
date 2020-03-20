@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom';
 import ContactData from "./ContactData/ContactData";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store";
+// import * as actions from "../../store/actions/index";
 
 type CheckoutState = {
     ingredients: OrderableIngredients;
@@ -25,18 +26,8 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
     }
 
     componentDidMount() {
-        let query = new URLSearchParams(this.props.location.search);
-        const ingredients: any = {};
-        let totalPrice = 0;
-        query.forEach((val, key) => {
-            // key = bacon , val = '0'
-            if (key === 'price') {
-                totalPrice += (+val as number);
-            } else {
-                ingredients[key] = +val as number;
-            }
-        });
-        this.setState({ ingredients: ingredients, totalPrice: totalPrice });
+        // You cannot do this here bacause phurchased state will never reset
+        // this.props.onInitPurchase();
     }
 
     checkoutCanceledHandler = () => {
@@ -52,7 +43,11 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
     render() {
         let summary = <Redirect to="/" />
         if (this.props.ings) {
-            summary = <div>
+            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+            summary = (
+            <div>
+                {/* Page will redirect as soon as user successfully make an order */}
+                {purchasedRedirect}
                 <CheckoutSummary
                     ingredients={this.props.ings}
                     checkoutContinued={this.checkoutContinuedHandler}
@@ -64,6 +59,7 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
                     component={ContactData}
                 />
             </div>
+            )
         }
         return summary;
     }
@@ -71,7 +67,8 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
 
 const mapStateToProps = (state: RootState) => {
     return {
-        ings: state.burgerBuilder.ingredients
+        ings: state.burgerBuilder.ingredients,
+        purchased: state.order.purchased
     }
 }
 
