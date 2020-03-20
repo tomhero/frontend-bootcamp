@@ -1,4 +1,5 @@
 import { Ingredient, IngredientActions, IngredientAction } from '../actions/actionTypes';
+import { OrderableIngredients } from '../../models/Burger';
 
 const INGREDIENT_PRICE: {
     [salad: string]: number | boolean,
@@ -47,7 +48,7 @@ const reducer = (state = initialState, action: IngredientAction): Ingredient => 
         case IngredientActions.SET:
             return {
                 ...state,
-                ingredients: action.ingredients,
+                ingredients: action.ingredients as OrderableIngredients,
                 error: false,
                 loadingIngredients: false
             }
