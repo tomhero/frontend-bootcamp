@@ -7,16 +7,11 @@ import classes from "./ContactData.module.css";
 import axios from '../../../axios-order';
 import { OrderingData, ContactInputElements } from '../../../models/Order';
 import Input from '../../../components/UI/Input/Input';
-import { Ingredient as IngredientState, Order as OrderState } from "../../../store/actions/actionTypes";
 import { connect, ConnectedProps } from "react-redux";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
 import * as actions from '../../../store/actions/index'
-
-// type ContactDataProps = {
-//     ingredients: OrderableIngredients;
-//     totalPrice: number;
-// }
+import { RootState } from '../../../store';
 
 class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
 
@@ -221,11 +216,11 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
     }
 }
 
-const mapStateToProps = (state: IngredientState & OrderState) => {
+const mapStateToProps = (state: RootState) => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        loading: state.loading
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading
     }
 }
 

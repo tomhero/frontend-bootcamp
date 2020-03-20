@@ -9,7 +9,7 @@ import axios from '../../axios-order';
 import { RouteComponentProps } from "react-router-dom";
 
 import { connect, ConnectedProps } from "react-redux";
-import {  Ingredient as IngredientState } from "../../store/actions/actionTypes";
+import { RootState } from "../../store/index";
 import * as bugerBuilderActions from '../../store/actions/index';
 
 import { BurgerBuilderState, OrderableIngredients } from '../../models/Burger';
@@ -107,12 +107,12 @@ class BurgerBuilder extends Component<RouteComponentProps & PropsFromRedux, Burg
     }
 }
 
-const mapStateToProps = (state: IngredientState) => {
+const mapStateToProps = (state: RootState) => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        error: state.error,
-        loading: state.loadingIngredients
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error,
+        loading: state.burgerBuilder.loadingIngredients
     }
 }
 const mapDispatchToProps = (dispatch: Function) => {

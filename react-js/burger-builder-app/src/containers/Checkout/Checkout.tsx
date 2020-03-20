@@ -4,8 +4,8 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { Route } from 'react-router-dom';
 import ContactData from "./ContactData/ContactData";
-import { Ingredient as IngredientState } from "../../store/actions/actionTypes";
 import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../store";
 
 type CheckoutState = {
     ingredients: OrderableIngredients;
@@ -69,9 +69,9 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
     }
 }
 
-const mapStateToProps = (state: IngredientState) => {
+const mapStateToProps = (state: RootState) => {
     return {
-        ings: state.ingredients
+        ings: state.burgerBuilder.ingredients
     }
 }
 
