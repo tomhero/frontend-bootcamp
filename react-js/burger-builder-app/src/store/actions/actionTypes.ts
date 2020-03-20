@@ -40,9 +40,9 @@ export interface Order {
 }
 
  export enum OrderAction {
-     PURCHASE_SUCCESS,
-     PURCHASE_FAIL,
-     PURCHASE_START
+     PURCHASE_SUCCESS = "PURCHASE_ORDER_SUCCESS",
+     PURCHASE_FAIL = "PURCHASE_ORDER_FAILED",
+     PURCHASE_START = "PURCHASE_ORDER_START"
  }
 
  interface OrderActionType<T, P> {

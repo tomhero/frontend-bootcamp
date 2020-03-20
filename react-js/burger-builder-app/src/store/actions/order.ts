@@ -31,7 +31,8 @@ export const purchaseBurger = (orderData: OrderingData) => {
         axios.post('/orders.json', orderData)
             .then(response => {
                 // When success call dispatch success
-                dispatch(purchaseBurgerSuccess(response.data, orderData))
+                // data.name from firebase
+                dispatch(purchaseBurgerSuccess(response.data.name, orderData))
             })
             .catch(error => {
                 // When fail call dispatch failed
