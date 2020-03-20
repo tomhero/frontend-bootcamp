@@ -34,9 +34,15 @@ export type IngredientAction =
  * Order Action types
  */
 
+export interface Order {
+    orders: OrderingData[];
+    loading: boolean;
+}
+
  export enum OrderAction {
      PURCHASE_SUCCESS,
-     PURCHASE_FAIL
+     PURCHASE_FAIL,
+     PURCHASE_START
  }
 
  interface OrderActionType<T, P> {
@@ -46,6 +52,7 @@ export type IngredientAction =
 }
 
 export type OrderActions = 
-    | OrderActionType<typeof OrderAction.PURCHASE_SUCCESS, OrderingData>
-    | OrderActionType<typeof OrderAction.PURCHASE_FAIL, OrderingData>
+    | OrderActionType<typeof OrderAction.PURCHASE_SUCCESS, Order>
+    | OrderActionType<typeof OrderAction.PURCHASE_FAIL, Order>
+    | OrderActionType<typeof OrderAction.PURCHASE_START, Order>
 

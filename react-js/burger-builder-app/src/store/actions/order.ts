@@ -17,9 +17,17 @@ export const purchaseBurgerFail = (error: any) => {
     }
 }
 
-export const purchaseBurgerStart = (orderData: OrderingData) => {
+export const purchaseBurgerStart = () => {
+    return {
+        type: actionTypes.OrderAction.PURCHASE_START
+    }
+}
+
+export const purchaseBurger = (orderData: OrderingData) => {
     // Redux thunk middleware --> dispatch
     return (dispatch: Function) => {
+        // NOTE : Before send request --> dispatch purchaseBurger action for start loading state
+        dispatch(purchaseBurgerStart())
         axios.post('/orders.json', orderData)
             .then(response => {
                 // When success call dispatch success

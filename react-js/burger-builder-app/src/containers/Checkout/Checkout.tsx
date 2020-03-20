@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { OrderableIngredients } from '../../models/Burger';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Redirect } from "react-router-dom";
 import { Route } from 'react-router-dom';
 import ContactData from "./ContactData/ContactData";
 import { Ingredient as IngredientState } from "../../store/actions/actionTypes";
@@ -36,7 +36,7 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
                 ingredients[key] = +val as number;
             }
         });
-        this.setState({ingredients: ingredients, totalPrice: totalPrice});
+        this.setState({ ingredients: ingredients, totalPrice: totalPrice });
     }
 
     checkoutCanceledHandler = () => {
@@ -50,20 +50,22 @@ class Checkout extends Component<RouteComponentProps & PropsFromRedux, CheckoutS
     }
 
     render() {
-        return (
-            <div>
-                <CheckoutSummary 
+        let summary = <Redirect to="/" />
+        if (this.props.ings) {
+            summary = <div>
+                <CheckoutSummary
                     ingredients={this.props.ings}
                     checkoutContinued={this.checkoutContinuedHandler}
                     checkoutCanceled={this.checkoutCanceledHandler}
-                    />
-                <Route 
-                    path={`${this.props.match.path}/contact-data`} 
+                />
+                <Route
+                    path={`${this.props.match.path}/contact-data`}
                     // NOTE : passing props (binding...)
-                    component={ContactData} 
+                    component={ContactData}
                 />
             </div>
-        );
+        }
+        return summary;
     }
 }
 

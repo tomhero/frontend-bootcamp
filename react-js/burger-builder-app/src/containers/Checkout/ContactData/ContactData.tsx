@@ -7,7 +7,7 @@ import classes from "./ContactData.module.css";
 import axios from '../../../axios-order';
 import { OrderingData, ContactInputElements } from '../../../models/Order';
 import Input from '../../../components/UI/Input/Input';
-import { Ingredient as IngredientState } from "../../../store/actions/actionTypes";
+import { Ingredient as IngredientState, Order as OrderState } from "../../../store/actions/actionTypes";
 import { connect, ConnectedProps } from "react-redux";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
@@ -109,8 +109,7 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
                 value: 'fastest',
             }
         },
-        formIsValid: false,
-        loading: false
+        formIsValid: false
     }
 
     checkValidity = (value: string, rule: any) => {
@@ -210,7 +209,7 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
             {formElements}
             <Button buttonType="Success" disabled={!this.state.formIsValid} clicked={this.orderHandler}>ORDER</Button>
         </form>);
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />
         }
         return (
@@ -222,16 +221,17 @@ class ContactData extends Component<PropsFromRedux & RouteComponentProps> {
     }
 }
 
-const mapStateToProps = (state: IngredientState) => {
+const mapStateToProps = (state: IngredientState & OrderState) => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        loading: state.loading
     }
 }
 
 const mapDispatchToProps = (dispatch: Function) => {
     return {
-        onOrderBurger: (orderData: OrderingData) => dispatch(actions.purchaseBurgerStart(orderData))
+        onOrderBurger: (orderData: OrderingData) => dispatch(actions.purchaseBurger(orderData))
     }
 }
 
