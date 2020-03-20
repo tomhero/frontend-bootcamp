@@ -5,7 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore, compose } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import thunk from 'redux-thunk';
 import burgerBuilderReducer from "./store/reducers/burgerBuilder";
 
 declare global {
@@ -15,10 +16,17 @@ declare global {
     }
 }
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
-    burgerBuilderReducer, 
-    window.__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    burgerBuilderReducer,
+    composeEnhancers(applyMiddleware(thunk))
 );
+
+// const store = createStore(
+//     burgerBuilderReducer, 
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+// );
 
 ReactDOM.render(
     <Provider store={store}>
