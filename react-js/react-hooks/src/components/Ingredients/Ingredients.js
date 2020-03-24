@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from "./IngredientList";
@@ -39,10 +39,6 @@ function Ingredients() {
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
   const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
 
-  // const [ingredients, setIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState();
-
   useEffect(() => {
     // This will run every re-render cycle (when ingredients has been changed)
     console.log('RENDERING INGREDIENTS...', ingredients)
@@ -53,9 +49,9 @@ function Ingredients() {
     dispatch({ type: 'SET', ingredients: filteredIngredients })
   }, [])
 
-  const addIngredientHandler = ingredient => {
+  const addIngredientHandler = useCallback(ingredient => {
     dispatchHttp({type: 'SEND'});
-    fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.jon', {
+    fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json', {
       method: 'POST',
       body: JSON.stringify(ingredient)
     }
@@ -75,9 +71,9 @@ function Ingredients() {
         console.error(error);
         dispatchHttp({ type: 'ERROR', errorMessage: 'Something went wrong!' });
       });
-  }
+  }, [ ]);
 
-  const removeIngredientHandler = ingredientId => {
+  const removeIngredientHandler = useCallback(ingredientId => {
     dispatchHttp({type: 'SEND'});
     fetch(`https://react-learning-5f3ed.firebaseio.com/hook-ingredients/${ingredientId}.json`, {
       method: 'DELETE'
@@ -90,11 +86,19 @@ function Ingredients() {
         console.error(error);
         dispatchHttp({ type: 'ERROR', errorMessage: error.message })
       });
-  }
+  }, [])
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     dispatchHttp({ type: 'CLEAR' });
-  }
+  }, []);
+
+  // not render IngredientList every Ingredients component render cycle
+  const ingredientList = useMemo(() => {
+    return (
+      <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientHandler} />
+    )
+    // NOTE : IngredientList will be rerendered after dependencies change.
+  }, [ingredients, removeIngredientHandler]);
 
   return (
     <div className="App">
@@ -103,7 +107,7 @@ function Ingredients() {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
-        <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientHandler} />
+        {ingredientList}
       </section>
     </div>
   );
