@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from "./IngredientList";
@@ -32,6 +32,10 @@ function Ingredients() {
     console.log('RENDERING INGREDIENTS...', ingredients)
   }, [ingredients])
 
+  const filteredIngredientsHandler = useCallback(filteredIngredients => {
+    setIngredients(filteredIngredients);
+  }, [])
+
   const addIngredientHandler = ingredient => {
     fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json', {
       method: 'POST',
@@ -59,7 +63,7 @@ function Ingredients() {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
         <IngredientList ingredients={ingredients} onRemoveItem={() => { }} />
       </section>
     </div>
