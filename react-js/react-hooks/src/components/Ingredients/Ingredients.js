@@ -7,25 +7,26 @@ import Search from './Search';
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
 
-  useEffect(() => {
-    fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json')
-      .then(response => response.json())
-      .then(ingredients => {
-        const loadedIngredients = [];
-        Object.keys(ingredients).forEach(ingredientKey => {
-          loadedIngredients.push({
-            id: ingredientKey,
-            title: ingredients[ingredientKey].title,
-            amount: ingredients[ingredientKey].amount
-          });
-        })
-        return loadedIngredients;
-      })
-      .then(loadedIngredients => {
-        setIngredients(loadedIngredients);
-      });
-      // You have to do `[]` if you need to run it only once after the first render!!
-  }, []);
+  // NOTE : You don't fetch data here if in other relative component does
+  // useEffect(() => {
+  //   fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json')
+  //     .then(response => response.json())
+  //     .then(ingredients => {
+  //       const loadedIngredients = [];
+  //       Object.keys(ingredients).forEach(ingredientKey => {
+  //         loadedIngredients.push({
+  //           id: ingredientKey,
+  //           title: ingredients[ingredientKey].title,
+  //           amount: ingredients[ingredientKey].amount
+  //         });
+  //       })
+  //       return loadedIngredients;
+  //     })
+  //     .then(loadedIngredients => {
+  //       setIngredients(loadedIngredients);
+  //     });
+  //     // You have to do `[]` if you need to run it only once after the first render!!
+  // }, []);
 
   useEffect(() => {
     // This will run every re-render cycle (when ingredients has been changed)
