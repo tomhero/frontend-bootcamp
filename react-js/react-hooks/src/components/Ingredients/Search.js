@@ -9,7 +9,7 @@ const Search = React.memo(props => {
   const inputRef = useRef();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       // Filtering text throll
       if (filterKeyword === inputRef.current.value) {
         const query = filterKeyword.length === 0
@@ -30,6 +30,12 @@ const Search = React.memo(props => {
           })
       }
     }, 500);
+    // NOTE : use effect can return function that will run at once (before next time)
+    return () => {
+      // NOTE : please do clean up logic here
+      // clean up all subscription references??? or more
+      clearTimeout(timer)
+    };
   }, [filterKeyword, onLoadIngredients, inputRef])
 
   return (
