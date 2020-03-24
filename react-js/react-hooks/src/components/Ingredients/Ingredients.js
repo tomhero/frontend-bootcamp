@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useReducer, useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from "./IngredientList";
@@ -6,8 +6,24 @@ import Search from './Search';
 
 import ErrorModal from '../UI/ErrorModal'
 
+const ingredientReducer = (currentIngredients, action) => {
+  switch (action.type) {
+    case 'SET':
+      return action.ingredients;
+    case 'ADD':
+      return [...currentIngredients, action.ingredient];
+    case 'DELETE':
+      return currentIngredients.filter(ing => ing.id !== action.id);
+    default:
+      throw new Error('Should not get there!!');
+  }
+}
+
 function Ingredients() {
-  const [ingredients, setIngredients] = useState([]);
+  // NOTE : The 2nd agrs of useReducer is initialization of ingredient array
+  const [ingredients, dispatch] = useReducer(ingredientReducer, []);
+
+  // const [ingredients, setIngredients] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
@@ -17,7 +33,8 @@ function Ingredients() {
   }, [ingredients])
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
-    setIngredients(filteredIngredients);
+    // setIngredients(filteredIngredients);
+    dispatch({type: 'SET', ingredients: filteredIngredients})
   }, [])
 
   const addIngredientHandler = ingredient => {
@@ -34,12 +51,16 @@ function Ingredients() {
       .then(responseData => {
         // NOTE : You must merge array to set new state for array type
         setIsLoading(false)
-        setIngredients(
-          prevIngredients => [
-            ...prevIngredients,
-            { id: responseData.name, ...ingredient }
-          ]
-        );
+        // setIngredients(
+        //   prevIngredients => [
+        //     ...prevIngredients,
+        //     { id: responseData.name, ...ingredient }
+        //   ]
+        // );
+        dispatch({type: 'ADD', ingredient: {
+          id: responseData.name,
+          ...ingredient
+        }})
       })
       .catch(error => {
         console.error(error);
@@ -54,9 +75,10 @@ function Ingredients() {
     }
     ).then(_response => {
       setIsLoading(false);
-      setIngredients(prevIngredients => {
-        return prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
-      })
+      // setIngredients(prevIngredients => {
+      //   return prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
+      // });
+      dispatch({type: 'DELETE', id: ingredientId});
     })
       .catch(error => {
         console.error(error);
@@ -65,9 +87,10 @@ function Ingredients() {
   }
 
   const clearError = () => {
-    // NOTE `setSomthing` will run synchronously after this function was called
+    // NOTE : `setSomthing` will run synchronously after this function was called
     setError(null);
     setIsLoading(false);
+    // NOTE :  Keep in mind, that the new state value is only available in the next component render cycle
   }
 
   return (
