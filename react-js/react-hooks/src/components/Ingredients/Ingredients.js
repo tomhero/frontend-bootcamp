@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from "./IngredientList";
@@ -19,13 +19,29 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 }
 
+const httpReducer = (currentHttpState, action) => {
+  switch (action.type) {
+    case 'SEND':
+      return { loading: true, error: null }
+    case 'RESPONSE':
+      return { ...currentHttpState, loading: false }
+    case 'ERROR':
+      return { loading: false, error: action.errorMessage }
+    case 'CLEAR':
+      return { ...currentHttpState, error: null }
+    default:
+      throw new Error('Should not get there!!');
+  }
+}
+
 function Ingredients() {
   // NOTE : The 2nd agrs of useReducer is initialization of ingredient array
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
+  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
 
   // const [ingredients, setIngredients] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
 
   useEffect(() => {
     // This will run every re-render cycle (when ingredients has been changed)
@@ -34,69 +50,56 @@ function Ingredients() {
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
     // setIngredients(filteredIngredients);
-    dispatch({type: 'SET', ingredients: filteredIngredients})
+    dispatch({ type: 'SET', ingredients: filteredIngredients })
   }, [])
 
   const addIngredientHandler = ingredient => {
-    setIsLoading(true);
-    fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json', {
+    dispatchHttp({type: 'SEND'});
+    fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.jon', {
       method: 'POST',
       body: JSON.stringify(ingredient)
-      // headers: {
-      //   'Content-Type:': 'application/json'
-      // }
     }
     )
       .then(response => response.json())
       .then(responseData => {
         // NOTE : You must merge array to set new state for array type
-        setIsLoading(false)
-        // setIngredients(
-        //   prevIngredients => [
-        //     ...prevIngredients,
-        //     { id: responseData.name, ...ingredient }
-        //   ]
-        // );
-        dispatch({type: 'ADD', ingredient: {
-          id: responseData.name,
-          ...ingredient
-        }})
+        dispatchHttp({type: 'RESPONSE'})
+        dispatch({
+          type: 'ADD', ingredient: {
+            id: responseData.name,
+            ...ingredient
+          }
+        })
       })
       .catch(error => {
         console.error(error);
-        setError('Something went wrong!');
+        dispatchHttp({ type: 'ERROR', errorMessage: 'Something went wrong!' });
       });
   }
 
   const removeIngredientHandler = ingredientId => {
-    setIsLoading(true);
+    dispatchHttp({type: 'SEND'});
     fetch(`https://react-learning-5f3ed.firebaseio.com/hook-ingredients/${ingredientId}.json`, {
       method: 'DELETE'
     }
     ).then(_response => {
-      setIsLoading(false);
-      // setIngredients(prevIngredients => {
-      //   return prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
-      // });
-      dispatch({type: 'DELETE', id: ingredientId});
+      dispatchHttp({type: 'RESPONSE'})
+      dispatch({ type: 'DELETE', id: ingredientId });
     })
       .catch(error => {
         console.error(error);
-        setError('Something went wrong!');
+        dispatchHttp({ type: 'ERROR', errorMessage: error.message })
       });
   }
 
   const clearError = () => {
-    // NOTE : `setSomthing` will run synchronously after this function was called
-    setError(null);
-    setIsLoading(false);
-    // NOTE :  Keep in mind, that the new state value is only available in the next component render cycle
+    dispatchHttp({ type: 'CLEAR' });
   }
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
-      <IngredientForm onAddIngredient={addIngredientHandler} loading={isLoading} />
+      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
+      <IngredientForm onAddIngredient={addIngredientHandler} loading={httpState.loading} />
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
