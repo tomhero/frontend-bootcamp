@@ -22,23 +22,38 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 }
 
-function Ingredients() {
+function Ingredients () {
   // NOTE : The 2nd agrs of useReducer is initialization of ingredient array
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
 
-  const {isLoading, error, data, sendRequest} = useMyHttp();
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifier } = useMyHttp();
 
   useEffect(() => {
-    // This will run every re-render cycle (when ingredients has been changed)
-    console.log('RENDERING INGREDIENTS...', ingredients)
-  }, [ingredients])
+    // NOTE : This will run every data variable (from custom hook) changed
+    if (!isLoading && !error && reqIdentifier === 'REMOVE_INGREDIENT') {
+      dispatch({ type: 'DELETE', id: reqExtra });
+    } else if (!isLoading && !error && reqIdentifier === 'ADD_INGREDIENT') {
+      dispatch({
+        type: 'ADD', ingredient: {
+          id: data.name,
+          ...reqExtra
+        }
+      })
+    }
+  }, [data, reqExtra, reqIdentifier, isLoading, error]);
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
     // setIngredients(filteredIngredients);
     dispatch({ type: 'SET', ingredients: filteredIngredients })
-  }, [])
+  }, []);
 
   const addIngredientHandler = useCallback(ingredient => {
+    sendRequest(
+      'https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json',
+      'POST',
+      JSON.stringify(ingredient),
+      'ADD_INGREDIENT'
+    )
     // dispatchHttp({type: 'SEND'});
     // fetch('https://react-learning-5f3ed.firebaseio.com/hook-ingredients.json', {
     //   method: 'POST',
@@ -60,12 +75,15 @@ function Ingredients() {
     //     console.error(error);
     //     dispatchHttp({ type: 'ERROR', errorMessage: 'Something went wrong!' });
     //   });
-  }, [ ]);
+  }, [sendRequest]);
 
   const removeIngredientHandler = useCallback(ingredientId => {
     sendRequest(
       `https://react-learning-5f3ed.firebaseio.com/hook-ingredients/${ingredientId}.json`,
-      'DELETE'
+      'DELETE',
+      null,
+      ingredientId,
+      'REMOVE_INGREDIENT'
     );
   }, [sendRequest])
 
