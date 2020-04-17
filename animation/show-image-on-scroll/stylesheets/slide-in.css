@@ -1,0 +1,20 @@
+body {
+  overflow-x: hidden;
+}
+
+.next-article {
+  margin-top: -25em;
+  background: #fff;
+  box-shadow: 1em 1em 2em 0.25em rgba(0, 0, 0, 0.2);
+  padding: 0.5em 50px 0.5em 1em;
+  position: absolute;
+  right: 0;
+  transform: rotateZ(-5deg) translateX(525px);
+  transition: all 0.5s 1s cubic-bezier(0, 1, 0.3, 1);
+  width: 550px;
+  z-index: 10;
+  }
+  
+.next-article.is-visible {
+    transform: rotateZ(5deg) translateX(2vw);
+}
