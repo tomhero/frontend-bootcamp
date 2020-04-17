@@ -1,0 +1,51 @@
+
+.inline-photo {
+  border: 1em solid #fff;
+  border-bottom: 4em solid #fff;
+  border-radius: .25em;
+  box-shadow: 1em 1em 2em .25em rgba(0,0,0,.2);
+  margin: 2em auto;
+  max-width: 600px;
+  -webkit-transform: translateY(4em) rotateZ(-5deg);
+          transform: translateY(4em) rotateZ(-5deg);
+  width: 90%;
+  opacity: 0;
+  transition: transform 2s .25s cubic-bezier(0, 1, 0.3, 1),
+               opacity 0.3s 0.25s ease-out;
+  will-change: transform, opacity;
+}
+
+.inline-photo.is-visible {
+  opacity: 1;
+  transform:  rotateZ(-2deg);
+}
+
+header {
+  opacity: 0;
+  transition: opacity 0.5s 0.25s ease-out;
+}
+
+header.is-visible {
+  opacity: 1;
+}
+
+.main-photo {
+  transform: scale(0.8);
+}
+
+.heading {
+  transform: translate(-50%, cal(-50% + 1em));
+}
+
+.is-visible .main-photo {
+  transform: none;
+}
+
+.is-visible .heading {
+  transform: translate(-50%, -50%);
+}
+
+.main-photo, .heading {
+  transition: transform 2s 0.25s cubic-bezier(0, 1, 0.3, 1);
+  will-change: transform;
+}
