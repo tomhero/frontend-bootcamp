@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/ol": "^6.1.0",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.14.0",
     "lodash": "^4.17.15",
     "ol": "^6.2.1",
     "onchange": "^6.1.0",
